@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -19,16 +19,11 @@ jobs:
           node-version: 18
           cache: 'pnpm'
 
-      - name: Install pnpm globally
+      - name: Install and build with pnpm
         run: |
-          npm install -g pnpm@8.15.4
-          pnpm --version
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build project
-        run: pnpm run build
+          npm install -g pnpm@10.5.2
+          pnpm install
+          pnpm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
