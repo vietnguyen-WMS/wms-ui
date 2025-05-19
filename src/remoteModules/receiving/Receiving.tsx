@@ -1,7 +1,8 @@
-import { ReceivingApp } from "./index";
-import { Suspense } from "react";
+import { Suspense, lazy } from "react";
 
-const ReceivingWraper = () => {
+const RemoteReceivingApp = lazy(() => import("receiving_app/App"));
+
+const Receiving = () => {
   const fallbackLoading = (
     <div>
       <h2>Loading Receiving module</h2>
@@ -10,9 +11,11 @@ const ReceivingWraper = () => {
 
   return (
     <Suspense fallback={fallbackLoading}>
-      <ReceivingApp />
+      <div className="px-5">
+        <RemoteReceivingApp />
+      </div>
     </Suspense>
   );
 };
 
-export default ReceivingWraper;
+export default Receiving;

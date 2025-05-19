@@ -1,3 +1,3 @@
-import React from "react";
+import Receiving from "./Receiving";
 
-export const ReceivingApp = React.lazy(() => import("receiving-ui/App"));
+export default Receiving;
