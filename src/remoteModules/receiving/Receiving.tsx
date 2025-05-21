@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 
-const RemoteReceivingApp = lazy(() => import("receiving_app/App"));
+const RemoteReceivingApp = lazy(() => import("receiving/App"));
 
 const Receiving = () => {
   const fallbackLoading = (
@@ -11,9 +11,7 @@ const Receiving = () => {
 
   return (
     <Suspense fallback={fallbackLoading}>
-      <div className="px-5">
-        <RemoteReceivingApp />
-      </div>
+      <RemoteReceivingApp />
     </Suspense>
   );
 };

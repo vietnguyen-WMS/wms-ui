@@ -16,6 +16,6 @@ export const router = createBrowserRouter(
     },
   ],
   {
-    basename: "/wms-ui",
+    basename: "/",
   }
 );

@@ -1,5 +1,5 @@
 // src/types/remote-modules.d.ts
-declare module "receiving_app/App" {
+declare module "receiving/App" {
   const RemoteReceivingApp: React.ComponentType;
   export default RemoteReceivingApp;
 }

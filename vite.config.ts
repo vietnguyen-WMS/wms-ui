@@ -5,15 +5,15 @@ import federation from "@originjs/vite-plugin-federation";
 import path from "path";
 
 export default defineConfig({
-  base: "/wms-ui/",
   plugins: [
     react(),
     tailwindcss(),
     federation({
+      name: "shell",
       remotes: {
-        receiving_app: "http://localhost:4173/assets/remoteEntry.js",
+        receiving: "http://localhost:4173/assets/remoteEntry.js",
       },
-      shared: ["react", "react-dom"],
+      shared: ["react", "react-dom", "react-router-dom"],
     }),
   ],
   resolve: {
