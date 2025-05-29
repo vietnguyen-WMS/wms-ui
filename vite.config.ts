@@ -16,6 +16,14 @@ export default defineConfig({
       shared: ["react", "react-dom", "react-router-dom"],
     }),
   ],
+  server: {
+    proxy: {
+      "/assets": {
+        target: "http://localhost:4173",
+        changeOrigin: true,
+      },
+    },
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
