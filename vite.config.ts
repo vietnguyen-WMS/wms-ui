@@ -1,4 +1,5 @@
-import { defineConfig } from "vite";
+// import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import federation from "@originjs/vite-plugin-federation";
@@ -37,5 +38,12 @@ export default defineConfig({
       "@services": path.resolve(__dirname, "./src/services"),
       "@assets": path.resolve(__dirname, "./src/assets"),
     },
+  },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/setupTests.ts",
+    include: ["src/**/*.test.{ts,tsx}"],
+    css: true,
   },
 });
