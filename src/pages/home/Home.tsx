@@ -1,10 +1,10 @@
-import ReactLogo from "@assets/react.svg";
+import { Button } from "@/components/ui";
 
 const Home = () => {
   return (
     <>
       <h1>Home page</h1>
-      <img src={ReactLogo} alt="ReactLogo" />
+      <Button>Click</Button>
     </>
   );
 };
