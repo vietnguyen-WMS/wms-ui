@@ -65,6 +65,7 @@ const Input: React.FC<InputProps> = ({
                 ? "border-red-500 focus:ring-red-300"
                 : "border-gray-300 focus:ring-blue-300"
             } ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+            autoComplete="off"
           />
           {isPasswordField && showTogglePassword && (
             <button

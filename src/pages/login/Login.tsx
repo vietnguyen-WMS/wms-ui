@@ -69,14 +69,18 @@ const Login = () => {
   return (
     <>
       <div className="flex justify-center items-center h-screen">
-        <form className="mx-96 space-y-4" onSubmit={handleSubmit}>
+        <form
+          className="max-w-96 space-y-4"
+          onSubmit={handleSubmit}
+          autoComplete="off"
+        >
           <div className="flex space-x-3">
             <Input
               name="username"
               value={form.username}
               onChange={handleChange}
               error={errors.username}
-              placeholder="Enter your username"
+              placeholder="Username"
               autoFocus
             />
           </div>
@@ -87,7 +91,7 @@ const Login = () => {
               value={form.password}
               onChange={handleChange}
               error={errors.password}
-              placeholder="Enter your password"
+              placeholder="Password"
               showTogglePassword
             />
           </div>
