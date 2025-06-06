@@ -27,10 +27,10 @@ const Login = () => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
 
-    // Clear error when user types
     if (errors[name as keyof LoginError]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
+    setErrors((prev) => ({ ...prev, general: undefined }));
   };
 
   const validateForm = (): boolean => {
@@ -38,6 +38,7 @@ const Login = () => {
     if (!form.username) newErrors.username = "Username is required!";
     if (!form.password) newErrors.password = "Password is required!";
     setErrors(newErrors);
+
     return Object.keys(newErrors).length === 0;
   };
 
@@ -68,13 +69,13 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center pt-[200px] h-screen">
         <form
           className="max-w-96 space-y-4"
           onSubmit={handleSubmit}
           autoComplete="off"
         >
-          <div className="flex space-x-3">
+          <div className="block">
             <Input
               name="username"
               value={form.username}
@@ -84,7 +85,7 @@ const Login = () => {
               autoFocus
             />
           </div>
-          <div className="flex space-x-3">
+          <div className="block">
             <Input
               name="password"
               type="password"
@@ -95,9 +96,12 @@ const Login = () => {
               showTogglePassword
             />
           </div>
+          {errors.general && (
+            <div className="text-red-500 mb-2">{errors.general}</div>
+          )}
           <div className="flex justify-center">
-            <Button disabled={isSubmitting}>
-              {isSubmitting ? "Loggin in..." : "Login"}
+            <Button disabled={isSubmitting} className="w-full">
+              Login
             </Button>
           </div>
         </form>

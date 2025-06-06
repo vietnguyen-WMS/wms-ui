@@ -2,11 +2,8 @@ import React, { useState } from "react";
 
 type ButtonSizeType = "sm" | "md" | "lg";
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSizeType;
-  onClick?: () => void;
-  disabled?: boolean;
-  children?: React.ReactNode;
 }
 
 const sizeClasses: Record<ButtonSizeType, string> = {
@@ -16,20 +13,26 @@ const sizeClasses: Record<ButtonSizeType, string> = {
 };
 
 const disabledClasses = "opacity-50 cursor-not-allowed";
+const buttonClasses =
+  "border-2 border-orange-500 rounded cursor-pointer hover:bg-orange-500 hover:text-white transition-colors duration-200";
 
 const Button: React.FC<ButtonProps> = ({
   size = "md",
   onClick,
   disabled,
   children,
+  className,
+  ...rest
 }) => {
   return (
     <>
       <button
         onClick={onClick}
         disabled={disabled}
-        className={`border-2 border-orange-500 rounded cursor-pointer hover:bg-orange-500 hover:text-white transition-colors duration-200 
-          ${sizeClasses[size]} ${disabled ? disabledClasses : ""} `}
+        className={`${buttonClasses} ${sizeClasses[size]} ${
+          disabled ? disabledClasses : ""
+        } ${className || ""} `}
+        {...rest}
       >
         {children}
       </button>
