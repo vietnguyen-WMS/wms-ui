@@ -3,18 +3,12 @@ import React, { useState } from "react";
 type InputType = "text" | "password";
 type InputSizeType = "sm" | "md" | "lg";
 
-interface InputProps {
-  id?: string;
-  name: string;
+interface InputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   type?: InputType;
   size?: InputSizeType;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: string;
   error?: string;
   showTogglePassword?: boolean;
-  disabled?: boolean;
-  autoFocus?: boolean;
 }
 
 const sizeClasses: Record<InputSizeType, string> = {
@@ -23,18 +17,16 @@ const sizeClasses: Record<InputSizeType, string> = {
   lg: "px-6 py-3 text-lg",
 };
 
+const inputClasses =
+  "border-2 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-200";
+
 const Input: React.FC<InputProps> = ({
-  id,
-  name,
   type = "text",
   size = "md",
-  value,
-  onChange,
-  placeholder = "",
   error,
   showTogglePassword = false,
-  disabled = false,
-  autoFocus = false,
+  disabled,
+  ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPasswordField = type === "password";
@@ -52,20 +44,14 @@ const Input: React.FC<InputProps> = ({
       <div className="block">
         <div className="relative">
           <input
-            id={id}
-            name={name}
             type={inputType}
-            value={value}
-            onChange={onChange}
-            placeholder={placeholder}
-            disabled={disabled}
-            autoFocus={autoFocus}
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+            className={`${inputClasses} ${sizeClasses[size]} ${
               error
                 ? "border-red-500 focus:ring-red-300"
                 : "border-gray-300 focus:ring-blue-300"
             } ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
             autoComplete="off"
+            {...rest}
           />
           {isPasswordField && showTogglePassword && (
             <button

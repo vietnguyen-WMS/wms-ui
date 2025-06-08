@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui";
 import Input from "@/components/ui/Input";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/stores";
 
 interface LoginFormState {
   username: string;
@@ -22,15 +23,18 @@ const Login = () => {
   const [errors, setErrors] = useState<LoginError>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
+
+  const navigationFrom = location.state?.from || "/";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
 
     if (errors[name as keyof LoginError]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
+      setErrors((prev) => ({ ...prev, [name]: undefined, general: undefined }));
     }
-    setErrors((prev) => ({ ...prev, general: undefined }));
   };
 
   const validateForm = (): boolean => {
@@ -55,11 +59,19 @@ const Login = () => {
       });
 
       const data = await res.json();
+
       if (!res.ok) {
         throw new Error(data.message || "Login failed!");
       }
 
-      navigate("/");
+      login({
+        accessToken: data.accessToken,
+        username: data.username,
+        firstName: data.firstName,
+        image: data.image,
+      });
+
+      navigate(navigationFrom, { replace: true });
     } catch (err: any) {
       setErrors({ general: err.message || "Login failed" });
     } finally {
