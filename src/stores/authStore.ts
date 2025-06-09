@@ -1,102 +1,59 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
 
 export interface UserInterface {
-  accessToken: string;
   username: string;
-  firstName: string;
-  image: string;
+  firstName?: string;
+  image?: string;
 }
 
 interface AuthState {
-  isAuthenticated: boolean;
-  isAuthChecked: boolean;
   user: UserInterface | null;
-  login: (user: UserInterface) => void;
-  logout: () => void;
+  isAuthLoading: boolean;
   checkAuth: () => Promise<void>;
+  logout: () => void;
 }
 
-const useAuthStore = create<AuthState>()(
-  devtools(
-    persist(
-      (set, get) => ({
-        isAuthenticated: false,
-        isAuthChecked: false,
-        user: null,
+const useAuthStore = create<AuthState>()((set) => ({
+  user: null,
+  isAuthLoading: true,
+  checkAuth: async () => {
+    set({ isAuthLoading: true });
 
-        login: (user) => {
-          set({
-            isAuthenticated: true,
-            user,
-            isAuthChecked: true,
-          });
-        },
+    try {
+      const res = await fetch("http://localhost:3000/auth/me", {
+        credentials: "include",
+      });
 
-        logout: () => {
-          set({
-            isAuthenticated: false,
-            user: null,
-            isAuthChecked: true,
-          });
-        },
-
-        checkAuth: async () => {
-          const user = get().user;
-
-          if (!user?.accessToken) {
-            set({ isAuthenticated: false, user: null, isAuthChecked: true });
-            return;
-          }
-
-          try {
-            const res = await fetch("https://dummyjson.com/auth/me", {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${user.accessToken}`,
-              },
-            });
-
-            if (!res.ok) throw new Error("Unauthorized");
-
-            const data = await res.json();
-
-            set({
-              isAuthenticated: true,
-              user: {
-                ...user, // keep existing accessToken
-                username: data.username,
-                firstName: data.firstName,
-                image: data.image,
-              },
-              isAuthChecked: true,
-            });
-          } catch (error) {
-            console.warn("Auth check failed", error);
-            set({
-              isAuthenticated: false,
-              user: null,
-              isAuthChecked: true,
-            });
-          }
-        },
-      }),
-      {
-        name: "auth-storage",
+      if (res.ok) {
+        const user = await res.json();
+        set({ user });
+      } else {
+        set({ user: null });
       }
-    )
-  )
-);
+    } catch {
+      set({ user: null });
+    } finally {
+      set({ isAuthLoading: false });
+    }
+  },
+
+  logout: () => {
+    fetch("http://localhost:3000/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+
+    set({ user: null });
+  },
+}));
 
 export const useAuth = () => {
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const isAuthChecked = useAuthStore((s) => s.isAuthChecked);
   const user = useAuthStore((s) => s.user);
-  const login = useAuthStore((s) => s.login);
-  const logout = useAuthStore((s) => s.logout);
+  const isAuthLoading = useAuthStore((s) => s.isAuthLoading);
   const checkAuth = useAuthStore((s) => s.checkAuth);
+  const logout = useAuthStore((s) => s.logout);
 
-  return { isAuthenticated, isAuthChecked, user, login, logout, checkAuth };
+  return { user, isAuthLoading, checkAuth, logout };
 };
 
 export default useAuthStore;

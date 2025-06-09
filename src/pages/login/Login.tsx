@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui";
-import Input from "@/components/ui/Input";
+import { Button, Input } from "@/components/ui";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/stores";
@@ -24,7 +23,7 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useAuth();
+  const { checkAuth } = useAuth();
 
   const navigationFrom = location.state?.from || "/";
 
@@ -52,24 +51,19 @@ const Login = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("https://dummyjson.com/auth/login", {
+      const res = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
+        credentials: "include",
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
+        const data = await res.json();
         throw new Error(data.message || "Login failed!");
       }
 
-      login({
-        accessToken: data.accessToken,
-        username: data.username,
-        firstName: data.firstName,
-        image: data.image,
-      });
+      await checkAuth();
 
       navigate(navigationFrom, { replace: true });
     } catch (err: any) {
