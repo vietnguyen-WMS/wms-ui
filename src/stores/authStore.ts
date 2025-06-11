@@ -3,7 +3,7 @@ import { create } from "zustand";
 export interface UserInterface {
   username: string;
   firstName?: string;
-  image?: string;
+  avatar?: string;
 }
 
 interface AuthState {

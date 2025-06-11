@@ -1,12 +1,13 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
 import { DropdownContext } from "./DropdownContext";
 import DropdownTrigger from "./DropdownTrigger";
+import DropdownTriggerClose from "./DropdownTriggerClose";
 import DropdownMenu from "./DropdownMenu";
 import DropdownItem from "./DropdownItem";
 
 const Dropdown = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const triggerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const closeOnOutsideClick = useCallback(
@@ -35,12 +36,13 @@ const Dropdown = ({ children }: { children: React.ReactNode }) => {
     <DropdownContext.Provider
       value={{ isOpen, setIsOpen, triggerRef, menuRef }}
     >
-      <div className="relative inline-block">{children}</div>
+      {children}
     </DropdownContext.Provider>
   );
 };
 
 Dropdown.Trigger = DropdownTrigger;
+Dropdown.TriggerClose = DropdownTriggerClose;
 Dropdown.Menu = DropdownMenu;
 Dropdown.Item = DropdownItem;
 

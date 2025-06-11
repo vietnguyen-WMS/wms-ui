@@ -19,18 +19,18 @@ const DropdownTrigger: React.FC<DropdownTriggerProps> = ({ children }) => {
   };
 
   return (
-    <div
+    <button
       role="button"
       aria-haspopup="menu"
       aria-expanded={isOpen}
       aria-controls={`dropdown-menu-${id}`}
-      ref={triggerRef as React.RefObject<HTMLDivElement>}
+      ref={triggerRef as React.RefObject<HTMLButtonElement>}
       tabIndex={0}
       onClick={toggle}
       onKeyDown={handleKeyDown}
     >
       {children}
-    </div>
+    </button>
   );
 };
 

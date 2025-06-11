@@ -29,21 +29,31 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ children }) => {
     const updatePosition = () => {
       if (triggerRef?.current) {
         const triggerRect = triggerRef.current.getBoundingClientRect();
+        const menuWitdth = menuRef.current?.offsetWidth || 0;
         const menuHeight = menuRef.current?.offsetHeight || 0;
-        const spaceMenuToBottom = window.innerHeight - triggerRect.bottom;
         const spaceMenuToTop = triggerRect.top;
+        const spaceMenuToBottom = window.innerHeight - triggerRect.bottom;
+        const spaceMenuToLeft = triggerRect.left;
+        const spaceMenuToRight = window.innerWidth - triggerRect.right;
 
         const shouldMenuOpenAbove =
           spaceMenuToBottom < menuHeight - spaceMenuToTrigger &&
           spaceMenuToTop > menuHeight + spaceMenuToTrigger;
 
+        const shouldMenuOpenFromRightTrigger =
+          spaceMenuToRight < menuWitdth && spaceMenuToLeft > menuWitdth;
+
         let topPosition = shouldMenuOpenAbove
           ? triggerRect.top - menuHeight + window.scrollY - spaceMenuToTrigger
           : triggerRect.bottom + window.scrollY + spaceMenuToTrigger;
 
+        let leftPosition = shouldMenuOpenFromRightTrigger
+          ? triggerRect.right - menuWitdth + window.scrollX
+          : triggerRect.left + window.scrollX;
+
         setPosition({
           top: topPosition,
-          left: triggerRect.left + window.scrollX,
+          left: leftPosition,
         });
       }
     };

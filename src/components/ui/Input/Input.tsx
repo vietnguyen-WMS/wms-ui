@@ -55,8 +55,9 @@ const Input: React.FC<InputProps> = ({
           />
           {isPasswordField && showTogglePassword && (
             <button
+              type="button"
               onClick={togglePassword}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 border-0 focus:outline-none"
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 p-2 cursor-pointer"
             >
               {showPassword ? "🙈" : "👁️"}
             </button>

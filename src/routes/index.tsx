@@ -5,7 +5,8 @@ import AppLayout from "@/layouts/AppLayout";
 // Importing the main application page
 import Login from "@/pages/login";
 import Home from "@/pages/home";
-import About from "@/pages/about";
+import Profile from "@/pages/profile";
+import Settings from "@/pages/settings";
 
 // Importing the remote page
 import Receiving from "@/pages/receiving";
@@ -21,7 +22,10 @@ export const router = createBrowserRouter(
       ),
       children: [
         { path: "/", element: <Home /> },
-        { path: "/about", element: <About /> },
+        { path: "/profile", element: <Profile /> },
+        { path: "/settings", element: <Settings /> },
+
+        //remote path
         { path: "/receiving/*", element: <Receiving /> },
       ],
     },

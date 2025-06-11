@@ -32,7 +32,11 @@ const Login = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
 
     if (errors[name as keyof LoginError]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined, general: undefined }));
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+
+    if (errors.general) {
+      setErrors((prev) => ({ ...prev, general: undefined }));
     }
   };
 
@@ -70,6 +74,7 @@ const Login = () => {
       setErrors({ general: err.message || "Login failed" });
     } finally {
       setIsSubmitting(false);
+      setForm({ username: "", password: "" });
     }
   };
 
