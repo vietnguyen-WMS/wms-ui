@@ -28,6 +28,7 @@ const DropdownTrigger: React.FC<DropdownTriggerProps> = ({ children }) => {
       tabIndex={0}
       onClick={toggle}
       onKeyDown={handleKeyDown}
+      className="cursor-pointer"
     >
       {children}
     </button>

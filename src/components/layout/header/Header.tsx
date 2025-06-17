@@ -11,7 +11,7 @@ const Header = () => {
         <div className="flex items-center space-x-3">
           <Dropdown>
             <Dropdown.Trigger>
-              <div className="w-8 h-8 rounded-full overflow-hidden cursor-pointer">
+              <div className="w-8 h-8 rounded-full overflow-hidden">
                 <img
                   src={user?.avatar}
                   alt={user?.username}
@@ -28,13 +28,11 @@ const Header = () => {
                   >
                     <div className="flex items-center space-x-2">
                       <div className="w-8 h-8 rounded-full overflow-hidden cursor-pointer">
-                        <button type="button" className="w-full h-full">
-                          <img
-                            src={user?.avatar}
-                            alt={user?.username}
-                            className="w-full h-full object-cover"
-                          />
-                        </button>
+                        <img
+                          src={user?.avatar}
+                          alt={user?.username}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <p>{user?.username}</p>
                     </div>
