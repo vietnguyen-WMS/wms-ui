@@ -27,7 +27,7 @@ const Login = () => {
 
   const navigationFrom = location.state?.from || "/";
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
 
@@ -90,7 +90,7 @@ const Login = () => {
             <Input
               name="username"
               value={form.username}
-              onChange={handleChange}
+              onChange={handleInputChange}
               error={errors.username}
               placeholder="Username"
               autoFocus
@@ -101,7 +101,7 @@ const Login = () => {
               name="password"
               type="password"
               value={form.password}
-              onChange={handleChange}
+              onChange={handleInputChange}
               error={errors.password}
               placeholder="Password"
               showTogglePassword
