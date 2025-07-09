@@ -3,6 +3,7 @@ import PrivateRoute from "./PrivateRoute";
 import AppLayout from "@/layouts/AppLayout";
 
 // Importing the main application page
+import Guest from '@/pages/guest';
 import Login from "@/pages/login";
 import Home from "@/pages/home";
 import Profile from "@/pages/profile";
@@ -13,6 +14,7 @@ import Receiving from "@/pages/receiving";
 
 export const router = createBrowserRouter(
   [
+    { path: "/guest", element: <Guest /> },
     { path: "/login", element: <Login /> },
     {
       element: (

@@ -8,18 +8,12 @@ interface LoginFormState {
   password: string;
 }
 
-interface LoginError {
-  username?: string;
-  password?: string;
-  general?: string;
-}
-
 const Login = () => {
-  const [form, setForm] = useState<LoginFormState>({
+  const [formData, setFormData] = useState<LoginFormState>({
     username: "",
     password: "",
   });
-  const [errors, setErrors] = useState<LoginError>({});
+  const [loginError, setLoginError] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,36 +23,24 @@ const Login = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
 
-    if (errors[name as keyof LoginError]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
-
-    if (errors.general) {
-      setErrors((prev) => ({ ...prev, general: undefined }));
-    }
-  };
-
-  const validateForm = (): boolean => {
-    const newErrors: LoginError = {};
-    if (!form.username) newErrors.username = "Username is required!";
-    if (!form.password) newErrors.password = "Password is required!";
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
+    if (loginError) setLoginError("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    // if (!validateForm()) return;
     setIsSubmitting(true);
 
     try {
       const res = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(formData),
         credentials: "include",
       });
 
@@ -71,10 +53,10 @@ const Login = () => {
 
       navigate(navigationFrom, { replace: true });
     } catch (err: any) {
-      setErrors({ general: err.message || "Login failed" });
+      setLoginError(err.message || "Login failed");
     } finally {
       setIsSubmitting(false);
-      setForm({ username: "", password: "" });
+      setFormData({ username: "", password: "" });
     }
   };
 
@@ -89,27 +71,21 @@ const Login = () => {
           <div className="block">
             <Input
               name="username"
-              value={form.username}
+              value={formData.username}
               onChange={handleInputChange}
-              error={errors.username}
               placeholder="Username"
-              autoFocus
             />
           </div>
           <div className="block">
             <Input
               name="password"
               type="password"
-              value={form.password}
+              value={formData.password}
               onChange={handleInputChange}
-              error={errors.password}
               placeholder="Password"
-              showTogglePassword
             />
           </div>
-          {errors.general && (
-            <div className="text-red-500 mb-2">{errors.general}</div>
-          )}
+          {loginError && <div className="text-red-500 mb-2">{loginError}</div>}
           <div className="flex justify-center">
             <Button disabled={isSubmitting} className="w-full">
               Login

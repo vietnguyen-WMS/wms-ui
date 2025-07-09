@@ -176,7 +176,7 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div className={`relative ${wrapperClassName}`}>
+    <div className={`input ${wrapperClassName}`}>
       <div className="relative">
         <input
           id={id}
