@@ -18,7 +18,6 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { checkAuth } = useAuth();
-
   const navigationFrom = location.state?.from || "/";
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +32,10 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // if (!validateForm()) return;
+    if (!formData.username || !formData.password) {
+      setLoginError("Username and password are required.");
+      return;
+    }
     setIsSubmitting(true);
 
     try {
@@ -62,36 +64,58 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex justify-center pt-[200px] h-screen">
-        <form
-          className="max-w-96 space-y-4"
-          onSubmit={handleSubmit}
-          autoComplete="off"
-        >
-          <div className="block">
-            <Input
-              name="username"
-              value={formData.username}
-              onChange={handleInputChange}
-              placeholder="Username"
-            />
-          </div>
-          <div className="block">
-            <Input
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              placeholder="Password"
-            />
-          </div>
-          {loginError && <div className="text-red-500 mb-2">{loginError}</div>}
-          <div className="flex justify-center">
-            <Button disabled={isSubmitting} className="w-full">
+      <div className="h-screen bg-gray-100">
+        <div className="flex justify-center pt-[200px] px-5">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md space-y-6">
+            <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
               Login
-            </Button>
+            </h1>
+            <form
+              className="max-w-96 space-y-4"
+              onSubmit={handleSubmit}
+              autoComplete="off"
+            >
+              <div className="block space-y-1">
+                <label
+                  htmlFor="username"
+                  className="block font-bold text-sm text-gray-700"
+                >
+                  User name
+                </label>
+                <Input
+                  id="username"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                  placeholder="Username"
+                />
+              </div>
+              <div className="block space-y-1">
+                <label
+                  htmlFor="username"
+                  className="block font-bold text-sm text-gray-700"
+                >
+                  Password
+                </label>
+                <Input
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  placeholder="Password"
+                />
+              </div>
+              {loginError && (
+                <div className="text-red-500 my-3">{loginError}</div>
+              )}
+              <div className="flex justify-center">
+                <Button disabled={isSubmitting} className="w-full">
+                  Login
+                </Button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </>
   );
