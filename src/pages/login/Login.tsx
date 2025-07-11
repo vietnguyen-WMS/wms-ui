@@ -87,7 +87,6 @@ const Login = () => {
                   name="username"
                   value={formData.username}
                   onChange={handleInputChange}
-                  placeholder="Username"
                 />
               </div>
               <div className="block space-y-1">
@@ -102,7 +101,6 @@ const Login = () => {
                   type="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  placeholder="Password"
                 />
               </div>
               {loginError && (
