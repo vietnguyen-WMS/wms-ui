@@ -1,3 +1,3 @@
-import Receiving from "./Receiving";
+import Receiving from './Receiving';
 
 export default Receiving;

@@ -1,7 +1,7 @@
-import { Button, Input } from "@/components/ui";
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "@/stores";
+import { Button, Input } from '@/components/ui';
+import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '@/stores';
 
 interface LoginFormState {
   username: string;
@@ -10,15 +10,15 @@ interface LoginFormState {
 
 const Login = () => {
   const [formData, setFormData] = useState<LoginFormState>({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   });
-  const [loginError, setLoginError] = useState<string>("");
+  const [loginError, setLoginError] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { checkAuth } = useAuth();
-  const navigationFrom = location.state?.from || "/";
+  const navigationFrom = location.state?.from || '/';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,38 +27,38 @@ const Login = () => {
       [name]: value,
     }));
 
-    if (loginError) setLoginError("");
+    if (loginError) setLoginError('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.username || !formData.password) {
-      setLoginError("Username and password are required.");
+      setLoginError('Username and password are required.');
       return;
     }
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("http://localhost:3000/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
-        credentials: "include",
+        credentials: 'include',
       });
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.message || "Login failed!");
+        throw new Error(data.message || 'Login failed!');
       }
 
       await checkAuth();
 
       navigate(navigationFrom, { replace: true });
     } catch (err: any) {
-      setLoginError(err.message || "Login failed");
+      setLoginError(err.message || 'Login failed');
     } finally {
       setIsSubmitting(false);
-      setFormData({ username: "", password: "" });
+      setFormData({ username: '', password: '' });
     }
   };
 

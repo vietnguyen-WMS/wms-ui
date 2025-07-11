@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useCallback, useState } from "react";
-import { DropdownContext } from "./DropdownContext";
-import DropdownTrigger from "./DropdownTrigger";
-import DropdownTriggerClose from "./DropdownTriggerClose";
-import DropdownMenu from "./DropdownMenu";
-import DropdownItem from "./DropdownItem";
+import React, { useRef, useEffect, useCallback, useState } from 'react';
+import { DropdownContext } from './DropdownContext';
+import DropdownTrigger from './DropdownTrigger';
+import DropdownTriggerClose from './DropdownTriggerClose';
+import DropdownMenu from './DropdownMenu';
+import DropdownItem from './DropdownItem';
 
 const Dropdown = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,10 +25,10 @@ const Dropdown = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (isOpen) {
-      document.addEventListener("mousedown", closeOnOutsideClick);
+      document.addEventListener('mousedown', closeOnOutsideClick);
     }
     return () => {
-      document.removeEventListener("mousedown", closeOnOutsideClick);
+      document.removeEventListener('mousedown', closeOnOutsideClick);
     };
   }, [isOpen, closeOnOutsideClick]);
 

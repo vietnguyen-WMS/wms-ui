@@ -1,4 +1,4 @@
-import { useDropdownContext } from "./DropdownContext";
+import { useDropdownContext } from './DropdownContext';
 
 interface DropdownItemProps {
   children: React.ReactNode;
@@ -19,7 +19,7 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ children, onClick }) => {
       tabIndex={0}
       onClick={handleClick}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") handleClick();
+        if (e.key === 'Enter' || e.key === ' ') handleClick();
       }}
       className="cursor-pointer px-4 py-2 text-sm hover:bg-stone-600"
     >

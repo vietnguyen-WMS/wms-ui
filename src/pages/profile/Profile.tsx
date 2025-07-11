@@ -1,4 +1,4 @@
-import { useAuth } from "@/stores";
+import { useAuth } from '@/stores';
 
 const Profile = () => {
   const { user } = useAuth();

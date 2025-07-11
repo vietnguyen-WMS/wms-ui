@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import { Dropdown } from "@/components/ui";
-import { useAuth } from "@/stores";
+import { Link } from 'react-router-dom';
+import { Dropdown } from '@/components/ui';
+import { useAuth } from '@/stores';
 
 const Header = () => {
   const { user, logout } = useAuth();

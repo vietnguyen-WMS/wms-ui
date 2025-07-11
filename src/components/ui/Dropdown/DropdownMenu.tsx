@@ -1,6 +1,6 @@
-import React, { useId, useEffect, useState } from "react";
-import { useDropdownContext } from "./DropdownContext";
-import { createPortal } from "react-dom";
+import React, { useId, useEffect, useState } from 'react';
+import { useDropdownContext } from './DropdownContext';
+import { createPortal } from 'react-dom';
 
 interface DropdownMenuProps {
   children: React.ReactNode;
@@ -60,17 +60,17 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ children }) => {
 
     updatePosition();
 
-    window.addEventListener("scroll", updatePosition, true);
-    window.addEventListener("resize", updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
+    window.addEventListener('resize', updatePosition);
 
     return () => {
-      window.removeEventListener("scroll", updatePosition, true);
-      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
     };
   }, [isOpen, triggerRef]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Escape") {
+    if (e.key === 'Escape') {
       e.stopPropagation();
       setIsOpen(false);
     }
@@ -87,7 +87,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ children }) => {
       onKeyDown={handleKeyDown}
       className="rounded-md shadow-lg bg-stone-900 ring-1 ring-stone-500/50 z-50"
       style={{
-        position: "fixed",
+        position: 'fixed',
         top: position.top,
         left: position.left,
       }}

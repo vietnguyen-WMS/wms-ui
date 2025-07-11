@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 export interface UserInterface {
   username: string;
@@ -20,8 +20,8 @@ const useAuthStore = create<AuthState>()((set) => ({
     set({ isAuthLoading: true });
 
     try {
-      const res = await fetch("http://localhost:3000/auth/me", {
-        credentials: "include",
+      const res = await fetch('http://localhost:3000/auth/me', {
+        credentials: 'include',
       });
 
       if (res.ok) {
@@ -38,9 +38,9 @@ const useAuthStore = create<AuthState>()((set) => ({
   },
 
   logout: () => {
-    fetch("http://localhost:3000/auth/logout", {
-      method: "POST",
-      credentials: "include",
+    fetch('http://localhost:3000/auth/logout', {
+      method: 'POST',
+      credentials: 'include',
     });
 
     set({ user: null });

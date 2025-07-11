@@ -1,6 +1,6 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy } from 'react';
 
-const RemoteReceivingApp = lazy(() => import("receiving/App"));
+const RemoteReceivingApp = lazy(() => import('receiving/App'));
 
 const Receiving = () => {
   const fallbackLoading = (

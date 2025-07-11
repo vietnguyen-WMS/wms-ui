@@ -1,5 +1,5 @@
-import React, { cloneElement, isValidElement } from "react";
-import { useDropdownContext } from "./DropdownContext";
+import React, { cloneElement, isValidElement } from 'react';
+import { useDropdownContext } from './DropdownContext';
 
 interface DropdownTriggerCloseProps {
   children: React.ReactElement;

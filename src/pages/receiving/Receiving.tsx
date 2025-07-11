@@ -1,4 +1,4 @@
-import ReceivingWrapper from "@/remoteModules/receiving/Receiving";
+import ReceivingWrapper from '@/remoteModules/receiving/Receiving';
 
 const Receiving = () => {
   return (

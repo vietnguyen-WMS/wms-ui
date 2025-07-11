@@ -1,5 +1,5 @@
-import { useId } from "react";
-import { useDropdownContext } from "./DropdownContext";
+import { useId } from 'react';
+import { useDropdownContext } from './DropdownContext';
 
 interface DropdownTriggerProps {
   children: React.ReactNode;
@@ -12,7 +12,7 @@ const DropdownTrigger: React.FC<DropdownTriggerProps> = ({ children }) => {
   const toggle = () => setIsOpen(!isOpen);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
+    if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       toggle();
     }
