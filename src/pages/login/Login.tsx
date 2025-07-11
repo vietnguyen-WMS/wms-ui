@@ -87,16 +87,18 @@ const Login = () => {
                   name="username"
                   value={formData.username}
                   onChange={handleInputChange}
+                  autoComplete="username"
                 />
               </div>
               <div className="block space-y-1">
                 <label
-                  htmlFor="username"
+                  htmlFor="password"
                   className="block font-bold text-sm text-gray-700"
                 >
                   Password
                 </label>
                 <Input
+                  id="password"
                   name="password"
                   type="password"
                   value={formData.password}

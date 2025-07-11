@@ -1,4 +1,4 @@
-import type { ChangeEvent, FocusEvent } from "react";
+import type { ChangeEvent, FocusEvent, InputHTMLAttributes } from "react";
 
 export interface ValidationRule {
   type: "required" | "min" | "max" | "regex" | "email";
@@ -6,7 +6,8 @@ export interface ValidationRule {
   message?: string;
 }
 
-export interface InputProps {
+export interface InputProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
   type?: "text" | "password" | "email" | "number";
   size?: "sm" | "md" | "lg";
   placeholder?: string;

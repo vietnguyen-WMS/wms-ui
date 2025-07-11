@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import type { InputProps } from "./Input.types";
 import { Validate } from "./Input.utils";
+import clsx from "clsx";
 
 const Input: React.FC<InputProps> = ({
   type = "text",
@@ -21,6 +22,7 @@ const Input: React.FC<InputProps> = ({
   wrapperClassName = "",
   id,
   name,
+  ...rest
 }) => {
   const [inputValue, setInputValue] = useState<string | number>(value);
   const [error, setError] = useState<string>("");
@@ -91,7 +93,7 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div className={`input ${wrapperClassName}`}>
+    <div className={`input-block ${wrapperClassName}`}>
       <div className="relative">
         <input
           id={id}
@@ -103,9 +105,13 @@ const Input: React.FC<InputProps> = ({
           onBlur={handleBlur}
           placeholder={placeholder}
           disabled={isDisabled}
-          className={`${baseClasses} ${sizeClasses[size]} ${className} ${
+          className={clsx(
+            baseClasses,
+            sizeClasses[size],
+            className,
             type === "password" ? "pr-10" : ""
-          }`}
+          )}
+          {...rest}
         />
         {type === "password" && hasIconShowPassword && (
           <button
