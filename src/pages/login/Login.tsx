@@ -109,7 +109,11 @@ const Login = () => {
                 <div className="text-red-500 my-3">{loginError}</div>
               )}
               <div className="flex justify-center">
-                <Button disabled={isSubmitting} className="w-full">
+                <Button
+                  variant="warning"
+                  disabled={isSubmitting}
+                  className="w-full"
+                >
                   Login
                 </Button>
               </div>

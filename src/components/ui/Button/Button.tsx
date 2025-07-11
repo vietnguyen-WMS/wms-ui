@@ -1,10 +1,19 @@
 import React from 'react';
+import clsx from 'clsx';
+import type {
+  ButtonVariantType,
+  ButtonSizeType,
+  ButtonProps,
+} from './Button.types';
 
-type ButtonSizeType = 'sm' | 'md' | 'lg';
-
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  size?: ButtonSizeType;
-}
+const variantClasses: Record<ButtonVariantType, string> = {
+  primary: 'bg-blue-500 hover:bg-blue-400 text-white',
+  secondary: 'bg-gray-500 hover:bg-gray-400 text-white',
+  danger: 'bg-red-500 hover:bg-red-400 text-white',
+  success: 'bg-green-500 hover:bg-green-400 text-white',
+  warning: 'bg-orange-500 hover:bg-orange-400 text-white',
+  info: 'bg-teal-500 hover:bg-teal-400 text-white',
+};
 
 const sizeClasses: Record<ButtonSizeType, string> = {
   sm: 'px-2 py-1 text-sm',
@@ -13,6 +22,7 @@ const sizeClasses: Record<ButtonSizeType, string> = {
 };
 
 const Button: React.FC<ButtonProps> = ({
+  variant = 'primary',
   size = 'md',
   onClick,
   disabled,
@@ -20,7 +30,7 @@ const Button: React.FC<ButtonProps> = ({
   className,
   ...rest
 }) => {
-  const buttonClasses = `bg-orange-500 hover:not-disabled:bg-orange-400 rounded transition-colors duration-200 ${
+  const baseClasses = `rounded transition-colors duration-200 ${
     disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
   }`;
 
@@ -29,7 +39,12 @@ const Button: React.FC<ButtonProps> = ({
       <button
         onClick={onClick}
         disabled={disabled}
-        className={`${buttonClasses} ${sizeClasses[size]} ${className || ''} `}
+        className={clsx(
+          baseClasses,
+          sizeClasses[size],
+          variantClasses[variant],
+          className
+        )}
         {...rest}
       >
         {children}

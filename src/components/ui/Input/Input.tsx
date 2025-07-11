@@ -93,43 +93,45 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div className={`input-block ${wrapperClassName}`}>
-      <div className="relative">
-        <input
-          id={id}
-          name={name}
-          type={inputRenderType}
-          value={inputValue}
-          onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          placeholder={placeholder}
-          disabled={isDisabled}
-          className={clsx(
-            baseClasses,
-            sizeClasses[size],
-            className,
-            type === 'password' ? 'pr-10' : ''
-          )}
-          {...rest}
-        />
-        {type === 'password' && hasIconShowPassword && (
-          <button
-            type="button"
-            onClick={handleTogglePasswordVisibility}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
+    <>
+      <div className={`input-block ${wrapperClassName}`}>
+        <div className="relative">
+          <input
+            id={id}
+            name={name}
+            type={inputRenderType}
+            value={inputValue}
+            onChange={handleChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            placeholder={placeholder}
             disabled={isDisabled}
-          >
-            <i
-              className={
-                isShowPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'
-              }
-            ></i>
-          </button>
-        )}
+            className={clsx(
+              baseClasses,
+              sizeClasses[size],
+              className,
+              type === 'password' ? 'pr-10' : ''
+            )}
+            {...rest}
+          />
+          {type === 'password' && hasIconShowPassword && (
+            <button
+              type="button"
+              onClick={handleTogglePasswordVisibility}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
+              disabled={isDisabled}
+            >
+              <i
+                className={
+                  isShowPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'
+                }
+              ></i>
+            </button>
+          )}
+        </div>
+        {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
       </div>
-      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
-    </div>
+    </>
   );
 };
 
