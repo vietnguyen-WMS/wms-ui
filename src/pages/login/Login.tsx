@@ -2,6 +2,7 @@ import { Button, Input } from '@/components/ui';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/stores';
+import axios from 'axios';
 
 interface LoginFormState {
   username: string;
@@ -39,27 +40,24 @@ const Login = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-        credentials: 'include',
-      });
+      const res = await axios.post(
+        'http://localhost:3000/auth/login',
+        formData,
+        { withCredentials: true }
+      );
 
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || 'Login failed!');
+      if (res.status !== 200) {
+        throw new Error(res.data.message || 'Login failed!');
       }
 
       await checkAuth();
 
       navigate(navigationFrom, { replace: true });
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setLoginError(err.message || 'Login failed');
-      } else {
-        setLoginError('Login failed');
-      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      const message =
+        err?.response?.data?.message || err.message || 'Login failed';
+      setLoginError(message);
     } finally {
       setIsSubmitting(false);
       setFormData({ username: '', password: '' });

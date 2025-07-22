@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { create } from 'zustand';
 
 export interface UserInterface {
@@ -20,12 +21,12 @@ const useAuthStore = create<AuthState>()((set) => ({
     set({ isAuthLoading: true });
 
     try {
-      const res = await fetch('http://localhost:3000/auth/me', {
-        credentials: 'include',
+      const res = await axios.get('http://localhost:3000/auth/me', {
+        withCredentials: true,
       });
 
-      if (res.ok) {
-        const user = await res.json();
+      if (res.status === 200) {
+        const user = res.data;
         set({ user });
       } else {
         set({ user: null });
