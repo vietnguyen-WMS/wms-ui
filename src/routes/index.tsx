@@ -11,11 +11,19 @@ import Settings from '@/pages/settings';
 
 // Importing the remote page
 import Receiving from '@/pages/receiving';
+import RedirectIfAuthenticated from './RedirectIfAuthenticated';
 
 export const router = createBrowserRouter(
   [
     { path: '/guest', element: <Guest /> },
-    { path: '/login', element: <Login /> },
+    {
+      path: '/login',
+      element: (
+        <RedirectIfAuthenticated>
+          <Login />
+        </RedirectIfAuthenticated>
+      ),
+    },
     {
       element: (
         <PrivateRoute>
