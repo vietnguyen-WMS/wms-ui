@@ -54,8 +54,12 @@ const Login = () => {
       await checkAuth();
 
       navigate(navigationFrom, { replace: true });
-    } catch (err: any) {
-      setLoginError(err.message || 'Login failed');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setLoginError(err.message || 'Login failed');
+      } else {
+        setLoginError('Login failed');
+      }
     } finally {
       setIsSubmitting(false);
       setFormData({ username: '', password: '' });
