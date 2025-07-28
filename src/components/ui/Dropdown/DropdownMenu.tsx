@@ -85,7 +85,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ children }) => {
       tabIndex={-1}
       ref={menuRef}
       onKeyDown={handleKeyDown}
-      className="rounded-md shadow-lg bg-stone-900 ring-1 ring-stone-500/50 z-50"
+      className="rounded-md shadow-lg bg-white ring-1 ring-stone-500/20 z-50"
       style={{
         position: 'fixed',
         top: position.top,

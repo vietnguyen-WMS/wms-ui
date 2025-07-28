@@ -21,7 +21,7 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ children, onClick }) => {
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') handleClick();
       }}
-      className="cursor-pointer px-4 py-2 text-sm hover:bg-stone-600"
+      className="cursor-pointer px-4 py-2 text-sm hover:bg-stone-200"
     >
       {children}
     </div>

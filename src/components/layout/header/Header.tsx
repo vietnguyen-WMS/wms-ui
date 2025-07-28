@@ -24,7 +24,7 @@ const Header = () => {
                 <Dropdown.TriggerClose>
                   <Link
                     to="/profile"
-                    className="block hover:bg-stone-600 rounded p-2"
+                    className="block hover:bg-stone-200 rounded p-2"
                   >
                     <div className="flex items-center space-x-2">
                       <div className="w-8 h-8 rounded-full overflow-hidden cursor-pointer">
