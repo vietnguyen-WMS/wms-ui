@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { create } from 'zustand';
+import { API_URL } from '../constants';
 
 export interface UserInterface {
   username: string;
@@ -21,7 +22,7 @@ const useAuthStore = create<AuthState>()((set) => ({
     set({ isAuthLoading: true });
 
     try {
-      const res = await axios.get('http://localhost:3000/auth/me', {
+      const res = await axios.get(`${API_URL}/auth/me`, {
         withCredentials: true,
       });
 
@@ -39,7 +40,7 @@ const useAuthStore = create<AuthState>()((set) => ({
   },
 
   logout: () => {
-    fetch('http://localhost:3000/auth/logout', {
+    fetch(`${API_URL}/auth/logout`, {
       method: 'POST',
       credentials: 'include',
     });
