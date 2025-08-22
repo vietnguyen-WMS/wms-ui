@@ -18,7 +18,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get(GET_USERS);
+        const res = await axios.get(GET_USERS, { withCredentials: true });
         setUsers(res.data.items);
       } catch {
         setUsers([]);
