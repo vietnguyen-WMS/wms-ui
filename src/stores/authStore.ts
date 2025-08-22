@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { create } from 'zustand';
+import api from '@services/api';
 import { API_URL } from '../constants';
 
 export interface UserInterface {
@@ -22,9 +22,7 @@ const useAuthStore = create<AuthState>()((set) => ({
     set({ isAuthLoading: true });
 
     try {
-      const res = await axios.get(`${API_URL}/auth/me`, {
-        withCredentials: true,
-      });
+      const res = await api.get('/auth/me');
 
       if (res.status === 200) {
         const user = res.data;

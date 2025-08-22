@@ -2,8 +2,7 @@ import { Button, Input } from '@/components/ui';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/stores';
-import axios from 'axios';
-import { API_URL } from '@/constants';
+import api from '@services/api';
 
 interface LoginFormState {
   username: string;
@@ -41,9 +40,7 @@ const Login = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await axios.post(`${API_URL}/auth/login`, formData, {
-        withCredentials: true,
-      });
+      const res = await api.post('/auth/login', formData);
 
       if (res.status !== 200) {
         throw new Error(res.data.message || 'Login failed!');
