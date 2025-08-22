@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/stores';
 import api from '@services/api';
+import { AUTH_LOGIN } from '@/constants';
 
 interface LoginFormState {
   username: string;
@@ -40,7 +41,7 @@ const Login = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await api.post('/auth/login', formData);
+      const res = await api.post(AUTH_LOGIN, formData);
 
       if (res.status !== 200) {
         throw new Error(res.data.message || 'Login failed!');

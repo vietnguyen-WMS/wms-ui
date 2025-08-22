@@ -1,5 +1,9 @@
 export const API_URL = import.meta.env.VITE_API_URL;
 
+export const AUTH_LOGIN = `${API_URL}/auth/login`;
+export const AUTH_LOGOUT = `${API_URL}/auth/logout`;
+export const AUTH_ME = `${API_URL}/auth/me`;
+
 export const GET_USERS = `${API_URL}/users`;
 export const GET_USERS_BY_ID = (id: number | string) => `${API_URL}/users/${id}`;
 export const ADD_USER = `${API_URL}/users`;
