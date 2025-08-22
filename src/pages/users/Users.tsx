@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '@/constants';
+import { GET_USERS } from '@/constants';
 
 interface User {
   id: number;
@@ -18,7 +18,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get(`${API_URL}/users`);
+        const res = await axios.get(GET_USERS);
         setUsers(res.data.items);
       } catch {
         setUsers([]);
