@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '@services/api';
-import { GET_USERS } from '@/constants';
+import { API } from '@/constants';
 
 interface User {
   id: number;
@@ -18,7 +18,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await api.get(GET_USERS);
+        const res = await api.get(API.GET_USERS);
         setUsers(res.data.items);
       } catch {
         setUsers([]);

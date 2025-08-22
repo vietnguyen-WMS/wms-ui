@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import api from '@services/api';
-import { AUTH_ME, AUTH_LOGOUT } from '@/constants';
+import { API } from '@/constants';
 
 export interface UserInterface {
   username: string;
@@ -22,7 +22,7 @@ const useAuthStore = create<AuthState>()((set) => ({
     set({ isAuthLoading: true });
 
     try {
-      const res = await api.get(AUTH_ME);
+      const res = await api.get(API.AUTH_ME);
 
       if (res.status === 200) {
         const user = res.data;
@@ -38,7 +38,7 @@ const useAuthStore = create<AuthState>()((set) => ({
   },
 
   logout: () => {
-    api.post(AUTH_LOGOUT);
+    api.post(API.AUTH_LOGOUT);
     set({ user: null });
   },
 }));
