@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 export const API = {
   URL: API_URL,
@@ -6,11 +6,11 @@ export const API = {
   AUTH_LOGOUT: `${API_URL}/auth/logout`,
   AUTH_ME: `${API_URL}/auth/me`,
   GET_USERS: `${API_URL}/users`,
-  GET_USERS_BY_ID: (id: number | string) => `${API_URL}/users/${id}`,
+  GET_USERS_BY_ID: (id: number) => `${API_URL}/users/${id}`,
   ADD_USER: `${API_URL}/users`,
-  DELETE_USER: (id: number | string) => `${API_URL}/users/${id}`,
-  CHANGE_PASSWORD: (id: number | string) => `${API_URL}/users/${id}/password`,
-  UNLOCK_ACCOUNT: (id: number | string) =>
+  DELETE_USER: (id: number) => `${API_URL}/users/${id}`,
+  CHANGE_PASSWORD: (id: number) => `${API_URL}/users/${id}/password`,
+  UNLOCK_ACCOUNT: (id: number) =>
     `${API_URL}/users/${id}/reset-failed-attempts`,
 };
 
