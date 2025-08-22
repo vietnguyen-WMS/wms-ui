@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '@services/api';
 import { API } from '@/constants';
+import { formatDate } from '@utils/date';
 
 interface User {
   id: number;
@@ -15,27 +16,18 @@ interface User {
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await api.get(API.GET_USERS);
-        setUsers(res.data.items);
-      } catch {
-        setUsers([]);
-      }
-    };
+  const fetchUsers = async () => {
+    try {
+      const res = await api.get(API.GET_USERS);
+      setUsers(res.data.items);
+    } catch {
+      setUsers([]);
+    }
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, []);
-
-  const formatDate = (dateStr: string) => {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    const pad = (n: number) => n.toString().padStart(2, '0');
-    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
-      date.getDate()
-    )} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
-  };
 
   return (
     <>
