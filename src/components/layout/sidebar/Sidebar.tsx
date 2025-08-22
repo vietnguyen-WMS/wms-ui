@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import viteLogo from '/vite.svg';
 
 const Sidebar = () => {
@@ -9,6 +10,18 @@ const Sidebar = () => {
             <img src={viteLogo} className="logo" alt="Vite logo" />
             <h1 className="text-xl">WMS</h1>
           </div>
+          <nav className="mt-6">
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  to="/users"
+                  className="block p-2 rounded hover:bg-slate-500"
+                >
+                  Users
+                </Link>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </>

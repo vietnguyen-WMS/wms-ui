@@ -8,6 +8,7 @@ import Login from '@/pages/login';
 import Home from '@/pages/home';
 import Profile from '@/pages/profile';
 import Settings from '@/pages/settings';
+import Users from '@/pages/users';
 
 // Importing the remote page
 import Receiving from '@/pages/receiving';
@@ -33,6 +34,7 @@ export const router = createBrowserRouter(
       children: [
         { path: '/', element: <Home /> },
         { path: '/profile', element: <Profile /> },
+        { path: '/users', element: <Users /> },
         { path: '/settings', element: <Settings /> },
 
         //remote path
