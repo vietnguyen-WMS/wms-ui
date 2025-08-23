@@ -26,14 +26,15 @@ const Users = () => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
-    role: '',
+    roleCode: '',
   });
   const [errors, setErrors] = useState<{
     username?: string;
     password?: string;
-    role?: string;
+    roleCode?: string;
   }>({});
   const [highlightedId, setHighlightedId] = useState<number | null>(null);
+  const [apiMessage, setApiMessage] = useState('');
 
   const fetchUsers = async () => {
     try {
@@ -44,7 +45,7 @@ const Users = () => {
     }
   };
 
-  type FormFields = 'username' | 'password' | 'role';
+  type FormFields = 'username' | 'password';
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -58,9 +59,9 @@ const Users = () => {
   };
 
   const handleRoleSelect = (value: string) => {
-    setFormData((prev) => ({ ...prev, role: value }));
-    if (errors.role) {
-      setErrors((prev) => ({ ...prev, role: '' }));
+    setFormData((prev) => ({ ...prev, roleCode: value }));
+    if (errors.roleCode) {
+      setErrors((prev) => ({ ...prev, roleCode: '' }));
     }
   };
 
@@ -69,19 +70,24 @@ const Users = () => {
     const newErrors: typeof errors = {};
     if (!formData.username.trim()) newErrors.username = 'Username is required';
     if (!formData.password.trim()) newErrors.password = 'Password is required';
-    if (!formData.role) newErrors.role = 'Role is required';
+    if (!formData.roleCode) newErrors.roleCode = 'Role is required';
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
     console.log(formData);
     try {
       const res = await api.post(API.ADD_USER, formData);
+      setApiMessage(res.data.message || '');
       await fetchUsers();
       setHighlightedId(res.data.id);
       setTimeout(() => setHighlightedId(null), 300);
-      setFormData({ username: '', password: '', role: '' });
-    } catch (error) {
+      setFormData({ username: '', password: '', roleCode: '' });
+    } catch (error: unknown) {
       console.error(error);
+      const message =
+        (error as { response?: { data?: { message?: string } } }).response?.data
+          ?.message || 'Failed to add user';
+      setApiMessage(message);
     }
   };
 
@@ -124,8 +130,8 @@ const Users = () => {
             <Dropdown.Trigger>
               <div className="w-full border rounded-md px-3 py-2 text-left">
                 {
-                  formData.role
-                    ? roles.find((r) => r.value === formData.role)?.label
+                  formData.roleCode
+                    ? roles.find((r) => r.value === formData.roleCode)?.label
                     : 'Select role'
                 }
               </div>
@@ -141,10 +147,13 @@ const Users = () => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
-          {errors.role && (
-            <p className="mt-1 text-sm text-red-600">{errors.role}</p>
+          {errors.roleCode && (
+            <p className="mt-1 text-sm text-red-600">{errors.roleCode}</p>
           )}
         </div>
+        {apiMessage && (
+          <p className="mb-4 text-sm text-green-600">{apiMessage}</p>
+        )}
         <Button type="submit" className="w-full">
           Add user
         </Button>
