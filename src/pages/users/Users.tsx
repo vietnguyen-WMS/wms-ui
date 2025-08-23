@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '@services/api';
-import { API, API_MESSAGE_MAP } from '@/constants';
+import { API } from '@/constants';
+import { useTranslation } from 'react-i18next';
 import { formatDate } from '@utils/date';
 import { Input, Button, Dropdown } from '@components/ui';
 import clsx from 'clsx';
@@ -21,8 +22,9 @@ const roles = [
   { value: 'operator', label: 'Operator' },
 ];
 
-const Users = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const Users = () => {
+    const { t } = useTranslation();
+    const [users, setUsers] = useState<User[]>([]);
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -65,10 +67,10 @@ const Users = () => {
     }
 
     console.log(formData);
-    try {
-      const res = await api.post(API.ADD_USER, formData);
-      const successMsg = res.data.message as string;
-      setApiMessage(API_MESSAGE_MAP[successMsg] ?? successMsg ?? '');
+      try {
+        const res = await api.post(API.ADD_USER, formData);
+        const successCode = res.data.code as string;
+        setApiMessage(successCode ? t(`api.${successCode}`) : '');
       const updatedUsers = await fetchUsers();
       const newUserId =
         res.data.id ?? updatedUsers.find((u) => u.username === formData.username)?.id;
@@ -77,13 +79,13 @@ const Users = () => {
         setTimeout(() => setHighlightedId(null), 300);
       }
       setFormData({ username: '', password: '', roleCode: '' });
-    } catch (error: unknown) {
-      console.error(error);
-      const message = (error as { response?: { data?: { message?: string } } })
-        .response?.data?.message as string;
-      setApiMessage(API_MESSAGE_MAP[message] ?? message ?? 'Failed to add user');
-    }
-  };
+      } catch (error: unknown) {
+        console.error(error);
+        const code = (error as { response?: { data?: { code?: string } } })
+          .response?.data?.code as string;
+        setApiMessage(code ? t(`api.${code}`) : t('api.UNEXPECTED_ERROR'));
+      }
+    };
 
   useEffect(() => {
     fetchUsers();
