@@ -28,11 +28,7 @@ const Users = () => {
     password: '',
     roleCode: '',
   });
-  const [errors, setErrors] = useState<{
-    username?: string;
-    password?: string;
-    roleCode?: string;
-  }>({});
+  const [roleError, setRoleError] = useState('');
   const [highlightedId, setHighlightedId] = useState<number | null>(null);
   const [apiMessage, setApiMessage] = useState('');
 
@@ -45,34 +41,26 @@ const Users = () => {
     }
   };
 
-  type FormFields = 'username' | 'password';
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ): void => {
     const { name, value } = e.target;
-    const fieldName = name as FormFields;
-    setFormData((prev) => ({ ...prev, [fieldName]: value }));
-    if (errors[fieldName]) {
-      setErrors((prev) => ({ ...prev, [fieldName]: '' }));
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleRoleSelect = (value: string) => {
     setFormData((prev) => ({ ...prev, roleCode: value }));
-    if (errors.roleCode) {
-      setErrors((prev) => ({ ...prev, roleCode: '' }));
+    if (roleError) {
+      setRoleError('');
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newErrors: typeof errors = {};
-    if (!formData.username.trim()) newErrors.username = 'Username is required';
-    if (!formData.password.trim()) newErrors.password = 'Password is required';
-    if (!formData.roleCode) newErrors.roleCode = 'Role is required';
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length > 0) return;
+    if (!formData.username.trim() || !formData.password.trim() || !formData.roleCode) {
+      if (!formData.roleCode) setRoleError('Role is required');
+      return;
+    }
 
     console.log(formData);
     try {
@@ -107,10 +95,8 @@ const Users = () => {
             placeholder="Username"
             value={formData.username}
             onChange={handleChange}
+            validationRules={[{ type: 'required', message: 'Username is required' }]}
           />
-          {errors.username && (
-            <p className="mt-1 text-sm text-red-600">{errors.username}</p>
-          )}
         </div>
         <div className="mb-4">
           <Input
@@ -120,10 +106,8 @@ const Users = () => {
             value={formData.password}
             onChange={handleChange}
             hasIconShowPassword
+            validationRules={[{ type: 'required', message: 'Password is required' }]}
           />
-          {errors.password && (
-            <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-          )}
         </div>
         <div className="mb-4">
           <Dropdown>
@@ -147,8 +131,8 @@ const Users = () => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
-          {errors.roleCode && (
-            <p className="mt-1 text-sm text-red-600">{errors.roleCode}</p>
+          {roleError && (
+            <p className="mt-1 text-sm text-red-600">{roleError}</p>
           )}
         </div>
         {apiMessage && (
