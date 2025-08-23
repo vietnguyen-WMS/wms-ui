@@ -21,6 +21,7 @@ const DropdownTrigger: React.FC<DropdownTriggerProps> = ({ children }) => {
   return (
     <button
       role="button"
+      type="button"
       aria-haspopup="menu"
       aria-expanded={isOpen}
       aria-controls={`dropdown-menu-${id}`}
