@@ -32,12 +32,14 @@ const Users = () => {
   const [highlightedId, setHighlightedId] = useState<number | null>(null);
   const [apiMessage, setApiMessage] = useState('');
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (): Promise<User[]> => {
     try {
       const res = await api.get(API.GET_USERS);
       setUsers(res.data.items);
+      return res.data.items;
     } catch {
       setUsers([]);
+      return [];
     }
   };
 
@@ -66,9 +68,13 @@ const Users = () => {
     try {
       const res = await api.post(API.ADD_USER, formData);
       setApiMessage(res.data.message || '');
-      await fetchUsers();
-      setHighlightedId(res.data.id);
-      setTimeout(() => setHighlightedId(null), 300);
+      const updatedUsers = await fetchUsers();
+      const newUserId =
+        res.data.id ?? updatedUsers.find((u) => u.username === formData.username)?.id;
+      if (newUserId !== undefined) {
+        setHighlightedId(newUserId);
+        setTimeout(() => setHighlightedId(null), 300);
+      }
       setFormData({ username: '', password: '', roleCode: '' });
     } catch (error: unknown) {
       console.error(error);
