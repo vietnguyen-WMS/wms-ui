@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '@services/api';
-import { API } from '@/constants';
+import { API, API_MESSAGE_MAP } from '@/constants';
 import { formatDate } from '@utils/date';
 import { Input, Button, Dropdown } from '@components/ui';
 import clsx from 'clsx';
@@ -67,7 +67,8 @@ const Users = () => {
     console.log(formData);
     try {
       const res = await api.post(API.ADD_USER, formData);
-      setApiMessage(res.data.message || '');
+      const successMsg = res.data.message as string;
+      setApiMessage(API_MESSAGE_MAP[successMsg] ?? successMsg ?? '');
       const updatedUsers = await fetchUsers();
       const newUserId =
         res.data.id ?? updatedUsers.find((u) => u.username === formData.username)?.id;
@@ -78,10 +79,9 @@ const Users = () => {
       setFormData({ username: '', password: '', roleCode: '' });
     } catch (error: unknown) {
       console.error(error);
-      const message =
-        (error as { response?: { data?: { message?: string } } }).response?.data
-          ?.message || 'Failed to add user';
-      setApiMessage(message);
+      const message = (error as { response?: { data?: { message?: string } } })
+        .response?.data?.message as string;
+      setApiMessage(API_MESSAGE_MAP[message] ?? message ?? 'Failed to add user');
     }
   };
 
