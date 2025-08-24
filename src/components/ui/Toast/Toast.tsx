@@ -68,7 +68,11 @@ const Toast: React.FC<ToastProps> = ({
       >
         <i className={clsx(icons[type])}></i>
         <span className="mr-4">{message}</span>
-        <button onClick={handleClose} aria-label="close-toast">
+        <button
+          onClick={handleClose}
+          aria-label="close-toast"
+          className="cursor-pointer"
+        >
           <i className="fa-solid fa-xmark" />
         </button>
       </div>
