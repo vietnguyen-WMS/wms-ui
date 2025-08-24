@@ -7,14 +7,14 @@ const Home = () => {
   const { showToast } = useToastStore();
 
   const handleShowToast = () => {
-    showToast({ type: 'success', message: 'Welcome home!' });
+    showToast({ type: 'success', message: t('welcome_home') });
   };
 
   return (
     <>
       <h1>{t('home')}</h1>
       <p>{t('welcome')}</p>
-      <Button onClick={handleShowToast}>Show Toast</Button>
+      <Button onClick={handleShowToast}>{t('show_toast')}</Button>
     </>
   );
 };
