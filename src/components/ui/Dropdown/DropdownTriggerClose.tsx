@@ -14,7 +14,9 @@ const DropdownTriggerClose: React.FC<DropdownTriggerCloseProps> = ({
     return null;
   }
 
-  const element = children as React.ReactElement<any>;
+  const element = children as React.ReactElement<{
+    onClick?: (e: React.MouseEvent) => void;
+  }>;
   const childOnClick = element.props.onClick;
 
   const handleClick = (e: React.MouseEvent) => {

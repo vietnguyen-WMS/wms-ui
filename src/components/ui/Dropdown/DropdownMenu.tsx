@@ -43,11 +43,11 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ children }) => {
         const shouldMenuOpenFromRightTrigger =
           spaceMenuToRight < menuWitdth && spaceMenuToLeft > menuWitdth;
 
-        let topPosition = shouldMenuOpenAbove
+        const topPosition = shouldMenuOpenAbove
           ? triggerRect.top - menuHeight + window.scrollY - spaceMenuToTrigger
           : triggerRect.bottom + window.scrollY + spaceMenuToTrigger;
 
-        let leftPosition = shouldMenuOpenFromRightTrigger
+        const leftPosition = shouldMenuOpenFromRightTrigger
           ? triggerRect.right - menuWitdth + window.scrollX
           : triggerRect.left + window.scrollX;
 
