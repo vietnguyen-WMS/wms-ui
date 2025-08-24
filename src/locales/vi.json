@@ -7,7 +7,7 @@
   "home": "Trang chủ",
   "welcome": "Chào mừng đến WMS",
   "show_toast": "Hiển thị thông báo",
-  "welcome_home": "Chào mừng về nhà!",
+  "welcome_home": "Chào mừng về nhà {{count}}",
   "unknown_error": "Đã xảy ra sự cố. Vui lòng thử lại",
   "api": {
     "INVALID_CREDENTIALS": "Thông tin đăng nhập không hợp lệ",

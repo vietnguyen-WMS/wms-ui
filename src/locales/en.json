@@ -7,7 +7,7 @@
   "home": "Home",
   "welcome": "Welcome to WMS",
   "show_toast": "Show Toast",
-  "welcome_home": "Welcome home!",
+  "welcome_home": "Welcome home {{count}}",
   "unknown_error": "Something went wrong. Please try again",
   "api": {
     "INVALID_CREDENTIALS": "Invalid credentials",
