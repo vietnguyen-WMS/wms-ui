@@ -37,6 +37,7 @@ export default defineConfig({
       '@utils': path.resolve(__dirname, './src/utils'),
       '@services': path.resolve(__dirname, './src/services'),
       '@assets': path.resolve(__dirname, './src/assets'),
+      'react-i18next': path.resolve(__dirname, './src/mocks/react-i18next.ts'),
     },
   },
   optimizeDeps: {

@@ -28,6 +28,7 @@ const Toast: React.FC<ToastProps> = ({
   type = 'info',
   duration = 5000,
   placement = 'top-right',
+  onClose,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
@@ -43,7 +44,10 @@ const Toast: React.FC<ToastProps> = ({
 
   const handleClose = () => {
     setIsVisible(false);
-    setTimeout(() => setIsOpen(false), 300);
+    setTimeout(() => {
+      setIsOpen(false);
+      onClose?.();
+    }, 300);
   };
 
   if (!isOpen) return null;

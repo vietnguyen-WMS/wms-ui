@@ -37,7 +37,8 @@
       "@hooks/*": ["src/hooks/*"],
       "@utils/*": ["src/utils/*"],
       "@services/*": ["src/services/*"],
-      "@assets/*": ["src/assets/*"]
+      "@assets/*": ["src/assets/*"],
+      "react-i18next": ["src/mocks/react-i18next.ts"]
     }
   },
   "include": ["src", "src/types"]

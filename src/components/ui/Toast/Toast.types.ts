@@ -11,4 +11,5 @@ export interface ToastProps {
   type?: ToastType;
   duration?: number;
   placement?: ToastPlacement;
+  onClose?: () => void;
 }
