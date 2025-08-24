@@ -26,6 +26,6 @@
     "USER_NOT_LOCKED": "Người dùng không bị khóa",
     "NEWPASSWORD_MUST_NOT_BE_BLANK": "Mật khẩu mới không được để trống",
     "USER_CREATED": "Tạo người dùng thành công",
-    "UNEXPECTED_ERROR": "Đã xảy ra lỗi không xác định"
+    "UNKNOWN_ERROR": "Đã xảy ra sự cố. Vui lòng thử lại"
   }
 }
