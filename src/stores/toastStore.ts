@@ -1,8 +1,6 @@
 import { create } from 'zustand';
 import type { ToastType, ToastPlacement } from '@/components/ui/Toast/Toast.types';
 
-export const MAX_VISIBLE_TOASTS = 5;
-
 interface ToastOptions {
   id: number;
   message: string;

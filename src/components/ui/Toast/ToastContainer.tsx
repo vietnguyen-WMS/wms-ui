@@ -1,4 +1,5 @@
-import { useToastStore, MAX_VISIBLE_TOASTS } from '@/stores';
+import { useToastStore } from '@/stores';
+import { MAX_VISIBLE_TOASTS } from '@/constants';
 import Toast from './Toast';
 import type { ToastPlacement } from './Toast.types';
 

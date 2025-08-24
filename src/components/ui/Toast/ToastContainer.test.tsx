@@ -1,7 +1,8 @@
 import { render, screen, cleanup, act, within } from '@testing-library/react';
 import { afterEach, describe, it, expect } from 'vitest';
 import { ToastContainer } from '.';
-import { useToastStore, MAX_VISIBLE_TOASTS } from '@/stores';
+import { useToastStore } from '@/stores';
+import { MAX_VISIBLE_TOASTS } from '@/constants';
 
 describe('ToastContainer', () => {
   afterEach(() => {
