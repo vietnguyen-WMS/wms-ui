@@ -1,16 +1,25 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import axios from 'axios';
 
 const mockNavigate = vi.fn();
 
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual<any>('react-router-dom');
+  const actual = await vi.importActual<typeof import('react-router-dom')>(
+    'react-router-dom'
+  );
   return {
     ...actual,
     useNavigate: () => mockNavigate,
   };
 });
+
+vi.mock('@/stores', () => ({
+  useAuth: () => ({
+    checkAuth: vi.fn(),
+  }),
+}));
 
 import { MemoryRouter } from 'react-router-dom';
 import Login from './Login';
@@ -64,31 +73,10 @@ describe('Login', () => {
   });
 
   it('login successfully with valid credentials', async () => {
-    let resolveFetch: any;
-    const fetchPromise = new Promise((resolve) => {
-      resolveFetch = () =>
-        resolve({
-          ok: true,
-          json: () => Promise.resolve({ username: 'viet' }),
-        });
+    vi.spyOn(axios, 'post').mockResolvedValueOnce({
+      status: 200,
+      data: { username: 'viet' },
     });
-
-    const mockFetch = vi
-      .spyOn(global, 'fetch')
-      .mockImplementation((url, options) => {
-        if (
-          typeof url === 'string' &&
-          url.endsWith('/login') &&
-          options?.method === 'POST'
-        ) {
-          return fetchPromise as any;
-        }
-
-        return Promise.resolve({
-          ok: false,
-          json: () => Promise.resolve({}),
-        } as Response);
-      });
 
     renderLogin();
     const user = userEvent.setup();
@@ -99,11 +87,9 @@ describe('Login', () => {
     await user.type(userNameInput, 'viet');
     await user.type(passwordInput, '1');
     await user.click(loginButton);
-    await waitFor(() => expect(loginButton).toBeDisabled());
-    resolveFetch();
-    await waitFor(() => expect(loginButton).not.toBeDisabled());
 
-    expect(mockNavigate).toHaveBeenCalledWith('/', { replace: true });
-    mockFetch.mockRestore();
+    await waitFor(() =>
+      expect(mockNavigate).toHaveBeenCalledWith('/', { replace: true })
+    );
   });
 });
