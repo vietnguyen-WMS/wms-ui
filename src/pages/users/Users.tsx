@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '@services/api';
-import { API } from '@/constants';
+import { API, messageCodeMap } from '@/constants';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '@utils/date';
 import { Input, Button, Dropdown } from '@components/ui';
@@ -70,7 +70,8 @@ const roles = [
       try {
         const res = await api.post(API.ADD_USER, formData);
         const successCode = res.data.code as string;
-        setApiMessage(successCode ? t(`api.${successCode}`) : '');
+        const successKey = successCode && messageCodeMap[successCode];
+        setApiMessage(successKey ? t(successKey) : '');
       const updatedUsers = await fetchUsers();
       const newUserId =
         res.data.id ?? updatedUsers.find((u) => u.username === formData.username)?.id;
@@ -82,8 +83,11 @@ const roles = [
       } catch (error: unknown) {
         console.error(error);
         const code = (error as { response?: { data?: { code?: string } } })
-          .response?.data?.code as string;
-        setApiMessage(code ? t(`api.${code}`) : t('api.UNEXPECTED_ERROR'));
+          .response?.data?.code as string | undefined;
+        const errorKey = code && messageCodeMap[code];
+        setApiMessage(
+          errorKey ? t(errorKey) : t(messageCodeMap.UNEXPECTED_ERROR),
+        );
       }
     };
 
