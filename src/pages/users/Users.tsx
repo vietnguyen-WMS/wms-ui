@@ -85,9 +85,7 @@ const roles = [
         const code = (error as { response?: { data?: { code?: string } } })
           .response?.data?.code as string | undefined;
         const errorKey = code && messageCodeMap[code];
-        setApiMessage(
-          errorKey ? t(errorKey) : t(messageCodeMap.UNKNOWN_ERROR),
-        );
+        setApiMessage(errorKey ? t(errorKey) : t('unknownError'));
       }
     };
 
