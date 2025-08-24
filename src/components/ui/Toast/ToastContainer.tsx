@@ -1,11 +1,11 @@
-import { useToastStore } from '@/stores';
+import { useToastStore, MAX_VISIBLE_TOASTS } from '@/stores';
 import Toast from './Toast';
 
 const ToastContainer = () => {
   const { toasts, removeToast } = useToastStore();
   return (
     <>
-      {toasts.map((toast) => (
+      {toasts.slice(0, MAX_VISIBLE_TOASTS).map((toast) => (
         <Toast
           key={toast.id}
           message={toast.message}

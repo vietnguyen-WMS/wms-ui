@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import type { ToastType, ToastPlacement } from '@/components/ui/Toast/Toast.types';
 
+export const MAX_VISIBLE_TOASTS = 5;
+
 interface ToastOptions {
   id: number;
   message: string;
@@ -28,7 +30,7 @@ export const useToastStore = create<ToastStore>((set) => ({
     duration = 5000,
     placement = 'top-right',
   }) => {
-    const id = Date.now();
+    const id = Date.now() + Math.random();
     set((state) => ({
       toasts: [...state.toasts, { id, message, type, duration, placement }],
     }));
