@@ -2,7 +2,8 @@ import { Button, Input } from '@/components/ui';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/stores';
-import axios from 'axios';
+import api from '@services/api';
+import { API } from '@/constants';
 
 interface LoginFormState {
   username: string;
@@ -40,11 +41,7 @@ const Login = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await axios.post(
-        'http://localhost:3000/auth/login',
-        formData,
-        { withCredentials: true }
-      );
+      const res = await api.post(API.AUTH_LOGIN, formData);
 
       if (res.status !== 200) {
         throw new Error(res.data.message || 'Login failed!');
@@ -53,7 +50,7 @@ const Login = () => {
       await checkAuth();
 
       navigate(navigationFrom, { replace: true });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const message =
         err?.response?.data?.message || err.message || 'Login failed';

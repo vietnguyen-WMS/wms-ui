@@ -1,0 +1,31 @@
+{
+  "language": "Ngôn ngữ",
+  "english": "Tiếng Anh",
+  "vietnamese": "Tiếng Việt",
+  "settings": "Cài đặt",
+  "logout": "Đăng xuất",
+  "home": "Trang chủ",
+  "welcome": "Chào mừng đến WMS",
+  "unknown_error": "Đã xảy ra sự cố. Vui lòng thử lại",
+  "api": {
+    "INVALID_CREDENTIALS": "Thông tin đăng nhập không hợp lệ",
+    "USER_INACTIVE": "Người dùng không hoạt động",
+    "ACCOUNT_LOCKED": "Tài khoản bị khóa",
+    "MISSING_STATUS_CODE": "Thiếu mã trạng thái",
+    "USERNAME_MUST_NOT_BE_BLANK": "Tên người dùng không được để trống",
+    "PASSWORD_MUST_NOT_BE_BLANK": "Mật khẩu không được để trống",
+    "UNAUTHORIZED": "Không được phép",
+    "USER_NOT_FOUND": "Không tìm thấy người dùng",
+    "USERNAME_ALREADY_EXISTS": "Tên người dùng đã tồn tại",
+    "ROLE_CODE_REQUIRED": "Cần mã vai trò",
+    "INVALID_ROLE_CODE": "Mã vai trò không hợp lệ",
+    "INVALID_STATUS_CODE": "Mã trạng thái không hợp lệ",
+    "ROLECODE_MUST_NOT_BE_BLANK": "Mã vai trò không được để trống",
+    "CURRENT_USER_NOT_FOUND": "Không tìm thấy người dùng hiện tại",
+    "ONLY_ADMIN_CAN_RESET_PASSWORDS": "Chỉ quản trị viên mới có thể đặt lại mật khẩu",
+    "ONLY_ADMIN_CAN_UNLOCK_ACCOUNTS": "Chỉ quản trị viên mới có thể mở khóa tài khoản",
+    "USER_NOT_LOCKED": "Người dùng không bị khóa",
+    "NEWPASSWORD_MUST_NOT_BE_BLANK": "Mật khẩu mới không được để trống",
+    "USER_CREATED": "Tạo người dùng thành công"
+  }
+}
