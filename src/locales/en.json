@@ -5,5 +5,27 @@
   "settings": "Settings",
   "logout": "Logout",
   "home": "Home",
-  "welcome": "Welcome to WMS"
+  "welcome": "Welcome to WMS",
+  "unknown_error": "Something went wrong. Please try again",
+  "api": {
+    "INVALID_CREDENTIALS": "Invalid credentials",
+    "USER_INACTIVE": "User inactive",
+    "ACCOUNT_LOCKED": "Account locked",
+    "MISSING_STATUS_CODE": "Missing status code",
+    "USERNAME_MUST_NOT_BE_BLANK": "Username must not be blank",
+    "PASSWORD_MUST_NOT_BE_BLANK": "Password must not be blank",
+    "UNAUTHORIZED": "Unauthorized",
+    "USER_NOT_FOUND": "User not found",
+    "USERNAME_ALREADY_EXISTS": "Username already exists",
+    "ROLE_CODE_REQUIRED": "Role code required",
+    "INVALID_ROLE_CODE": "Invalid role code",
+    "INVALID_STATUS_CODE": "Invalid status code",
+    "ROLECODE_MUST_NOT_BE_BLANK": "Role code must not be blank",
+    "CURRENT_USER_NOT_FOUND": "Current user not found",
+    "ONLY_ADMIN_CAN_RESET_PASSWORDS": "Only admin can reset passwords",
+    "ONLY_ADMIN_CAN_UNLOCK_ACCOUNTS": "Only admin can unlock accounts",
+    "USER_NOT_LOCKED": "User is not locked",
+    "NEWPASSWORD_MUST_NOT_BE_BLANK": "New password must not be blank",
+    "USER_CREATED": "User created successfully"
+  }
 }
