@@ -6,7 +6,7 @@
   "logout": "Logout",
   "home": "Home",
   "welcome": "Welcome to WMS",
-  "unknownError": "Something went wrong. Please try again",
+  "unknown_error": "Something went wrong. Please try again",
   "api": {
     "INVALID_CREDENTIALS": "Invalid credentials",
     "USER_INACTIVE": "User inactive",
