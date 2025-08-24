@@ -6,6 +6,7 @@
   "logout": "Đăng xuất",
   "home": "Trang chủ",
   "welcome": "Chào mừng đến WMS",
+  "unknownError": "Đã xảy ra sự cố. Vui lòng thử lại",
   "api": {
     "INVALID_CREDENTIALS": "Thông tin đăng nhập không hợp lệ",
     "USER_INACTIVE": "Người dùng không hoạt động",
@@ -25,7 +26,6 @@
     "ONLY_ADMIN_CAN_UNLOCK_ACCOUNTS": "Chỉ quản trị viên mới có thể mở khóa tài khoản",
     "USER_NOT_LOCKED": "Người dùng không bị khóa",
     "NEWPASSWORD_MUST_NOT_BE_BLANK": "Mật khẩu mới không được để trống",
-    "USER_CREATED": "Tạo người dùng thành công",
-    "UNKNOWN_ERROR": "Đã xảy ra sự cố. Vui lòng thử lại"
+    "USER_CREATED": "Tạo người dùng thành công"
   }
 }

@@ -18,5 +18,5 @@ export const messageCodeMap: Record<string, string> = {
   USER_NOT_LOCKED: 'api.USER_NOT_LOCKED',
   NEWPASSWORD_MUST_NOT_BE_BLANK: 'api.NEWPASSWORD_MUST_NOT_BE_BLANK',
   USER_CREATED: 'api.USER_CREATED',
-  UNKNOWN_ERROR: 'api.UNKNOWN_ERROR',
+  UNKNOWN_ERROR: 'unknownError',
 };

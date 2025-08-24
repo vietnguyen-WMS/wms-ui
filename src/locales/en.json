@@ -6,6 +6,7 @@
   "logout": "Logout",
   "home": "Home",
   "welcome": "Welcome to WMS",
+  "unknownError": "Something went wrong. Please try again",
   "api": {
     "INVALID_CREDENTIALS": "Invalid credentials",
     "USER_INACTIVE": "User inactive",
@@ -25,7 +26,6 @@
     "ONLY_ADMIN_CAN_UNLOCK_ACCOUNTS": "Only admin can unlock accounts",
     "USER_NOT_LOCKED": "User is not locked",
     "NEWPASSWORD_MUST_NOT_BE_BLANK": "New password must not be blank",
-    "USER_CREATED": "User created successfully",
-    "UNKNOWN_ERROR": "Something went wrong. Please try again"
+    "USER_CREATED": "User created successfully"
   }
 }
