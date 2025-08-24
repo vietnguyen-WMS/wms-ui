@@ -2,10 +2,10 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import Button from './Button';
-import React from 'react';
+import { useState } from 'react';
 
 const ButtonWithCounter = () => {
-  const [count, setCount] = React.useState(0);
+  const [count, setCount] = useState(0);
 
   const handleClick = () => {
     setCount(count + 1);
