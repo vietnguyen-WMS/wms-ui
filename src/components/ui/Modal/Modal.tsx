@@ -39,7 +39,7 @@ const Modal: React.FC<ModalProps> & {
   ...rest
 }) => {
   const [isMounted, setIsMounted] = useState(isOpen);
-  const [isClosing, setIsClosing] = useState(false);
+  const [isVisible, setIsVisible] = useState(isOpen);
   const portalRef = useRef<HTMLDivElement | null>(null);
 
   if (!portalRef.current && typeof document !== 'undefined') {
@@ -65,19 +65,11 @@ const Modal: React.FC<ModalProps> & {
   useEffect(() => {
     if (isOpen) {
       setIsMounted(true);
-      setIsClosing(false);
-      return;
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
     }
-
-    if (isMounted) {
-      setIsClosing(true);
-      const timer = window.setTimeout(() => {
-        setIsMounted(false);
-        setIsClosing(false);
-      }, 300);
-      return () => window.clearTimeout(timer);
-    }
-  }, [isOpen, isMounted]);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -98,7 +90,7 @@ const Modal: React.FC<ModalProps> & {
     size === 'cover' ? 'p-10' : size === 'full' ? 'p-0' : 'px-4 py-6',
     {
       'overflow-y-auto': scrollBehavior === 'outside',
-      'pointer-events-none': !isOpen,
+      'pointer-events-none': !isVisible,
     }
   );
 
@@ -108,18 +100,24 @@ const Modal: React.FC<ModalProps> & {
     {
       'max-h-full overflow-y-auto': scrollBehavior === 'inside',
     },
-    isClosing ? 'modal-close' : 'modal-open',
+    isVisible ? 'modal-open' : 'modal-close',
     className
   );
 
   const overlayClasses = clsx(
     'fixed inset-0 bg-black/50',
-    isClosing ? 'modal-overlay-close' : 'modal-overlay-open'
+    isVisible ? 'modal-overlay-open' : 'modal-overlay-close'
   );
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
+    }
+  };
+
+  const handleAnimationEnd = () => {
+    if (!isVisible) {
+      setIsMounted(false);
     }
   };
 
@@ -138,6 +136,7 @@ const Modal: React.FC<ModalProps> & {
           role="dialog"
           aria-modal="true"
           data-testid="modal-content"
+          onAnimationEnd={handleAnimationEnd}
         >
           <button
             type="button"

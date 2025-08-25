@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import Modal from './Modal';
@@ -105,5 +105,26 @@ describe('Modal', () => {
     const content = screen.getByTestId('modal-content');
     expect(container).toHaveClass('p-0');
     expect(content).toHaveClass('w-full', 'h-full');
+  });
+
+  it('unmounts after close animation ends', () => {
+    const { rerender } = render(
+      <Modal isOpen onClose={() => {}}>
+        <Modal.Body>Animated close</Modal.Body>
+      </Modal>
+    );
+
+    rerender(
+      <Modal isOpen={false} onClose={() => {}}>
+        <Modal.Body>Animated close</Modal.Body>
+      </Modal>
+    );
+
+    const content = screen.getByTestId('modal-content');
+    expect(content).toBeInTheDocument();
+
+    fireEvent.animationEnd(content);
+
+    expect(screen.queryByTestId('modal-content')).not.toBeInTheDocument();
   });
 });
