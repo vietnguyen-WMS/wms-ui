@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { ToastContainer } from '@components/ui/Toast';
 
 describe('Home', () => {
