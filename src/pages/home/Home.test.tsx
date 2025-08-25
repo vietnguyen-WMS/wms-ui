@@ -27,4 +27,13 @@ describe('Home', () => {
     expect(screen.getByText('Welcome home 1')).toBeInTheDocument();
     expect(screen.getByText('Welcome home 2')).toBeInTheDocument();
   });
+
+  it('opens cover modal when show modal button clicked', async () => {
+    const { default: Home } = await import('./Home');
+    render(<Home />);
+    const user = userEvent.setup();
+    const button = screen.getByRole('button', { name: /show modal/i });
+    await user.click(button);
+    expect(screen.getByText('Cover Modal')).toBeInTheDocument();
+  });
 });
