@@ -32,8 +32,9 @@ const Modal: React.FC<ModalProps> & {
   isOpen,
   onClose,
   size = 'md',
-  placement = 'top',
+  placement = 'center',
   scrollBehavior = 'outside',
+  disableClickBackdrop = false,
   children,
   className,
   ...rest
@@ -95,7 +96,7 @@ const Modal: React.FC<ModalProps> & {
   );
 
   const contentClasses = clsx(
-    'bg-white rounded shadow-lg pointer-events-auto relative',
+    'bg-white rounded shadow-lg pointer-events-auto relative w-full',
     sizeClasses[size],
     {
       'max-h-full overflow-y-auto': scrollBehavior === 'inside',
@@ -110,7 +111,7 @@ const Modal: React.FC<ModalProps> & {
   );
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
+    if (!disableClickBackdrop && e.target === e.currentTarget) {
       onClose();
     }
   };
@@ -142,7 +143,7 @@ const Modal: React.FC<ModalProps> & {
             type="button"
             aria-label="Close"
             onClick={onClose}
-            className="absolute top-2 right-2 w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 cursor-pointer"
+            className="absolute top-2 right-2 w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full cursor-pointer"
             data-testid="modal-close"
           >
             <i className="fa-solid fa-xmark" />

@@ -11,6 +11,8 @@ describe('Modal', () => {
       </Modal>
     );
     expect(screen.getByText('Content')).toBeInTheDocument();
+    expect(screen.getByTestId('modal-content')).toHaveClass('w-full');
+    expect(screen.getByTestId('modal-container')).toHaveClass('items-center');
   });
 
   it('does not render when closed', () => {
@@ -33,6 +35,19 @@ describe('Modal', () => {
     const overlay = screen.getByTestId('modal-overlay');
     await user.click(overlay);
     expect(onClose).toHaveBeenCalled();
+  });
+
+  it('does not close when disableClickBackdrop is true', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    render(
+      <Modal isOpen onClose={onClose} disableClickBackdrop>
+        <Modal.Body>Overlay disabled</Modal.Body>
+      </Modal>
+    );
+    const overlay = screen.getByTestId('modal-overlay');
+    await user.click(overlay);
+    expect(onClose).not.toHaveBeenCalled();
   });
 
   it('calls onClose when ESC key pressed', async () => {

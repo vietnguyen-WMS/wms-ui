@@ -10,4 +10,5 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: ModalSize;
   placement?: ModalPlacement;
   scrollBehavior?: ModalScrollBehavior;
+  disableClickBackdrop?: boolean;
 }
