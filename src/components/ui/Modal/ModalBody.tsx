@@ -7,7 +7,7 @@ const ModalBody: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...rest
 }) => {
   return (
-    <div className={clsx('px-4 py-2', className)} {...rest}>
+    <div className={clsx('flex-1 px-4 py-2 overflow-y-auto', className)} {...rest}>
       {children}
     </div>
   );

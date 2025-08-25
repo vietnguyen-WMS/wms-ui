@@ -82,7 +82,23 @@ describe('Modal', () => {
       </Modal>
     );
     const closeButton = screen.getByTestId('modal-close');
-    expect(closeButton).toHaveClass('w-9', 'h-9', 'top-2', 'right-2');
+    expect(closeButton).toHaveClass('w-9', 'h-9', 'top-2', 'right-2', 'rounded-md');
+  });
+
+  it('places footer at bottom with actions aligned right', () => {
+    render(
+      <Modal isOpen onClose={() => {}}>
+        <Modal.Header>Header</Modal.Header>
+        <Modal.Body>Body</Modal.Body>
+        <Modal.Footer>
+          <button type="button">Action</button>
+        </Modal.Footer>
+      </Modal>
+    );
+    const body = screen.getByText('Body');
+    const footer = screen.getByText('Action').parentElement;
+    expect(body).toHaveClass('flex-1');
+    expect(footer).toHaveClass('mt-auto', 'flex', 'justify-end');
   });
 
   it('renders content inside portal root', () => {

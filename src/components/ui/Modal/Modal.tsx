@@ -96,7 +96,7 @@ const Modal: React.FC<ModalProps> & {
   );
 
   const contentClasses = clsx(
-    'bg-white rounded shadow-lg pointer-events-auto relative w-full',
+    'bg-white rounded shadow-lg pointer-events-auto relative w-full flex flex-col',
     sizeClasses[size],
     {
       'max-h-full overflow-y-auto': scrollBehavior === 'inside',
@@ -143,7 +143,7 @@ const Modal: React.FC<ModalProps> & {
             type="button"
             aria-label="Close"
             onClick={onClose}
-            className="absolute top-2 right-2 w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full cursor-pointer"
+            className="absolute top-2 right-2 w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md cursor-pointer"
             data-testid="modal-close"
           >
             <i className="fa-solid fa-xmark" />
