@@ -47,6 +47,19 @@ describe('Modal', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
+  it('calls onClose when close icon clicked', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    render(
+      <Modal isOpen onClose={onClose}>
+        <Modal.Body>Close icon</Modal.Body>
+      </Modal>
+    );
+    const closeButton = screen.getByRole('button', { name: /close/i });
+    await user.click(closeButton);
+    expect(onClose).toHaveBeenCalled();
+  });
+
   it('renders content inside portal root', () => {
     render(
       <Modal isOpen onClose={() => {}}>
@@ -67,8 +80,20 @@ describe('Modal', () => {
     const container = screen.getByTestId('modal-container');
     const content = screen.getByTestId('modal-content');
     const overlay = screen.getByTestId('modal-overlay');
-    expect(container).toHaveClass('pt-0', 'pb-10', 'px-10', 'items-center');
+    expect(container).toHaveClass('p-10', 'items-center');
     expect(content).toHaveClass('w-full', 'h-full');
     expect(overlay).toHaveClass('bg-black/50');
+  });
+
+  it('applies full size without padding', () => {
+    render(
+      <Modal isOpen onClose={() => {}} size="full">
+        <Modal.Body>Full</Modal.Body>
+      </Modal>
+    );
+    const container = screen.getByTestId('modal-container');
+    const content = screen.getByTestId('modal-content');
+    expect(container).toHaveClass('p-0');
+    expect(content).toHaveClass('w-full', 'h-full');
   });
 });

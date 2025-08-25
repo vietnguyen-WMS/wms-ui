@@ -83,8 +83,10 @@ const Modal: React.FC<ModalProps> & {
 
   const containerClasses = clsx(
     'absolute inset-0 flex justify-center',
-    size === 'cover' ? 'items-center' : placementClasses[placement],
-    size === 'cover' ? 'pt-0 pb-10 px-10' : 'px-4 py-6',
+    size === 'cover' || size === 'full'
+      ? 'items-center'
+      : placementClasses[placement],
+    size === 'cover' ? 'p-10' : size === 'full' ? 'p-0' : 'px-4 py-6',
     {
       'overflow-y-auto': scrollBehavior === 'outside',
       'pointer-events-none': !isOpen,
@@ -92,7 +94,7 @@ const Modal: React.FC<ModalProps> & {
   );
 
   const contentClasses = clsx(
-    'bg-white rounded shadow-lg transition-all duration-300 pointer-events-auto',
+    'bg-white rounded shadow-lg transition-all duration-300 pointer-events-auto relative',
     sizeClasses[size],
     {
       'max-h-full overflow-y-auto': scrollBehavior === 'inside',
@@ -128,6 +130,15 @@ const Modal: React.FC<ModalProps> & {
           aria-modal="true"
           data-testid="modal-content"
         >
+          <button
+            type="button"
+            aria-label="Close"
+            onClick={onClose}
+            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            data-testid="modal-close"
+          >
+            <i className="fa-solid fa-xmark" />
+          </button>
           {children}
         </div>
       </div>
