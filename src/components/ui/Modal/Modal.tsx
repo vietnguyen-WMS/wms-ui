@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import type { ModalProps, ModalSize, ModalPlacement } from './Modal.types';
@@ -6,6 +6,7 @@ import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalBody from './ModalBody';
 import ModalFooter from './ModalFooter';
+import { useAnimatedUnmount } from '@/hooks';
 
 const sizeClasses: Record<ModalSize, string> = {
   xs: 'max-w-xs',
@@ -39,8 +40,7 @@ const Modal: React.FC<ModalProps> & {
   className,
   ...rest
 }) => {
-  const [isMounted, setIsMounted] = useState(isOpen);
-  const [isVisible, setIsVisible] = useState(isOpen);
+  const { isMounted, isVisible, handleAnimationEnd } = useAnimatedUnmount(isOpen);
   const portalRef = useRef<HTMLDivElement | null>(null);
 
   if (!portalRef.current && typeof document !== 'undefined') {
@@ -62,15 +62,6 @@ const Modal: React.FC<ModalProps> & {
       root.removeChild(el);
     };
   }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      setIsMounted(true);
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -113,12 +104,6 @@ const Modal: React.FC<ModalProps> & {
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!disableClickBackdrop && e.target === e.currentTarget) {
       onClose();
-    }
-  };
-
-  const handleAnimationEnd = () => {
-    if (!isVisible) {
-      setIsMounted(false);
     }
   };
 
