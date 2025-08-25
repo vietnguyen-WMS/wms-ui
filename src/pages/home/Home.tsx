@@ -10,7 +10,10 @@ const Home = () => {
 
   const handleShowToast = () => {
     counterRef.current += 1;
-    showToast({ type: 'success', message: t('welcome_home', { count: counterRef.current }) });
+    showToast({
+      type: 'success',
+      message: t('welcome_home', { count: counterRef.current }),
+    });
   };
 
   return (
