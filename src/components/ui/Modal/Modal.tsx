@@ -39,7 +39,7 @@ const Modal: React.FC<ModalProps> & {
   ...rest
 }) => {
   const [isMounted, setIsMounted] = useState(isOpen);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const portalRef = useRef<HTMLDivElement | null>(null);
 
   if (!portalRef.current && typeof document !== 'undefined') {
@@ -63,22 +63,21 @@ const Modal: React.FC<ModalProps> & {
   }, []);
 
   useEffect(() => {
-    let openTimer: number | undefined;
-    let closeTimer: number | undefined;
-
     if (isOpen) {
       setIsMounted(true);
-      openTimer = window.setTimeout(() => setIsVisible(true), 0);
-    } else {
-      setIsVisible(false);
-      closeTimer = window.setTimeout(() => setIsMounted(false), 300);
+      setIsClosing(false);
+      return;
     }
 
-    return () => {
-      if (openTimer) window.clearTimeout(openTimer);
-      if (closeTimer) window.clearTimeout(closeTimer);
-    };
-  }, [isOpen]);
+    if (isMounted) {
+      setIsClosing(true);
+      const timer = window.setTimeout(() => {
+        setIsMounted(false);
+        setIsClosing(false);
+      }, 300);
+      return () => window.clearTimeout(timer);
+    }
+  }, [isOpen, isMounted]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -104,18 +103,18 @@ const Modal: React.FC<ModalProps> & {
   );
 
   const contentClasses = clsx(
-    'bg-white rounded shadow-lg transition-all duration-300 pointer-events-auto relative',
+    'bg-white rounded shadow-lg pointer-events-auto relative',
     sizeClasses[size],
     {
       'max-h-full overflow-y-auto': scrollBehavior === 'inside',
     },
-    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4',
+    isClosing ? 'modal-close' : 'modal-open',
     className
   );
 
   const overlayClasses = clsx(
-    'fixed inset-0 bg-black/50 transition-opacity duration-300',
-    isVisible ? 'opacity-100' : 'opacity-0'
+    'fixed inset-0 bg-black/50',
+    isClosing ? 'modal-overlay-close' : 'modal-overlay-open'
   );
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
