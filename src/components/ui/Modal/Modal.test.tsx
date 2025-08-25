@@ -58,7 +58,7 @@ describe('Modal', () => {
     expect(modalRoot?.querySelector('[data-testid="modal-content"]')).toBeInTheDocument();
   });
 
-  it('applies cover size padding and dimensions', () => {
+  it('applies cover size padding, dimensions, and centered placement', () => {
     render(
       <Modal isOpen onClose={() => {}} size="cover">
         <Modal.Body>Cover</Modal.Body>
@@ -66,7 +66,9 @@ describe('Modal', () => {
     );
     const container = screen.getByTestId('modal-container');
     const content = screen.getByTestId('modal-content');
-    expect(container).toHaveClass('pt-0', 'pb-10', 'px-10');
+    const overlay = screen.getByTestId('modal-overlay');
+    expect(container).toHaveClass('pt-0', 'pb-10', 'px-10', 'items-center');
     expect(content).toHaveClass('w-full', 'h-full');
+    expect(overlay).toHaveClass('bg-black/50');
   });
 });

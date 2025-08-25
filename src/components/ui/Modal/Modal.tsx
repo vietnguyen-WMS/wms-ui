@@ -83,7 +83,7 @@ const Modal: React.FC<ModalProps> & {
 
   const containerClasses = clsx(
     'absolute inset-0 flex justify-center',
-    placementClasses[placement],
+    size === 'cover' ? 'items-center' : placementClasses[placement],
     size === 'cover' ? 'pt-0 pb-10 px-10' : 'px-4 py-6',
     {
       'overflow-y-auto': scrollBehavior === 'outside',
@@ -102,7 +102,7 @@ const Modal: React.FC<ModalProps> & {
   );
 
   const overlayClasses = clsx(
-    'fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300',
+    'fixed inset-0 bg-black/50 transition-opacity duration-300',
     isOpen ? 'opacity-100' : 'opacity-0'
   );
 
