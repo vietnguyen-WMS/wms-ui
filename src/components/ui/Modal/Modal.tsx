@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import type { ModalProps, ModalSize, ModalPlacement } from './Modal.types';
 import ModalHeader from './ModalHeader';
@@ -38,6 +39,27 @@ const Modal: React.FC<ModalProps> & {
   ...rest
 }) => {
   const [isMounted, setIsMounted] = useState(isOpen);
+  const portalRef = useRef<HTMLDivElement | null>(null);
+
+  if (!portalRef.current && typeof document !== 'undefined') {
+    portalRef.current = document.createElement('div');
+  }
+
+  useEffect(() => {
+    const root =
+      document.getElementById('modal-root') ||
+      (() => {
+        const el = document.createElement('div');
+        el.setAttribute('id', 'modal-root');
+        document.body.appendChild(el);
+        return el;
+      })();
+    const el = portalRef.current!;
+    root.appendChild(el);
+    return () => {
+      root.removeChild(el);
+    };
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -49,19 +71,20 @@ const Modal: React.FC<ModalProps> & {
   }, [isOpen]);
 
   useEffect(() => {
+    if (!isOpen) return;
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
-  }, [onClose]);
+  }, [isOpen, onClose]);
 
   if (!isMounted) return null;
 
   const containerClasses = clsx(
     'absolute inset-0 flex justify-center',
     placementClasses[placement],
-    size === 'cover' ? 'p-8' : 'px-4 py-6',
+    size === 'cover' ? 'pt-0 pb-10 px-10' : 'px-4 py-6',
     {
       'overflow-y-auto': scrollBehavior === 'outside',
       'pointer-events-none': !isOpen,
@@ -89,7 +112,9 @@ const Modal: React.FC<ModalProps> & {
     }
   };
 
-  return (
+  if (!isMounted || !portalRef.current) return null;
+
+  const modal = (
     <div className="fixed inset-0 z-50" {...rest}>
       <div
         className={overlayClasses}
@@ -97,12 +122,19 @@ const Modal: React.FC<ModalProps> & {
         data-testid="modal-overlay"
       />
       <div className={containerClasses} data-testid="modal-container">
-        <div className={contentClasses} data-testid="modal-content">
+        <div
+          className={contentClasses}
+          role="dialog"
+          aria-modal="true"
+          data-testid="modal-content"
+        >
           {children}
         </div>
       </div>
     </div>
   );
+
+  return createPortal(modal, portalRef.current);
 };
 
 Modal.Header = ModalHeader;

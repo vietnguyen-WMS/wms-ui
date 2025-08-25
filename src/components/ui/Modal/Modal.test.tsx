@@ -35,6 +35,29 @@ describe('Modal', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
+  it('calls onClose when ESC key pressed', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    render(
+      <Modal isOpen onClose={onClose}>
+        <Modal.Body>ESC test</Modal.Body>
+      </Modal>
+    );
+    await user.keyboard('{Escape}');
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it('renders content inside portal root', () => {
+    render(
+      <Modal isOpen onClose={() => {}}>
+        <Modal.Body>Portal</Modal.Body>
+      </Modal>
+    );
+    const modalRoot = document.getElementById('modal-root');
+    expect(modalRoot).toBeInTheDocument();
+    expect(modalRoot?.querySelector('[data-testid="modal-content"]')).toBeInTheDocument();
+  });
+
   it('applies cover size padding and dimensions', () => {
     render(
       <Modal isOpen onClose={() => {}} size="cover">
@@ -43,7 +66,7 @@ describe('Modal', () => {
     );
     const container = screen.getByTestId('modal-container');
     const content = screen.getByTestId('modal-content');
-    expect(container).toHaveClass('p-8');
+    expect(container).toHaveClass('pt-0', 'pb-10', 'px-10');
     expect(content).toHaveClass('w-full', 'h-full');
   });
 });
