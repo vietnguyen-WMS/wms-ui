@@ -73,6 +73,78 @@
     }
   }
 
+  @keyframes drawer-open-start {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes drawer-close-start {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes drawer-open-end {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes drawer-close-end {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes drawer-open-top {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes drawer-close-top {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-100%);
+    }
+  }
+
+  @keyframes drawer-open-bottom {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes drawer-close-bottom {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+
   .modal-open {
     animation: modal-open 0.15s ease-out forwards;
   }
@@ -87,5 +159,37 @@
 
   .modal-overlay-close {
     animation: modal-overlay-close 0.15s ease-in forwards;
+  }
+
+  .drawer-open-start {
+    animation: drawer-open-start 0.15s ease-out forwards;
+  }
+
+  .drawer-close-start {
+    animation: drawer-close-start 0.15s ease-in forwards;
+  }
+
+  .drawer-open-end {
+    animation: drawer-open-end 0.15s ease-out forwards;
+  }
+
+  .drawer-close-end {
+    animation: drawer-close-end 0.15s ease-in forwards;
+  }
+
+  .drawer-open-top {
+    animation: drawer-open-top 0.15s ease-out forwards;
+  }
+
+  .drawer-close-top {
+    animation: drawer-close-top 0.15s ease-in forwards;
+  }
+
+  .drawer-open-bottom {
+    animation: drawer-open-bottom 0.15s ease-out forwards;
+  }
+
+  .drawer-close-bottom {
+    animation: drawer-close-bottom 0.15s ease-in forwards;
   }
 }
