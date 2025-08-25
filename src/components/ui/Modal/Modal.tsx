@@ -39,6 +39,7 @@ const Modal: React.FC<ModalProps> & {
   ...rest
 }) => {
   const [isMounted, setIsMounted] = useState(isOpen);
+  const [isVisible, setIsVisible] = useState(false);
   const portalRef = useRef<HTMLDivElement | null>(null);
 
   if (!portalRef.current && typeof document !== 'undefined') {
@@ -62,12 +63,21 @@ const Modal: React.FC<ModalProps> & {
   }, []);
 
   useEffect(() => {
+    let openTimer: number | undefined;
+    let closeTimer: number | undefined;
+
     if (isOpen) {
       setIsMounted(true);
+      openTimer = window.setTimeout(() => setIsVisible(true), 0);
     } else {
-      const timer = setTimeout(() => setIsMounted(false), 300);
-      return () => clearTimeout(timer);
+      setIsVisible(false);
+      closeTimer = window.setTimeout(() => setIsMounted(false), 300);
     }
+
+    return () => {
+      if (openTimer) window.clearTimeout(openTimer);
+      if (closeTimer) window.clearTimeout(closeTimer);
+    };
   }, [isOpen]);
 
   useEffect(() => {
@@ -99,13 +109,13 @@ const Modal: React.FC<ModalProps> & {
     {
       'max-h-full overflow-y-auto': scrollBehavior === 'inside',
     },
-    isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4',
+    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4',
     className
   );
 
   const overlayClasses = clsx(
     'fixed inset-0 bg-black/50 transition-opacity duration-300',
-    isOpen ? 'opacity-100' : 'opacity-0'
+    isVisible ? 'opacity-100' : 'opacity-0'
   );
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -134,7 +144,7 @@ const Modal: React.FC<ModalProps> & {
             type="button"
             aria-label="Close"
             onClick={onClose}
-            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            className="absolute top-2 right-2 w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 cursor-pointer"
             data-testid="modal-close"
           >
             <i className="fa-solid fa-xmark" />

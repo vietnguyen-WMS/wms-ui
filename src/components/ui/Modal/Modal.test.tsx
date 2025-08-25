@@ -60,6 +60,16 @@ describe('Modal', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
+  it('renders a touch-friendly close button', () => {
+    render(
+      <Modal isOpen onClose={() => {}}>
+        <Modal.Body>Close button size</Modal.Body>
+      </Modal>
+    );
+    const closeButton = screen.getByTestId('modal-close');
+    expect(closeButton).toHaveClass('w-9', 'h-9', 'top-2', 'right-2');
+  });
+
   it('renders content inside portal root', () => {
     render(
       <Modal isOpen onClose={() => {}}>
