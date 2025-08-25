@@ -1,8 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import axios from 'axios';
-
 const mockNavigate = vi.fn();
 
 vi.mock('react-router-dom', async () => {
@@ -21,6 +19,11 @@ vi.mock('@/stores', () => ({
   }),
 }));
 
+vi.mock('@services/api', () => ({
+  default: { post: vi.fn() },
+}));
+
+import api from '@services/api';
 import { MemoryRouter } from 'react-router-dom';
 import Login from './Login';
 
@@ -73,7 +76,7 @@ describe('Login', () => {
   });
 
   it('login successfully with valid credentials', async () => {
-    vi.spyOn(axios, 'post').mockResolvedValueOnce({
+    (api.post as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       status: 200,
       data: { username: 'viet' },
     });

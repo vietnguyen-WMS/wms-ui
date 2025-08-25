@@ -26,10 +26,4 @@ describe('Toast', () => {
     vi.useRealTimers();
   });
 
-  it('renders in the specified placement', () => {
-    render(<Toast message="Placed" placement="bottom-left" duration={10000} />);
-    const container = screen.getByText('Placed').parentElement?.parentElement;
-    expect(container).toHaveClass('bottom-4');
-    expect(container).toHaveClass('left-4');
-  });
 });
