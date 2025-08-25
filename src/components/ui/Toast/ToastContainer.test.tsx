@@ -1,16 +1,17 @@
 import { render, screen, cleanup, act, within } from '@testing-library/react';
-import { afterEach, describe, it, expect } from 'vitest';
-import { ToastContainer } from '.';
-import { useToastStore } from '@/stores';
-import { MAX_VISIBLE_TOASTS } from '@/constants';
+import { afterEach, describe, it, expect, vi } from 'vitest';
 
 describe('ToastContainer', () => {
   afterEach(() => {
     cleanup();
-    useToastStore.setState({ toasts: [] });
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
-  it('limits visible toasts', () => {
+  it('limits visible toasts when enabled', async () => {
+    const { ToastContainer } = await import('.');
+    const { useToastStore } = await import('@/stores');
+    const { MAX_VISIBLE_TOASTS } = await import('@/constants');
     const { showToast } = useToastStore.getState();
     act(() => {
       for (let i = 0; i < MAX_VISIBLE_TOASTS + 2; i++) {
@@ -21,11 +22,40 @@ describe('ToastContainer', () => {
     render(<ToastContainer />);
 
     expect(screen.getAllByLabelText('close-toast').length).toBe(
-      MAX_VISIBLE_TOASTS
+      MAX_VISIBLE_TOASTS,
     );
   });
 
-  it('stacks toasts vertically', () => {
+  it('renders all toasts when limit disabled', async () => {
+    vi.doMock('@/constants', async () => {
+      const actual = await vi.importActual<typeof import('@/constants')>(
+        '@/constants',
+      );
+      return {
+        ...actual,
+        LIMITED_TOAST_NUMBER: false,
+      };
+    });
+    const { ToastContainer } = await import('.');
+    const { useToastStore } = await import('@/stores');
+    const { MAX_VISIBLE_TOASTS } = await import('@/constants');
+    const { showToast } = useToastStore.getState();
+    act(() => {
+      for (let i = 0; i < MAX_VISIBLE_TOASTS + 2; i++) {
+        showToast({ message: `Toast ${i}` });
+      }
+    });
+
+    render(<ToastContainer />);
+
+    expect(screen.getAllByLabelText('close-toast').length).toBe(
+      MAX_VISIBLE_TOASTS + 2,
+    );
+  });
+
+  it('stacks toasts vertically', async () => {
+    const { ToastContainer } = await import('.');
+    const { useToastStore } = await import('@/stores');
     const { showToast } = useToastStore.getState();
     act(() => {
       showToast({ message: 'First' });
@@ -40,4 +70,3 @@ describe('ToastContainer', () => {
     expect(messages[1].textContent).toBe('Second');
   });
 });
-

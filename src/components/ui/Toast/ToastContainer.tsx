@@ -1,5 +1,5 @@
 import { useToastStore } from '@/stores';
-import { MAX_VISIBLE_TOASTS } from '@/constants';
+import { MAX_VISIBLE_TOASTS, LIMITED_TOAST_NUMBER } from '@/constants';
 import Toast from './Toast';
 import type { ToastPlacement } from './Toast.types';
 
@@ -12,7 +12,10 @@ const placementClasses: Record<ToastPlacement, string> = {
 
 const ToastContainer = () => {
   const { toasts, removeToast } = useToastStore();
-  const grouped = toasts.slice(0, MAX_VISIBLE_TOASTS).reduce<Record<ToastPlacement, typeof toasts>>((acc, toast) => {
+  const visibleToasts = LIMITED_TOAST_NUMBER
+    ? toasts.slice(0, MAX_VISIBLE_TOASTS)
+    : toasts;
+  const grouped = visibleToasts.reduce<Record<ToastPlacement, typeof toasts>>((acc, toast) => {
     (acc[toast.placement] ||= []).push(toast);
     return acc;
   }, {} as Record<ToastPlacement, typeof toasts>);
