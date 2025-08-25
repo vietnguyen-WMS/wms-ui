@@ -69,4 +69,19 @@ describe('ToastContainer', () => {
     expect(messages[0].textContent).toBe('First');
     expect(messages[1].textContent).toBe('Second');
   });
+
+  it('uses a scrollable container without visible scrollbar', async () => {
+    const { ToastContainer } = await import('.');
+    const { useToastStore } = await import('@/stores');
+    const { showToast } = useToastStore.getState();
+    act(() => {
+      showToast({ message: 'Overflow' });
+    });
+
+    render(<ToastContainer />);
+
+    const group = screen.getByTestId('toast-group-top-right');
+    expect(group.classList.contains('overflow-y-auto')).toBe(true);
+    expect(group.classList.contains('no-scrollbar')).toBe(true);
+  });
 });

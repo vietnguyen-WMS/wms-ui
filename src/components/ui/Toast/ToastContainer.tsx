@@ -3,11 +3,14 @@ import { MAX_VISIBLE_TOASTS, LIMITED_TOAST_NUMBER } from '@/constants';
 import Toast from './Toast';
 import type { ToastPlacement } from './Toast.types';
 
+const baseClasses =
+  'flex flex-col space-y-2 overflow-y-auto no-scrollbar max-h-[calc(100vh-2rem)]';
+
 const placementClasses: Record<ToastPlacement, string> = {
-  'top-right': 'fixed top-4 right-4 flex flex-col items-end space-y-2',
-  'top-left': 'fixed top-4 left-4 flex flex-col items-start space-y-2',
-  'bottom-right': 'fixed bottom-4 right-4 flex flex-col items-end space-y-2',
-  'bottom-left': 'fixed bottom-4 left-4 flex flex-col items-start space-y-2',
+  'top-right': `fixed top-4 right-4 items-end ${baseClasses}`,
+  'top-left': `fixed top-4 left-4 items-start ${baseClasses}`,
+  'bottom-right': `fixed bottom-4 right-4 items-end ${baseClasses}`,
+  'bottom-left': `fixed bottom-4 left-4 items-start ${baseClasses}`,
 };
 
 const ToastContainer = () => {
