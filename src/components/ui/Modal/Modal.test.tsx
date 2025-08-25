@@ -24,7 +24,7 @@ describe('Modal', () => {
     expect(screen.queryByText('Hidden')).not.toBeInTheDocument();
   });
 
-  it('calls onClose when overlay clicked', async () => {
+  it('calls onClose when backdrop clicked', async () => {
     const user = userEvent.setup();
     const onClose = vi.fn();
     render(
@@ -32,8 +32,8 @@ describe('Modal', () => {
         <Modal.Body>Overlay test</Modal.Body>
       </Modal>
     );
-    const overlay = screen.getByTestId('modal-overlay');
-    await user.click(overlay);
+    const container = screen.getByTestId('modal-container');
+    await user.click(container);
     expect(onClose).toHaveBeenCalled();
   });
 
@@ -45,8 +45,8 @@ describe('Modal', () => {
         <Modal.Body>Overlay disabled</Modal.Body>
       </Modal>
     );
-    const overlay = screen.getByTestId('modal-overlay');
-    await user.click(overlay);
+    const container = screen.getByTestId('modal-container');
+    await user.click(container);
     expect(onClose).not.toHaveBeenCalled();
   });
 

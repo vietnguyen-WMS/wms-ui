@@ -110,7 +110,7 @@ const Modal: React.FC<ModalProps> & {
     isVisible ? 'modal-overlay-open' : 'modal-overlay-close'
   );
 
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!disableClickBackdrop && e.target === e.currentTarget) {
       onClose();
     }
@@ -126,12 +126,12 @@ const Modal: React.FC<ModalProps> & {
 
   const modal = (
     <div className="fixed inset-0 z-50" {...rest}>
+      <div className={overlayClasses} data-testid="modal-overlay" />
       <div
-        className={overlayClasses}
-        onMouseDown={handleOverlayClick}
-        data-testid="modal-overlay"
-      />
-      <div className={containerClasses} data-testid="modal-container">
+        className={containerClasses}
+        data-testid="modal-container"
+        onMouseDown={handleBackdropClick}
+      >
         <div
           className={contentClasses}
           role="dialog"
