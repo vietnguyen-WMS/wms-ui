@@ -7,6 +7,10 @@
   "home": "Trang chủ",
   "welcome": "Chào mừng đến WMS",
   "show_toast": "Hiển thị thông báo",
+  "show_modal": "Hiển thị Modal",
+  "modal_title": "Modal Cover",
+  "modal_content": "Đây là modal cover",
+  "close": "Đóng",
   "welcome_home": "Chào mừng về nhà {{count}}",
   "unknown_error": "Đã xảy ra sự cố. Vui lòng thử lại",
   "api": {

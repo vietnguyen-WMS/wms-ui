@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import type { ToastProps, ToastType } from './Toast.types';
+import { useAnimatedUnmount } from '@/hooks';
 
 const typeClasses: Record<ToastType, string> = {
   success: 'bg-green-500 text-white',
@@ -22,27 +23,13 @@ const Toast: React.FC<ToastProps> = ({
   duration = 5000,
   onClose,
 }) => {
-  const [isOpen, setIsOpen] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
+  const [open, setOpen] = useState(true);
+  const { isMounted, isVisible, handleAnimationEnd } = useAnimatedUnmount(open);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      handleClose();
-    }, duration);
+  const handleAutoClose = () => setOpen(false);
+  const handleClose = () => setOpen(false);
 
-    setIsVisible(true);
-    return () => clearTimeout(timer);
-  }, [duration]);
-
-  const handleClose = () => {
-    setIsVisible(false);
-    setTimeout(() => {
-      setIsOpen(false);
-      onClose?.();
-    }, 300);
-  };
-
-  if (!isOpen) return null;
+  if (!isMounted) return null;
 
   return (
     <div
@@ -50,6 +37,12 @@ const Toast: React.FC<ToastProps> = ({
         'transition-all transform duration-300',
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
       )}
+      style={{ animation: `toast-life ${duration}ms linear forwards` }}
+      onAnimationEnd={handleAutoClose}
+      onTransitionEnd={() => {
+        handleAnimationEnd();
+        if (!isVisible) onClose?.();
+      }}
     >
       <div
         className={clsx(
