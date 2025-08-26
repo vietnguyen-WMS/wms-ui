@@ -13,7 +13,7 @@ const Home = () => {
     counterRef.current += 1;
     showToast({
       type: 'success',
-      message: t('welcome_home', { count: counterRef.current }),
+      message: `Welcome Home ${counterRef.current}`,
     });
   };
 
@@ -25,10 +25,10 @@ const Home = () => {
       <h1>{t('home')}</h1>
       <p>{t('welcome')}</p>
       <div className="space-x-2">
-        <Button onClick={handleShowToast}>{t('show_toast')}</Button>
-        <Button onClick={handleOpenModal}>{t('show_modal')}</Button>
+        <Button onClick={handleShowToast}>Show Toast</Button>
+        <Button onClick={handleOpenModal}>Show Modal</Button>
       </div>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} size="md">
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <Modal.Header>
           <Modal.Title>Modal Title</Modal.Title>
         </Modal.Header>

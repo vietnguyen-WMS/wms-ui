@@ -23,14 +23,15 @@ const heightClasses: Record<DrawerSize, string> = {
 const Drawer: React.FC<DrawerProps> = ({
   isOpen,
   onClose,
-  size = 'xs',
+  size = 'md',
   placement = 'end',
   disableClickBackdrop = false,
   children,
   className,
   ...rest
 }) => {
-  const { isMounted, isVisible, handleAnimationEnd } = useAnimatedUnmount(isOpen);
+  const { isMounted, isVisible, handleAnimationEnd } =
+    useAnimatedUnmount(isOpen);
   const portalRef = useRef<HTMLDivElement | null>(null);
 
   if (!portalRef.current && typeof document !== 'undefined') {
@@ -88,12 +89,12 @@ const Drawer: React.FC<DrawerProps> = ({
     'bg-white shadow-lg pointer-events-auto relative flex flex-col',
     sizeClass,
     animationClasses[placement],
-    className,
+    className
   );
 
   const overlayClasses = clsx(
     'fixed inset-0 bg-black/50',
-    isVisible ? 'modal-overlay-open' : 'modal-overlay-close',
+    isVisible ? 'modal-overlay-open' : 'modal-overlay-close'
   );
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {

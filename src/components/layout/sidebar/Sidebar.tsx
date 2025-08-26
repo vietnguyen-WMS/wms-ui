@@ -11,7 +11,12 @@ const Sidebar = () => {
             <h1 className="text-xl">WMS</h1>
           </div>
           <nav className="mt-6">
-            <ul className="space-y-2">
+            <ul className="space-y-1">
+              <li>
+                <Link to="/" className="block p-2 rounded hover:bg-slate-500">
+                  Home
+                </Link>
+              </li>
               <li>
                 <Link
                   to="/users"

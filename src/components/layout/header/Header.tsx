@@ -14,30 +14,26 @@ const Header = () => {
   return (
     <>
       <div className="px-3 h-12 flex items-center justify-end bg-gray-500">
-          <div className="flex items-center space-x-3">
-            <Dropdown>
-              <Dropdown.Trigger>
-                <span className="px-2 py-1 border rounded inline-block">
-                  {i18n.language.toUpperCase()}
-                </span>
-              </Dropdown.Trigger>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => changeLanguage('en')}>
-                  {t('english')}
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => changeLanguage('vi')}>
-                  {t('vietnamese')}
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+        <div className="flex items-center space-x-3">
           <Dropdown>
             <Dropdown.Trigger>
-              <div className="w-8 h-8 rounded-full overflow-hidden">
-                <img
-                  src={user?.avatar}
-                  alt={user?.username}
-                  className="w-full h-full object-cover"
-                />
+              <span className="px-2 py-1 border border-yellow-500 rounded inline-block">
+                {i18n.language.toUpperCase()}
+              </span>
+            </Dropdown.Trigger>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => changeLanguage('en')}>
+                {t('english')}
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => changeLanguage('vi')}>
+                {t('vietnamese')}
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <Dropdown>
+            <Dropdown.Trigger>
+              <div className="w-8 h-8 flex justify-center items-center border border-yellow-500 rounded-full overflow-hidden">
+                <i className="fa fa-user" />
               </div>
             </Dropdown.Trigger>
             <Dropdown.Menu>
@@ -48,12 +44,8 @@ const Header = () => {
                     className="block hover:bg-stone-200 rounded p-2"
                   >
                     <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 rounded-full overflow-hidden cursor-pointer">
-                        <img
-                          src={user?.avatar}
-                          alt={user?.username}
-                          className="w-full h-full object-cover"
-                        />
+                      <div className="w-8 h-8 flex justify-center items-center border border-yellow-500 rounded-full overflow-hidden cursor-pointer">
+                        <i className="fa fa-user" />
                       </div>
                       <p>{user?.username}</p>
                     </div>
