@@ -24,15 +24,17 @@ const Home = () => {
     <>
       <h1>{t('home')}</h1>
       <p>{t('welcome')}</p>
-      <Button onClick={handleShowToast}>{t('show_toast')}</Button>
-      <Button onClick={handleOpenModal}>{t('show_modal')}</Button>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} size="cover">
+      <div className="space-x-2">
+        <Button onClick={handleShowToast}>{t('show_toast')}</Button>
+        <Button onClick={handleOpenModal}>{t('show_modal')}</Button>
+      </div>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} size="md">
         <Modal.Header>
-          <Modal.Title>{t('modal_title')}</Modal.Title>
+          <Modal.Title>Modal Title</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{t('modal_content')}</Modal.Body>
+        <Modal.Body>This is a modal body</Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleCloseModal}>{t('close')}</Button>
+          <Button onClick={handleCloseModal}>Close</Button>
         </Modal.Footer>
       </Modal>
     </>

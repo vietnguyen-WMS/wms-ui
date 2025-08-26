@@ -6,12 +6,7 @@
   "logout": "Logout",
   "home": "Home",
   "welcome": "Welcome to WMS",
-  "show_toast": "Show Toast",
-  "show_modal": "Show Modal",
-  "modal_title": "Cover Modal",
-  "modal_content": "This is a cover modal",
   "close": "Close",
-  "welcome_home": "Welcome home {{count}}",
   "unknown_error": "Something went wrong. Please try again",
   "api": {
     "INVALID_CREDENTIALS": "Invalid credentials",
