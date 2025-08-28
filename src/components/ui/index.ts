@@ -6,6 +6,7 @@ import Modal from './Modal';
 import Drawer from './Drawer';
 import Accordion from './Accordion';
 import Checkbox from './Checkbox';
+import Table from './Table';
 
 export {
   Button,
@@ -16,4 +17,5 @@ export {
   Drawer,
   Accordion,
   Checkbox,
+  Table,
 };
