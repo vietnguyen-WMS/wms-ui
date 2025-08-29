@@ -235,9 +235,9 @@ const Table: React.FC<TableProps> = ({
         {/* Right: Filter */}
         <Dropdown>
           <Dropdown.Trigger>
-            <Button variant="secondary" size="sm">
+            <div className="px-2 py-1 bg-gray-500 hover:bg-gray-400 text-white rounded cursor-pointer">
               <i className="fa-solid fa-filter" />
-            </Button>
+            </div>
           </Dropdown.Trigger>
           <Dropdown.Menu>
             <div className="p-3 flex flex-col gap-2 min-w-[250px]">
