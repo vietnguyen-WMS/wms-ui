@@ -62,7 +62,7 @@ const Users = () => {
   const usersTableConfig: TableConfig = {
     title: 'Users',
     source: {
-      api: API.GET_USERS,
+      api: API.VIEWS,
       schema: 'ums',
       table: 'USERS_VIEW',
       defaultSorts: [{ field: 'id', asc: true }],

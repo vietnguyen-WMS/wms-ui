@@ -3,6 +3,9 @@ export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 export const API = {
   URL: API_URL,
 
+  // views
+  VIEWS: `${API_URL}/views`,
+
   // auth
   AUTH_LOGIN: `${API_URL}/auth/login`,
   AUTH_LOGOUT: `${API_URL}/auth/logout`,

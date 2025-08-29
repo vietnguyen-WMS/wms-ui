@@ -152,6 +152,11 @@ const Table: React.FC<TableProps> = ({
   const canPrev = page > 1;
   const canNext = page < totalPages;
 
+  const handleSearch = () => {
+    setPage(1);
+    fetchData();
+  };
+
   const handleApplyFilter = () => {
     setPage(1);
     fetchData();
@@ -167,8 +172,7 @@ const Table: React.FC<TableProps> = ({
     e
   ) => {
     if (e.key === 'Enter') {
-      setPage(1);
-      fetchData();
+      handleSearch();
     }
   };
 
@@ -182,13 +186,21 @@ const Table: React.FC<TableProps> = ({
       <div className="flex items-center justify-between py-3 gap-3">
         <div className="flex items-center gap-2 flex-1">
           {title && <h2 className="text-lg font-semibold mr-3">{title}</h2>}
-          <div className="max-w-sm w-full">
+          <div className="max-w-sm w-full flex items-center gap-1">
             <Input
               placeholder="Search..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={handleSearchKeyDown}
+              wrapperClassName="flex-1"
             />
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleSearch}
+            >
+              <i className="fa-solid fa-magnifying-glass" />
+            </Button>
           </div>
           <Button
             variant="secondary"
