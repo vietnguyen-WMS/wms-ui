@@ -1,20 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import api from '@services/api';
 import { API, messageCodeMap } from '@/constants';
 import { useTranslation } from 'react-i18next';
-import { formatDate } from '@utils/date';
-import { Input, Button, Dropdown } from '@components/ui';
-import clsx from 'clsx';
-
-interface User {
-  id: number;
-  username: string;
-  status: string;
-  role: string;
-  lastLoginAt: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Input, Button, Dropdown, Table } from '@components/ui';
+import type { TableConfig } from '@components/ui/Table/Table.types';
 
 const roles = [
   { value: 'admin', label: 'Administrator' },
@@ -22,28 +11,16 @@ const roles = [
   { value: 'operator', label: 'Operator' },
 ];
 
-  const Users = () => {
-    const { t } = useTranslation();
-    const [users, setUsers] = useState<User[]>([]);
+const Users = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
     roleCode: '',
   });
   const [roleError, setRoleError] = useState('');
-  const [highlightedId, setHighlightedId] = useState<number | null>(null);
   const [apiMessage, setApiMessage] = useState('');
-
-  const fetchUsers = async (): Promise<User[]> => {
-    try {
-      const res = await api.get(API.GET_USERS);
-      setUsers(res.data.items);
-      return res.data.items;
-    } catch {
-      setUsers([]);
-      return [];
-    }
-  };
+  const [tableKey, setTableKey] = useState(0);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -66,32 +43,43 @@ const roles = [
       return;
     }
 
-    console.log(formData);
-      try {
-        const res = await api.post(API.ADD_USER, formData);
-        const successCode = res.data.code as string;
-        const successKey = successCode && messageCodeMap[successCode];
-        setApiMessage(successKey ? t(successKey) : '');
-      const updatedUsers = await fetchUsers();
-      const newUserId =
-        res.data.id ?? updatedUsers.find((u) => u.username === formData.username)?.id;
-      if (newUserId !== undefined) {
-        setHighlightedId(newUserId);
-        setTimeout(() => setHighlightedId(null), 300);
-      }
+    try {
+      const res = await api.post(API.ADD_USER, formData);
+      const successCode = res.data.code as string;
+      const successKey = successCode && messageCodeMap[successCode];
+      setApiMessage(successKey ? t(successKey) : '');
       setFormData({ username: '', password: '', roleCode: '' });
-      } catch (error: unknown) {
-        console.error(error);
-        const code = (error as { response?: { data?: { code?: string } } })
-          .response?.data?.code as string | undefined;
-        const errorKey = code && messageCodeMap[code];
-        setApiMessage(errorKey ? t(errorKey) : t('unknown_error'));
-      }
-    };
+      setTableKey((k) => k + 1);
+    } catch (error: unknown) {
+      console.error(error);
+      const code = (error as { response?: { data?: { code?: string } } })
+        .response?.data?.code as string | undefined;
+      const errorKey = code && messageCodeMap[code];
+      setApiMessage(errorKey ? t(errorKey) : t('unknown_error'));
+    }
+  };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+  const usersTableConfig: TableConfig = {
+    title: 'Users',
+    source: {
+      api: API.GET_USERS,
+      schema: 'ums',
+      table: 'USERS_VIEW',
+      defaultSorts: [{ field: 'id', asc: true }],
+    },
+    columns: [
+      { key: 'id', label: 'ID', searchable: true, filterable: true, type: 'number' },
+      { key: 'username', label: 'Username', searchable: true, filterable: true },
+      { key: 'display_name', label: 'Display Name', searchable: true, filterable: true },
+      { key: 'avatar_url', label: 'Avatar URL' },
+      { key: 'bio', label: 'Bio', searchable: true, filterable: true },
+      { key: 'address', label: 'Address', searchable: true, filterable: true },
+    ],
+    pagination: {
+      size: [50, 100, 150, 200],
+      default: { page: 1, size: 50, total: 0 },
+    },
+  };
 
   return (
     <>
@@ -153,38 +141,7 @@ const roles = [
         </Button>
       </form>
 
-      <table className="w-full table-auto border-collapse">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="p-2 border">ID</th>
-            <th className="p-2 border">Username</th>
-            <th className="p-2 border">Status</th>
-            <th className="p-2 border">Role</th>
-            <th className="p-2 border">Last Login</th>
-            <th className="p-2 border">Created At</th>
-            <th className="p-2 border">Updated At</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr
-              key={user.id}
-              className={clsx(
-                'odd:bg-white even:bg-gray-50 transition-colors duration-300',
-                highlightedId === user.id && 'bg-green-300',
-              )}
-            >
-              <td className="p-2 border">{user.id}</td>
-              <td className="p-2 border">{user.username}</td>
-              <td className="p-2 border">{user.status}</td>
-              <td className="p-2 border">{user.role}</td>
-              <td className="p-2 border">{formatDate(user.lastLoginAt)}</td>
-              <td className="p-2 border">{formatDate(user.createdAt)}</td>
-              <td className="p-2 border">{formatDate(user.updatedAt)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table key={tableKey} tableConfig={usersTableConfig} />
     </>
   );
 };
