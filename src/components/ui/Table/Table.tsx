@@ -51,9 +51,12 @@ const Table: React.FC<TableProps> = ({
   const [size, setSize] = useState<number>(pagination.default.size);
   const [total, setTotal] = useState<number>(pagination.default.total ?? 0);
 
-  const [search, setSearch] = useState<string>('');
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [filterKey, setFilterKey] = useState<string>('');
   const [filterValue, setFilterValue] = useState<string>('');
+  const [appliedFilterKey, setAppliedFilterKey] = useState<string>('');
+  const [appliedFilterValue, setAppliedFilterValue] = useState<string>('');
   const [showFilter, setShowFilter] = useState(false);
 
   const filterableColumns = useMemo(
@@ -75,9 +78,9 @@ const Table: React.FC<TableProps> = ({
         const result = await loadData({
           page,
           size,
-          search: search || undefined,
-          filterKey: filterKey || undefined,
-          filterValue: filterValue || undefined,
+          search: searchTerm || undefined,
+          filterKey: appliedFilterKey || undefined,
+          filterValue: appliedFilterValue || undefined,
           searchableKeys: searchableColumns.map((c) => c.key),
         });
         setData(result.items);
@@ -85,20 +88,20 @@ const Table: React.FC<TableProps> = ({
       } else {
         const likeify = (v: string) => (v.includes('%') ? v : `%${v}%`);
         const filters: Array<{ field: string; op: string; value: string }> = [];
-        if (search) {
+        if (searchTerm) {
           filters.push(
             ...searchableColumns.map((c) => ({
               field: c.key,
               op: 'LIKE',
-              value: likeify(search),
+              value: likeify(searchTerm),
             }))
           );
         }
-        if (filterKey && filterValue) {
+        if (appliedFilterKey && appliedFilterValue) {
           filters.push({
-            field: filterKey,
+            field: appliedFilterKey,
             op: 'LIKE',
-            value: likeify(filterValue),
+            value: likeify(appliedFilterValue),
           });
         }
 
@@ -131,10 +134,10 @@ const Table: React.FC<TableProps> = ({
       setLoading(false);
     }
   }, [
-    filterKey,
-    filterValue,
+    appliedFilterKey,
+    appliedFilterValue,
     page,
-    search,
+    searchTerm,
     size,
     source.api,
     source.schema,
@@ -154,18 +157,21 @@ const Table: React.FC<TableProps> = ({
   const canNext = page < totalPages;
 
   const handleSearch = () => {
+    setSearchTerm(searchInput);
     setPage(1);
-    fetchData();
   };
 
   const handleApplyFilter = () => {
+    setAppliedFilterKey(filterKey);
+    setAppliedFilterValue(filterValue);
     setPage(1);
-    fetchData();
   };
 
   const handleClearFilter = () => {
     setFilterKey('');
     setFilterValue('');
+    setAppliedFilterKey('');
+    setAppliedFilterValue('');
     setPage(1);
   };
 
@@ -190,8 +196,8 @@ const Table: React.FC<TableProps> = ({
           <div className="max-w-sm w-full flex items-center gap-1">
             <Input
               placeholder="Search..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={handleSearchKeyDown}
               wrapperClassName="flex-1"
             />
