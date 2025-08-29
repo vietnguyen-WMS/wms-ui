@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
-import { Button, Input } from '@components/ui';
+import { Button, Input, Dropdown } from '@components/ui';
 import type { TableProps, TableColumn, Row } from './Table.types';
 
 // Convert custom localhost:// port/path into http://localhost:port/path
@@ -57,7 +57,6 @@ const Table: React.FC<TableProps> = ({
   const [filterValue, setFilterValue] = useState<string>('');
   const [appliedFilterKey, setAppliedFilterKey] = useState<string>('');
   const [appliedFilterValue, setAppliedFilterValue] = useState<string>('');
-  const [showFilter, setShowFilter] = useState(false);
 
   const filterableColumns = useMemo(
     () => columns.filter((c) => c.filterable),
@@ -193,20 +192,34 @@ const Table: React.FC<TableProps> = ({
       <div className="flex items-center justify-between py-3 gap-3">
         <div className="flex items-center gap-2 flex-1">
           {title && <h2 className="text-lg font-semibold mr-3">{title}</h2>}
-          <div className="max-w-sm w-full flex items-center gap-1">
-            <Input
-              placeholder="Search..."
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              onKeyDown={handleSearchKeyDown}
-              wrapperClassName="flex-1"
-            />
+          <div className="max-w-sm w-full flex items-center">
+            <div className="relative flex-1">
+              <Input
+                placeholder="Search..."
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                onKeyDown={handleSearchKeyDown}
+                className="pr-7"
+                wrapperClassName="flex-1"
+              />
+              {searchInput && (
+                <button
+                  type="button"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  onClick={() => setSearchInput('')}
+                >
+                  <i className="fa-solid fa-xmark" />
+                </button>
+              )}
+            </div>
             <Button
               variant="secondary"
               size="sm"
               onClick={handleSearch}
+              className="ml-2 flex items-center gap-1"
             >
               <i className="fa-solid fa-magnifying-glass" />
+              Search
             </Button>
           </div>
           <Button
@@ -220,16 +233,14 @@ const Table: React.FC<TableProps> = ({
         </div>
 
         {/* Right: Filter */}
-        <div className="relative">
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => setShowFilter((v) => !v)}
-          >
-            <i className="fa-solid fa-filter" />
-          </Button>
-          {showFilter && (
-            <div className="absolute right-0 mt-2 z-10 border bg-white rounded-md shadow-md p-3 flex flex-col gap-2 min-w-[250px]">
+        <Dropdown>
+          <Dropdown.Trigger>
+            <Button variant="secondary" size="sm">
+              <i className="fa-solid fa-filter" />
+            </Button>
+          </Dropdown.Trigger>
+          <Dropdown.Menu>
+            <div className="p-3 flex flex-col gap-2 min-w-[250px]">
               <select
                 className="border rounded-md px-3 py-2 bg-white"
                 value={filterKey}
@@ -249,30 +260,28 @@ const Table: React.FC<TableProps> = ({
                 isDisabled={!filterKey}
               />
               <div className="flex gap-2 justify-end">
-                <Button
-                  size="sm"
-                  onClick={() => {
-                    handleApplyFilter();
-                    setShowFilter(false);
-                  }}
-                  disabled={!filterKey}
-                >
-                  Apply
-                </Button>
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  onClick={() => {
-                    handleClearFilter();
-                    setShowFilter(false);
-                  }}
-                >
-                  Clear
-                </Button>
+                <Dropdown.TriggerClose>
+                  <Button
+                    size="sm"
+                    onClick={handleApplyFilter}
+                    disabled={!filterKey}
+                  >
+                    Apply
+                  </Button>
+                </Dropdown.TriggerClose>
+                <Dropdown.TriggerClose>
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={handleClearFilter}
+                  >
+                    Clear
+                  </Button>
+                </Dropdown.TriggerClose>
               </div>
             </div>
-          )}
-        </div>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
 
       {/* Content */}
