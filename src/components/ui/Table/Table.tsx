@@ -54,6 +54,7 @@ const Table: React.FC<TableProps> = ({
   const [search, setSearch] = useState<string>('');
   const [filterKey, setFilterKey] = useState<string>('');
   const [filterValue, setFilterValue] = useState<string>('');
+  const [showFilter, setShowFilter] = useState(false);
 
   const filterableColumns = useMemo(
     () => columns.filter((c) => c.filterable),
@@ -213,31 +214,58 @@ const Table: React.FC<TableProps> = ({
         </div>
 
         {/* Right: Filter */}
-        <div className="flex items-center gap-2">
-          <select
-            className="border rounded-md px-3 py-2 bg-white"
-            value={filterKey}
-            onChange={(e) => setFilterKey(e.target.value)}
+        <div className="relative">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setShowFilter((v) => !v)}
           >
-            <option value="">Filter column...</option>
-            {filterableColumns.map((col) => (
-              <option key={col.key} value={col.key}>
-                {col.label}
-              </option>
-            ))}
-          </select>
-          <Input
-            placeholder="Value"
-            value={filterValue}
-            onChange={(e) => setFilterValue(e.target.value)}
-            isDisabled={!filterKey}
-          />
-          <Button size="sm" onClick={handleApplyFilter} disabled={!filterKey}>
-            Apply
+            <i className="fa-solid fa-filter" />
           </Button>
-          <Button size="sm" variant="secondary" onClick={handleClearFilter}>
-            Clear
-          </Button>
+          {showFilter && (
+            <div className="absolute right-0 mt-2 z-10 border bg-white rounded-md shadow-md p-3 flex flex-col gap-2 min-w-[250px]">
+              <select
+                className="border rounded-md px-3 py-2 bg-white"
+                value={filterKey}
+                onChange={(e) => setFilterKey(e.target.value)}
+              >
+                <option value="">Filter column...</option>
+                {filterableColumns.map((col) => (
+                  <option key={col.key} value={col.key}>
+                    {col.label}
+                  </option>
+                ))}
+              </select>
+              <Input
+                placeholder="Value"
+                value={filterValue}
+                onChange={(e) => setFilterValue(e.target.value)}
+                isDisabled={!filterKey}
+              />
+              <div className="flex gap-2 justify-end">
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    handleApplyFilter();
+                    setShowFilter(false);
+                  }}
+                  disabled={!filterKey}
+                >
+                  Apply
+                </Button>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => {
+                    handleClearFilter();
+                    setShowFilter(false);
+                  }}
+                >
+                  Clear
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
