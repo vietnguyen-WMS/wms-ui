@@ -4,7 +4,7 @@ import Toast from './Toast';
 import type { ToastPlacement } from './Toast.types';
 
 const baseClasses =
-  'flex flex-col space-y-2 overflow-y-auto no-scrollbar max-h-[calc(100vh-2rem)]';
+  'flex flex-col pb-5 space-y-2 overflow-y-auto no-scrollbar max-h-[calc(100vh-2rem)]';
 
 const placementClasses: Record<ToastPlacement, string> = {
   'top-right': `fixed top-4 right-4 items-end ${baseClasses}`,
