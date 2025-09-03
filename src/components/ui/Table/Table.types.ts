@@ -25,6 +25,10 @@ export interface TablePaginationConfig {
   default: { page: number; size: number; total?: number };
 }
 
+export interface TableHeaderToolbarConfig {
+  customRightToolbar?: () => ReactNode;
+}
+
 export interface TableConfig {
   title?: string;
   source: TableSourceConfig;
@@ -32,6 +36,7 @@ export interface TableConfig {
   columns?: TableColumn[];
   column?: TableColumn[];
   pagination: TablePaginationConfig;
+  headerToolbar?: TableHeaderToolbarConfig;
 }
 
 export interface TableFetchParams {

@@ -38,7 +38,8 @@ const Table: React.FC<TableProps> = ({
   mapResponse = defaultMapResponse,
   loadData,
 }) => {
-  const { title, source, pagination } = tableConfig;
+  const { title, source, pagination, headerToolbar } = tableConfig;
+  const customRightToolbar = headerToolbar?.customRightToolbar;
   const columns: TableColumn[] = useMemo(
     () => tableConfig.columns ?? tableConfig.column ?? [],
     [tableConfig.columns, tableConfig.column]
@@ -232,56 +233,59 @@ const Table: React.FC<TableProps> = ({
           </Button>
         </div>
 
-        {/* Right: Filter */}
-        <Dropdown>
-          <Dropdown.Trigger>
-            <div className="px-2 py-1 bg-gray-500 hover:bg-gray-400 text-white rounded cursor-pointer">
-              <i className="fa-solid fa-filter" />
-            </div>
-          </Dropdown.Trigger>
-          <Dropdown.Menu>
-            <div className="p-3 flex flex-col gap-2 min-w-[250px]">
-              <select
-                className="border rounded-md px-3 py-2 bg-white"
-                value={filterKey}
-                onChange={(e) => setFilterKey(e.target.value)}
-              >
-                <option value="">Filter column...</option>
-                {filterableColumns.map((col) => (
-                  <option key={col.key} value={col.key}>
-                    {col.label}
-                  </option>
-                ))}
-              </select>
-              <Input
-                placeholder="Value"
-                value={filterValue}
-                onChange={(e) => setFilterValue(e.target.value)}
-                isDisabled={!filterKey}
-              />
-              <div className="flex gap-2 justify-end">
-                <Dropdown.TriggerClose>
-                  <Button
-                    size="sm"
-                    onClick={handleApplyFilter}
-                    disabled={!filterKey}
-                  >
-                    Apply
-                  </Button>
-                </Dropdown.TriggerClose>
-                <Dropdown.TriggerClose>
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    onClick={handleClearFilter}
-                  >
-                    Clear
-                  </Button>
-                </Dropdown.TriggerClose>
+        {/* Right: Custom Toolbar + Filter */}
+        <div className="flex items-center gap-2">
+          {customRightToolbar && customRightToolbar()}
+          <Dropdown>
+            <Dropdown.Trigger>
+              <div className="px-2 py-1 bg-gray-500 hover:bg-gray-400 text-white rounded cursor-pointer">
+                <i className="fa-solid fa-filter" />
               </div>
-            </div>
-          </Dropdown.Menu>
-        </Dropdown>
+            </Dropdown.Trigger>
+            <Dropdown.Menu>
+              <div className="p-3 flex flex-col gap-2 min-w-[250px]">
+                <select
+                  className="border rounded-md px-3 py-2 bg-white"
+                  value={filterKey}
+                  onChange={(e) => setFilterKey(e.target.value)}
+                >
+                  <option value="">Filter column...</option>
+                  {filterableColumns.map((col) => (
+                    <option key={col.key} value={col.key}>
+                      {col.label}
+                    </option>
+                  ))}
+                </select>
+                <Input
+                  placeholder="Value"
+                  value={filterValue}
+                  onChange={(e) => setFilterValue(e.target.value)}
+                  isDisabled={!filterKey}
+                />
+                <div className="flex gap-2 justify-end">
+                  <Dropdown.TriggerClose>
+                    <Button
+                      size="sm"
+                      onClick={handleApplyFilter}
+                      disabled={!filterKey}
+                    >
+                      Apply
+                    </Button>
+                  </Dropdown.TriggerClose>
+                  <Dropdown.TriggerClose>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={handleClearFilter}
+                    >
+                      Clear
+                    </Button>
+                  </Dropdown.TriggerClose>
+                </div>
+              </div>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
       </div>
 
       {/* Content */}
