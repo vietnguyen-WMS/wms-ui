@@ -190,17 +190,18 @@ const Table: React.FC<TableProps> = ({
   return (
     <div className="w-full">
       {/* Toolbar */}
-      <div className="flex items-center justify-between py-3 gap-3">
+      <div className="flex items-center justify-between gap-3 p-3 bg-gray-50">
         <div className="flex items-center gap-2 flex-1">
           {title && <h2 className="text-lg font-semibold mr-3">{title}</h2>}
           <div className="max-w-sm w-full flex items-center">
             <div className="relative flex-1">
+              <i className="fa-solid fa-magnifying-glass absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
               <Input
                 placeholder="Search..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 onKeyDown={handleSearchKeyDown}
-                className="pr-7"
+                className="pl-8 pr-7"
                 wrapperClassName="flex-1"
               />
               {searchInput && (
@@ -213,23 +214,14 @@ const Table: React.FC<TableProps> = ({
                 </button>
               )}
             </div>
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={handleSearch}
-              className="ml-2 flex items-center gap-1"
-            >
-              <i className="fa-solid fa-magnifying-glass" />
-              Search
-            </Button>
           </div>
           <Button
             variant="secondary"
             size="sm"
             onClick={refresh}
-            className="ml-1"
+            className="ml-2 flex items-center justify-center"
           >
-            Refresh
+            <i className="fa-solid fa-rotate-right" />
           </Button>
         </div>
 
