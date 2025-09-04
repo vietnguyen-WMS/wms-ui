@@ -1,5 +1,8 @@
 import { create } from 'zustand';
-import type { ToastType, ToastPlacement } from '@/components/ui/Toast/Toast.types';
+import type {
+  ToastType,
+  ToastPlacement,
+} from '@/components/ui/Toast/Toast.types';
 
 interface ToastOptions {
   id: number;

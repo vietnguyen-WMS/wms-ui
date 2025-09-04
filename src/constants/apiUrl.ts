@@ -17,5 +17,6 @@ export const API = {
   ADD_USER: `${API_URL}/users`,
   DELETE_USER: (id: number) => `${API_URL}/users/${id}`,
   CHANGE_PASSWORD: (id: number) => `${API_URL}/users/${id}/password`,
-  UNLOCK_ACCOUNT: (id: number) => `${API_URL}/users/${id}/reset-failed-attempts`,
+  UNLOCK_ACCOUNT: (id: number) =>
+    `${API_URL}/users/${id}/reset-failed-attempts`,
 };
