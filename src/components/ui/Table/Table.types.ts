@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, KeyboardEventHandler } from 'react';
 
 export type Row = Record<string, unknown>;
 
@@ -21,17 +21,22 @@ export interface TableSourceConfig {
 }
 
 export interface TablePaginationConfig {
-  size: number[];
-  default: { page: number; size: number; total?: number };
+  /**
+   * Available page sizes. Must contain at least one entry.
+   */
+  sizes: [number, ...number[]];
+}
+
+export interface TableHeaderToolbarConfig {
+  customRightToolbar?: () => ReactNode;
 }
 
 export interface TableConfig {
   title?: string;
   source: TableSourceConfig;
-  // Accept either `columns` or legacy `column`
-  columns?: TableColumn[];
-  column?: TableColumn[];
+  columns: TableColumn[];
   pagination: TablePaginationConfig;
+  headerToolbar?: TableHeaderToolbarConfig;
 }
 
 export interface TableFetchParams {
@@ -55,4 +60,36 @@ export interface TableProps {
   loadData?: (
     params: TableFetchParams & { searchableKeys?: string[] }
   ) => Promise<{ items: Row[]; total: number }>;
+}
+
+export interface TableToolbarProps {
+  title?: string;
+  searchInput: string;
+  onSearchInputChange: (v: string) => void;
+  onSearchKeyDown: KeyboardEventHandler<HTMLInputElement>;
+  onRefresh: () => void;
+  customRightToolbar?: () => ReactNode;
+  filterableColumns: TableColumn[];
+  filterKey: string;
+  setFilterKey: (v: string) => void;
+  filterValue: string;
+  setFilterValue: (v: string) => void;
+  onApplyFilter: () => void;
+  onClearFilter: () => void;
+}
+
+export interface TableContentProps {
+  loading: boolean;
+  error: Error | null;
+  data: Row[];
+  columns: TableColumn[];
+}
+
+export interface TablePaginationProps {
+  page: number;
+  size: number;
+  total: number;
+  pagination: TablePaginationConfig;
+  setPage: (page: number) => void;
+  setSize: (size: number) => void;
 }

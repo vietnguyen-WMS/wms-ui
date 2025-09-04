@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import clsx from 'clsx';
-import { Button, Input, Dropdown } from '@components/ui';
-import type { TableProps, TableColumn, Row } from './Table.types';
+import type { TableProps, Row } from './Table.types';
+import { debounce } from '@utils/debounce';
+import TableToolbar from './TableToolbar';
+import TableContent from './TableContent';
+import TablePagination from './TablePagination';
 
 // Convert custom localhost:// port/path into http://localhost:port/path
 const normalizeApi = (api: string): string => {
@@ -38,18 +40,16 @@ const Table: React.FC<TableProps> = ({
   mapResponse = defaultMapResponse,
   loadData,
 }) => {
-  const { title, source, pagination } = tableConfig;
-  const columns: TableColumn[] = useMemo(
-    () => tableConfig.columns ?? tableConfig.column ?? [],
-    [tableConfig.columns, tableConfig.column]
-  );
+  const { title, source, pagination, headerToolbar, columns } = tableConfig;
+  const customRightToolbar = headerToolbar?.customRightToolbar;
   const [data, setData] = useState<Row[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
-  const [page, setPage] = useState<number>(pagination.default.page);
-  const [size, setSize] = useState<number>(pagination.default.size);
-  const [total, setTotal] = useState<number>(pagination.default.total ?? 0);
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(pagination.sizes[0]);
+  // total is determined from API responses; start at 0
+  const [total, setTotal] = useState<number>(0);
 
   const [searchInput, setSearchInput] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -126,7 +126,7 @@ const Table: React.FC<TableProps> = ({
         setTotal(mapped.total);
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Unknown error');
+      setError(e instanceof Error ? e : new Error('Unknown error'));
       setData([]);
       setTotal(0);
     } finally {
@@ -151,13 +151,18 @@ const Table: React.FC<TableProps> = ({
     fetchData();
   }, [fetchData]);
 
-  const totalPages = Math.max(1, Math.ceil((total || 0) / size));
-  const canPrev = page > 1;
-  const canNext = page < totalPages;
+  const debouncedSetSearchTerm = useMemo(
+    () =>
+      debounce((value: string) => {
+        setSearchTerm(value);
+        setPage(1);
+      }, 300),
+    []
+  );
 
-  const handleSearch = () => {
-    setSearchTerm(searchInput);
-    setPage(1);
+  const handleSearchInputChange = (value: string) => {
+    setSearchInput(value);
+    debouncedSetSearchTerm(value);
   };
 
   const handleApplyFilter = () => {
@@ -178,7 +183,8 @@ const Table: React.FC<TableProps> = ({
     e
   ) => {
     if (e.key === 'Enter') {
-      handleSearch();
+      setSearchTerm(searchInput);
+      setPage(1);
     }
   };
 
@@ -188,225 +194,35 @@ const Table: React.FC<TableProps> = ({
 
   return (
     <div className="w-full">
-      {/* Toolbar */}
-      <div className="flex items-center justify-between py-3 gap-3">
-        <div className="flex items-center gap-2 flex-1">
-          {title && <h2 className="text-lg font-semibold mr-3">{title}</h2>}
-          <div className="max-w-sm w-full flex items-center">
-            <div className="relative flex-1">
-              <Input
-                placeholder="Search..."
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                onKeyDown={handleSearchKeyDown}
-                className="pr-7"
-                wrapperClassName="flex-1"
-              />
-              {searchInput && (
-                <button
-                  type="button"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  onClick={() => setSearchInput('')}
-                >
-                  <i className="fa-solid fa-xmark" />
-                </button>
-              )}
-            </div>
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={handleSearch}
-              className="ml-2 flex items-center gap-1"
-            >
-              <i className="fa-solid fa-magnifying-glass" />
-              Search
-            </Button>
-          </div>
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={refresh}
-            className="ml-1"
-          >
-            Refresh
-          </Button>
-        </div>
-
-        {/* Right: Filter */}
-        <Dropdown>
-          <Dropdown.Trigger>
-            <div className="px-2 py-1 bg-gray-500 hover:bg-gray-400 text-white rounded cursor-pointer">
-              <i className="fa-solid fa-filter" />
-            </div>
-          </Dropdown.Trigger>
-          <Dropdown.Menu>
-            <div className="p-3 flex flex-col gap-2 min-w-[250px]">
-              <select
-                className="border rounded-md px-3 py-2 bg-white"
-                value={filterKey}
-                onChange={(e) => setFilterKey(e.target.value)}
-              >
-                <option value="">Filter column...</option>
-                {filterableColumns.map((col) => (
-                  <option key={col.key} value={col.key}>
-                    {col.label}
-                  </option>
-                ))}
-              </select>
-              <Input
-                placeholder="Value"
-                value={filterValue}
-                onChange={(e) => setFilterValue(e.target.value)}
-                isDisabled={!filterKey}
-              />
-              <div className="flex gap-2 justify-end">
-                <Dropdown.TriggerClose>
-                  <Button
-                    size="sm"
-                    onClick={handleApplyFilter}
-                    disabled={!filterKey}
-                  >
-                    Apply
-                  </Button>
-                </Dropdown.TriggerClose>
-                <Dropdown.TriggerClose>
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    onClick={handleClearFilter}
-                  >
-                    Clear
-                  </Button>
-                </Dropdown.TriggerClose>
-              </div>
-            </div>
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
-
-      {/* Content */}
-      <div
-        className={clsx(
-          'border rounded-md overflow-hidden',
-          loading && 'opacity-70'
-        )}
-        aria-busy={loading}
-        aria-live="polite"
-      >
-        {error && (
-          <div className="p-3 text-sm text-red-600 border-b bg-red-50">
-            {error}
-          </div>
-        )}
-
-        {data.length === 0 ? (
-          <div className="py-16 text-center text-gray-500">
-            No data available
-          </div>
-        ) : (
-          <div className="w-full overflow-auto">
-            <table className="w-full table-auto border-collapse">
-              <thead>
-                <tr className="bg-gray-100">
-                  {columns.map((col) => (
-                    <th
-                      key={col.key}
-                      className="p-2 border text-left font-semibold text-gray-700"
-                    >
-                      {col.label}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((row, idx) => (
-                  <tr
-                    key={idx}
-                    className={clsx('odd:bg-white even:bg-gray-50')}
-                  >
-                    {columns.map((col) => {
-                      const value = (row as Record<string, unknown>)[col.key];
-                      const toStringSafe = (v: unknown): string => {
-                        if (v === null || v === undefined) return '';
-                        if (
-                          typeof v === 'string' ||
-                          typeof v === 'number' ||
-                          typeof v === 'boolean'
-                        )
-                          return String(v);
-                        if (v instanceof Date) return v.toISOString();
-                        if (typeof v === 'object') {
-                          try {
-                            return JSON.stringify(v);
-                          } catch {
-                            return '[Object]';
-                          }
-                        }
-                        return String(v);
-                      };
-                      return (
-                        <td key={col.key} className="p-2 border align-top">
-                          {col.render
-                            ? col.render(value, row)
-                            : toStringSafe(value)}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
-
-      {/* Pagination */}
-      <div className="flex items-center justify-between py-3">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-600">Rows per page</span>
-          <select
-            className="border rounded-md px-2 py-1 bg-white"
-            value={size}
-            onChange={(e) => {
-              const next = Number(e.target.value);
-              setSize(next);
-              setPage(1);
-            }}
-          >
-            {pagination.size.map((opt) => (
-              <option key={opt} value={opt}>
-                {opt}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-600">
-            Page {page} of {totalPages}
-          </span>
-          <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={() => canPrev && setPage((p) => Math.max(1, p - 1))}
-              disabled={!canPrev}
-            >
-              Prev
-            </Button>
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={() =>
-                canNext && setPage((p) => Math.min(totalPages, p + 1))
-              }
-              disabled={!canNext}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
-      </div>
+      <TableToolbar
+        title={title}
+        searchInput={searchInput}
+        onSearchInputChange={handleSearchInputChange}
+        onSearchKeyDown={handleSearchKeyDown}
+        onRefresh={refresh}
+        customRightToolbar={customRightToolbar}
+        filterableColumns={filterableColumns}
+        filterKey={filterKey}
+        setFilterKey={setFilterKey}
+        filterValue={filterValue}
+        setFilterValue={setFilterValue}
+        onApplyFilter={handleApplyFilter}
+        onClearFilter={handleClearFilter}
+      />
+      <TableContent
+        loading={loading}
+        error={error}
+        data={data}
+        columns={columns}
+      />
+      <TablePagination
+        page={page}
+        size={size}
+        total={total}
+        pagination={pagination}
+        setPage={setPage}
+        setSize={setSize}
+      />
     </div>
   );
 };
