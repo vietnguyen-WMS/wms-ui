@@ -1,13 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import type { TableColumn, Row } from './Table.types';
-
-interface TableContentProps {
-  loading: boolean;
-  error: string | null;
-  data: Row[];
-  columns: TableColumn[];
-}
+import type { TableContentProps } from './Table.types';
 
 const TableContent: React.FC<TableContentProps> = ({
   loading,

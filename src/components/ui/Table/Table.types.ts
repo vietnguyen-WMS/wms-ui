@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, KeyboardEventHandler } from 'react';
 
 export type Row = Record<string, unknown>;
 
@@ -60,4 +60,36 @@ export interface TableProps {
   loadData?: (
     params: TableFetchParams & { searchableKeys?: string[] }
   ) => Promise<{ items: Row[]; total: number }>;
+}
+
+export interface TableToolbarProps {
+  title?: string;
+  searchInput: string;
+  setSearchInput: (v: string) => void;
+  onSearchKeyDown: KeyboardEventHandler<HTMLInputElement>;
+  onRefresh: () => void;
+  customRightToolbar?: () => ReactNode;
+  filterableColumns: TableColumn[];
+  filterKey: string;
+  setFilterKey: (v: string) => void;
+  filterValue: string;
+  setFilterValue: (v: string) => void;
+  onApplyFilter: () => void;
+  onClearFilter: () => void;
+}
+
+export interface TableContentProps {
+  loading: boolean;
+  error: string | null;
+  data: Row[];
+  columns: TableColumn[];
+}
+
+export interface TablePaginationProps {
+  page: number;
+  size: number;
+  total: number;
+  pagination: TablePaginationConfig;
+  setPage: (page: number) => void;
+  setSize: (size: number) => void;
 }

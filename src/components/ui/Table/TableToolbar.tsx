@@ -1,22 +1,6 @@
 import React from 'react';
 import { Button, Input, Dropdown } from '@components/ui';
-import type { TableColumn } from './Table.types';
-
-interface TableToolbarProps {
-  title?: string;
-  searchInput: string;
-  setSearchInput: (v: string) => void;
-  onSearchKeyDown: React.KeyboardEventHandler<HTMLInputElement>;
-  onRefresh: () => void;
-  customRightToolbar?: () => React.ReactNode;
-  filterableColumns: TableColumn[];
-  filterKey: string;
-  setFilterKey: (v: string) => void;
-  filterValue: string;
-  setFilterValue: (v: string) => void;
-  onApplyFilter: () => void;
-  onClearFilter: () => void;
-}
+import type { TableToolbarProps } from './Table.types';
 
 const TableToolbar: React.FC<TableToolbarProps> = ({
   title,

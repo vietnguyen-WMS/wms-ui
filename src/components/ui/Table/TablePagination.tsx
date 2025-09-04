@@ -1,15 +1,6 @@
 import React from 'react';
 import { Button } from '@components/ui';
-import type { TablePaginationConfig } from './Table.types';
-
-interface TablePaginationProps {
-  page: number;
-  size: number;
-  total: number;
-  pagination: TablePaginationConfig;
-  setPage: (page: number) => void;
-  setSize: (size: number) => void;
-}
+import type { TablePaginationProps } from './Table.types';
 
 const TablePagination: React.FC<TablePaginationProps> = ({
   page,
