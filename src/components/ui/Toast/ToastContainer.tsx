@@ -1,5 +1,4 @@
 import { useToastStore } from '@/stores';
-import { LIMITED_TOAST_NUMBER, MAX_VISIBLE_TOASTS } from '@/constants';
 import Toast from './Toast';
 import type { ToastPlacement } from './Toast.types';
 
@@ -25,28 +24,23 @@ const ToastContainer = () => {
 
   return (
     <>
-      {Object.entries(grouped).map(([placement, list]) => {
-        const visibleList = LIMITED_TOAST_NUMBER
-          ? list.slice(0, MAX_VISIBLE_TOASTS)
-          : list;
-        return (
-          <div
-            key={placement}
-            className={placementClasses[placement as ToastPlacement]}
-            data-testid={`toast-group-${placement}`}
-          >
-            {visibleList.map((toast) => (
-              <Toast
-                key={toast.id}
-                message={toast.message}
-                type={toast.type}
-                duration={toast.duration}
-                onClose={() => removeToast(toast.id)}
-              />
-            ))}
-          </div>
-        );
-      })}
+      {Object.entries(grouped).map(([placement, list]) => (
+        <div
+          key={placement}
+          className={placementClasses[placement as ToastPlacement]}
+          data-testid={`toast-group-${placement}`}
+        >
+          {list.map((toast) => (
+            <Toast
+              key={toast.id}
+              message={toast.message}
+              type={toast.type}
+              duration={toast.duration}
+              onClose={() => removeToast(toast.id)}
+            />
+          ))}
+        </div>
+      ))}
     </>
   );
 };
