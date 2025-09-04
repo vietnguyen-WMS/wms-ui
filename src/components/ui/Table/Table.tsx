@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import type { TableProps, TableColumn, Row } from './Table.types';
+import type { TableProps, Row } from './Table.types';
 import TableToolbar from './TableToolbar';
 import TableContent from './TableContent';
 import TablePagination from './TablePagination';
@@ -39,12 +39,8 @@ const Table: React.FC<TableProps> = ({
   mapResponse = defaultMapResponse,
   loadData,
 }) => {
-  const { title, source, pagination, headerToolbar } = tableConfig;
+  const { title, source, pagination, headerToolbar, columns } = tableConfig;
   const customRightToolbar = headerToolbar?.customRightToolbar;
-  const columns: TableColumn[] = useMemo(
-    () => tableConfig.columns ?? tableConfig.column ?? [],
-    [tableConfig.columns, tableConfig.column]
-  );
   const [data, setData] = useState<Row[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

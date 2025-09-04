@@ -32,9 +32,7 @@ export interface TableHeaderToolbarConfig {
 export interface TableConfig {
   title?: string;
   source: TableSourceConfig;
-  // Accept either `columns` or legacy `column`
-  columns?: TableColumn[];
-  column?: TableColumn[];
+  columns: TableColumn[];
   pagination: TablePaginationConfig;
   headerToolbar?: TableHeaderToolbarConfig;
 }
