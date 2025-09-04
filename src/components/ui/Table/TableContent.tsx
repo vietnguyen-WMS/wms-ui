@@ -10,7 +10,10 @@ const TableContent: React.FC<TableContentProps> = ({
 }) => {
   return (
     <div
-      className={clsx('border rounded-md overflow-hidden', loading && 'opacity-70')}
+      className={clsx(
+        'border rounded-md overflow-hidden',
+        loading && 'opacity-70'
+      )}
       aria-busy={loading}
       aria-live="polite"
     >
@@ -62,7 +65,9 @@ const TableContent: React.FC<TableContentProps> = ({
                     };
                     return (
                       <td key={col.key} className="p-2 border align-top">
-                        {col.render ? col.render(value, row) : toStringSafe(value)}
+                        {col.render
+                          ? col.render(value, row)
+                          : toStringSafe(value)}
                       </td>
                     );
                   })}

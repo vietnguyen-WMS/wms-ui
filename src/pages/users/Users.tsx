@@ -22,15 +22,31 @@ const Users = () => {
       defaultSorts: [{ field: 'id', asc: true }],
     },
     columns: [
-      { key: 'id', label: 'ID', searchable: true, filterable: true, type: 'number' },
-      { key: 'username', label: 'Username', searchable: true, filterable: true },
-      { key: 'display_name', label: 'Display Name', searchable: true, filterable: true },
+      {
+        key: 'id',
+        label: 'ID',
+        searchable: true,
+        filterable: true,
+        type: 'number',
+      },
+      {
+        key: 'username',
+        label: 'Username',
+        searchable: true,
+        filterable: true,
+      },
+      {
+        key: 'display_name',
+        label: 'Display Name',
+        searchable: true,
+        filterable: true,
+      },
       { key: 'avatar_url', label: 'Avatar URL' },
       { key: 'bio', label: 'Bio', searchable: true, filterable: true },
       { key: 'address', label: 'Address', searchable: true, filterable: true },
     ],
     pagination: {
-      sizes: [50, 100, 150, 200],
+      sizes: [10, 25, 50, 100],
     },
     headerToolbar: {
       customRightToolbar: () => (

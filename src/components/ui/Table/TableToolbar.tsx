@@ -83,16 +83,16 @@ const TableToolbar: React.FC<TableToolbarProps> = ({
               />
               <div className="flex gap-2 justify-end">
                 <Dropdown.TriggerClose>
-                  <Button size="sm" onClick={onApplyFilter} disabled={!filterKey}>
+                  <Button
+                    size="sm"
+                    onClick={onApplyFilter}
+                    disabled={!filterKey}
+                  >
                     Apply
                   </Button>
                 </Dropdown.TriggerClose>
                 <Dropdown.TriggerClose>
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    onClick={onClearFilter}
-                  >
+                  <Button size="sm" variant="secondary" onClick={onClearFilter}>
                     Clear
                   </Button>
                 </Dropdown.TriggerClose>

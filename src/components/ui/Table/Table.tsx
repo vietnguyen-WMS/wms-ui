@@ -47,9 +47,7 @@ const Table: React.FC<TableProps> = ({
   const [error, setError] = useState<Error | null>(null);
 
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(
-    pagination.sizes.length ? pagination.sizes[0] : 10
-  );
+  const [size, setSize] = useState<number>(pagination.sizes[0]);
   // total is determined from API responses; start at 0
   const [total, setTotal] = useState<number>(0);
 
