@@ -51,7 +51,8 @@ const Table: React.FC<TableProps> = ({
 
   const [page, setPage] = useState<number>(pagination.default.page);
   const [size, setSize] = useState<number>(pagination.default.size);
-  const [total, setTotal] = useState<number>(pagination.default.total ?? 0);
+  // total is determined from API responses; start at 0
+  const [total, setTotal] = useState<number>(0);
 
   const [searchInput, setSearchInput] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');

@@ -22,7 +22,7 @@ export interface TableSourceConfig {
 
 export interface TablePaginationConfig {
   size: number[];
-  default: { page: number; size: number; total?: number };
+  default: { page: number; size: number };
 }
 
 export interface TableHeaderToolbarConfig {
