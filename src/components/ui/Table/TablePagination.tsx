@@ -13,6 +13,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
   const totalPages = Math.max(1, Math.ceil((total || 0) / size));
   const canPrev = page > 1;
   const canNext = page < totalPages;
+  const sizeOptions = pagination.sizes.length ? pagination.sizes : [size];
 
   return (
     <div className="flex items-center justify-between py-3">
@@ -27,7 +28,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
             setPage(1);
           }}
         >
-          {pagination.size.map((opt) => (
+          {sizeOptions.map((opt) => (
             <option key={opt} value={opt}>
               {opt}
             </option>

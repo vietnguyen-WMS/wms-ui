@@ -30,8 +30,7 @@ const Users = () => {
       { key: 'address', label: 'Address', searchable: true, filterable: true },
     ],
     pagination: {
-      size: [50, 100, 150, 200],
-      default: { page: 1, size: 50 },
+      sizes: [50, 100, 150, 200],
     },
     headerToolbar: {
       customRightToolbar: () => (

@@ -21,8 +21,10 @@ export interface TableSourceConfig {
 }
 
 export interface TablePaginationConfig {
-  size: number[];
-  default: { page: number; size: number };
+  /**
+   * Available page sizes. Must contain at least one entry.
+   */
+  sizes: [number, ...number[]];
 }
 
 export interface TableHeaderToolbarConfig {
