@@ -8,49 +8,20 @@ describe('ToastContainer', () => {
     vi.clearAllMocks();
   });
 
-  it('limits visible toasts when enabled', async () => {
+  it('renders all toasts', async () => {
     const { ToastContainer } = await import('.');
     const { useToastStore } = await import('@/stores');
-    const { MAX_VISIBLE_TOASTS } = await import('@/constants');
     const { showToast } = useToastStore.getState();
+
     act(() => {
-      for (let i = 0; i < MAX_VISIBLE_TOASTS + 2; i++) {
+      for (let i = 0; i < 12; i++) {
         showToast({ message: `Toast ${i}` });
       }
     });
 
     render(<ToastContainer />);
 
-    expect(screen.getAllByLabelText('close-toast').length).toBe(
-      MAX_VISIBLE_TOASTS,
-    );
-  });
-
-  it('renders all toasts when limit disabled', async () => {
-    vi.doMock('@/constants', async () => {
-      const actual = await vi.importActual<typeof import('@/constants')>(
-        '@/constants',
-      );
-      return {
-        ...actual,
-        LIMITED_TOAST_NUMBER: false,
-      };
-    });
-    const { ToastContainer } = await import('.');
-    const { useToastStore } = await import('@/stores');
-    const { MAX_VISIBLE_TOASTS } = await import('@/constants');
-    const { showToast } = useToastStore.getState();
-    act(() => {
-      for (let i = 0; i < MAX_VISIBLE_TOASTS + 2; i++) {
-        showToast({ message: `Toast ${i}` });
-      }
-    });
-
-    render(<ToastContainer />);
-
-    expect(screen.getAllByLabelText('close-toast').length).toBe(
-      MAX_VISIBLE_TOASTS + 2,
-    );
+    expect(screen.getAllByLabelText('close-toast').length).toBe(12);
   });
 
   it('stacks toasts vertically', async () => {
