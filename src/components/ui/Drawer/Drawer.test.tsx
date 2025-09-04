@@ -7,7 +7,7 @@ describe('Drawer', () => {
     render(
       <Drawer isOpen onClose={() => {}}>
         <div>Content</div>
-      </Drawer>,
+      </Drawer>
     );
     expect(screen.getByText('Content')).toBeInTheDocument();
   });
@@ -17,7 +17,7 @@ describe('Drawer', () => {
     render(
       <Drawer isOpen onClose={onClose}>
         <div>Content</div>
-      </Drawer>,
+      </Drawer>
     );
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(onClose).toHaveBeenCalled();
@@ -27,7 +27,7 @@ describe('Drawer', () => {
     render(
       <Drawer isOpen onClose={() => {}}>
         <div>Content</div>
-      </Drawer>,
+      </Drawer>
     );
     const container = screen.getByTestId('drawer-container');
     expect(container.classList.contains('justify-end')).toBe(true);

@@ -7,7 +7,7 @@ describe('Accordion', () => {
     render(
       <Accordion title="Title">
         <div>Content</div>
-      </Accordion>,
+      </Accordion>
     );
     const button = screen.getByRole('button', { name: 'Title' });
     const icon = screen.getByTestId('accordion-icon');

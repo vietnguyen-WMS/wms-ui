@@ -40,7 +40,8 @@ const Modal: React.FC<ModalProps> & {
   className,
   ...rest
 }) => {
-  const { isMounted, isVisible, handleAnimationEnd } = useAnimatedUnmount(isOpen);
+  const { isMounted, isVisible, handleAnimationEnd } =
+    useAnimatedUnmount(isOpen);
   const portalRef = useRef<HTMLDivElement | null>(null);
 
   if (!portalRef.current && typeof document !== 'undefined') {

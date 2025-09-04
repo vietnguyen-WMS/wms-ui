@@ -82,7 +82,13 @@ describe('Modal', () => {
       </Modal>
     );
     const closeButton = screen.getByTestId('modal-close');
-    expect(closeButton).toHaveClass('w-9', 'h-9', 'top-2', 'right-2', 'rounded-md');
+    expect(closeButton).toHaveClass(
+      'w-9',
+      'h-9',
+      'top-2',
+      'right-2',
+      'rounded-md'
+    );
   });
 
   it('places footer at bottom with actions aligned right', () => {
@@ -109,7 +115,9 @@ describe('Modal', () => {
     );
     const modalRoot = document.getElementById('modal-root');
     expect(modalRoot).toBeInTheDocument();
-    expect(modalRoot?.querySelector('[data-testid="modal-content"]')).toBeInTheDocument();
+    expect(
+      modalRoot?.querySelector('[data-testid="modal-content"]')
+    ).toBeInTheDocument();
   });
 
   it('applies cover size padding, dimensions, and centered placement', () => {

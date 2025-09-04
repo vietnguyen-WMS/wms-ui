@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext } from 'react';
 
 interface DropdownContextProps {
@@ -9,11 +10,11 @@ interface DropdownContextProps {
 
 const DropdownContext = createContext<DropdownContextProps | null>(null);
 
-function useDropdownContext() {
+const useDropdownContext = () => {
   const ctx = useContext(DropdownContext);
   if (!ctx)
     throw new Error('Dropdown.* components must be used within Dropdown');
   return ctx;
-}
+};
 
 export { DropdownContext, useDropdownContext };

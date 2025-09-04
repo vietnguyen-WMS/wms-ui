@@ -13,7 +13,11 @@ const sizeClasses: Record<NonNullable<AccordionProps['size']>, string> = {
   lg: 'text-lg',
 };
 
-const Accordion: React.FC<AccordionProps> = ({ title, size = 'md', children }) => {
+const Accordion: React.FC<AccordionProps> = ({
+  title,
+  size = 'md',
+  children,
+}) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -21,7 +25,10 @@ const Accordion: React.FC<AccordionProps> = ({ title, size = 'md', children }) =
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={clsx('w-full flex justify-between items-center p-4', sizeClasses[size])}
+        className={clsx(
+          'w-full flex justify-between items-center p-4',
+          sizeClasses[size]
+        )}
         aria-expanded={open}
       >
         <span>{title}</span>
@@ -35,7 +42,7 @@ const Accordion: React.FC<AccordionProps> = ({ title, size = 'md', children }) =
       <div
         className={clsx(
           'overflow-hidden transition-all duration-200',
-          open ? 'max-h-screen' : 'max-h-0',
+          open ? 'max-h-screen' : 'max-h-0'
         )}
       >
         <div className="p-4 border-t">{children}</div>

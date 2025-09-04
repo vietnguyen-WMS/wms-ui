@@ -67,7 +67,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ children }) => {
       window.removeEventListener('scroll', updatePosition, true);
       window.removeEventListener('resize', updatePosition);
     };
-  }, [isOpen, triggerRef]);
+  }, [isOpen, triggerRef, menuRef]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {

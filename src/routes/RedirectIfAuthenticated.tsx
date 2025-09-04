@@ -15,7 +15,7 @@ const RedirectIfAuthenticated = ({
     if (!isAuthLoading && user) {
       navigate('/', { replace: true });
     }
-  }, [user, isAuthLoading]);
+  }, [user, isAuthLoading, navigate]);
 
   if (isAuthLoading) return <GlobalLoading />;
 
