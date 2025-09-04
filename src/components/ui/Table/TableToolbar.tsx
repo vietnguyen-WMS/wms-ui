@@ -5,7 +5,7 @@ import type { TableToolbarProps } from './Table.types';
 const TableToolbar: React.FC<TableToolbarProps> = ({
   title,
   searchInput,
-  setSearchInput,
+  onSearchInputChange,
   onSearchKeyDown,
   onRefresh,
   customRightToolbar,
@@ -27,7 +27,7 @@ const TableToolbar: React.FC<TableToolbarProps> = ({
             <Input
               placeholder="Search..."
               value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              onChange={(e) => onSearchInputChange(e.target.value)}
               onKeyDown={onSearchKeyDown}
               className="pl-8 pr-7"
               wrapperClassName="flex-1"
@@ -36,7 +36,7 @@ const TableToolbar: React.FC<TableToolbarProps> = ({
               <button
                 type="button"
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                onClick={() => setSearchInput('')}
+                onClick={() => onSearchInputChange('')}
               >
                 <i className="fa-solid fa-xmark" />
               </button>

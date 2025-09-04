@@ -63,7 +63,7 @@ export interface TableProps {
 export interface TableToolbarProps {
   title?: string;
   searchInput: string;
-  setSearchInput: (v: string) => void;
+  onSearchInputChange: (v: string) => void;
   onSearchKeyDown: KeyboardEventHandler<HTMLInputElement>;
   onRefresh: () => void;
   customRightToolbar?: () => ReactNode;
@@ -78,7 +78,7 @@ export interface TableToolbarProps {
 
 export interface TableContentProps {
   loading: boolean;
-  error: string | null;
+  error: Error | null;
   data: Row[];
   columns: TableColumn[];
 }

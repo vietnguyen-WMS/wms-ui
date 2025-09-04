@@ -15,7 +15,9 @@ const TableContent: React.FC<TableContentProps> = ({
       aria-live="polite"
     >
       {error && (
-        <div className="p-3 text-sm text-red-600 border-b bg-red-50">{error}</div>
+        <div className="p-3 text-sm text-red-600 border-b bg-red-50">
+          {error.message}
+        </div>
       )}
 
       {data.length === 0 ? (

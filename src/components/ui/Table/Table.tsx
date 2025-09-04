@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { TableProps, Row } from './Table.types';
+import { debounce } from '@utils/debounce';
 import TableToolbar from './TableToolbar';
 import TableContent from './TableContent';
 import TablePagination from './TablePagination';
@@ -43,7 +44,7 @@ const Table: React.FC<TableProps> = ({
   const customRightToolbar = headerToolbar?.customRightToolbar;
   const [data, setData] = useState<Row[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   const [page, setPage] = useState<number>(pagination.default.page);
   const [size, setSize] = useState<number>(pagination.default.size);
@@ -125,7 +126,7 @@ const Table: React.FC<TableProps> = ({
         setTotal(mapped.total);
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Unknown error');
+      setError(e instanceof Error ? e : new Error('Unknown error'));
       setData([]);
       setTotal(0);
     } finally {
@@ -150,9 +151,18 @@ const Table: React.FC<TableProps> = ({
     fetchData();
   }, [fetchData]);
 
-  const handleSearch = () => {
-    setSearchTerm(searchInput);
-    setPage(1);
+  const debouncedSetSearchTerm = useMemo(
+    () =>
+      debounce((value: string) => {
+        setSearchTerm(value);
+        setPage(1);
+      }, 300),
+    []
+  );
+
+  const handleSearchInputChange = (value: string) => {
+    setSearchInput(value);
+    debouncedSetSearchTerm(value);
   };
 
   const handleApplyFilter = () => {
@@ -173,7 +183,8 @@ const Table: React.FC<TableProps> = ({
     e
   ) => {
     if (e.key === 'Enter') {
-      handleSearch();
+      setSearchTerm(searchInput);
+      setPage(1);
     }
   };
 
@@ -186,7 +197,7 @@ const Table: React.FC<TableProps> = ({
       <TableToolbar
         title={title}
         searchInput={searchInput}
-        setSearchInput={setSearchInput}
+        onSearchInputChange={handleSearchInputChange}
         onSearchKeyDown={handleSearchKeyDown}
         onRefresh={refresh}
         customRightToolbar={customRightToolbar}
