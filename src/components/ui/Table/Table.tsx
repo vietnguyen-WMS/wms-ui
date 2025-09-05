@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { TableProps, Row } from './Table.types';
-import { debounce } from '@utils/debounce';
 import TableToolbar from './TableToolbar';
 import TableContent from './TableContent';
 import TablePagination from './TablePagination';
@@ -151,18 +150,19 @@ const Table: React.FC<TableProps> = ({
     fetchData();
   }, [fetchData]);
 
-  const debouncedSetSearchTerm = useMemo(
-    () =>
-      debounce((value: string) => {
-        setSearchTerm(value);
-        setPage(1);
-      }, 300),
-    []
-  );
-
   const handleSearchInputChange = (value: string) => {
     setSearchInput(value);
-    debouncedSetSearchTerm(value);
+  };
+
+  const handleSearch = (value?: string) => {
+    const term = value !== undefined ? value : searchInput;
+    setSearchTerm(term);
+    setPage(1);
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput('');
+    handleSearch('');
   };
 
   const handleApplyFilter = () => {
@@ -183,8 +183,7 @@ const Table: React.FC<TableProps> = ({
     e
   ) => {
     if (e.key === 'Enter') {
-      setSearchTerm(searchInput);
-      setPage(1);
+      handleSearch();
     }
   };
 
@@ -199,6 +198,8 @@ const Table: React.FC<TableProps> = ({
         searchInput={searchInput}
         onSearchInputChange={handleSearchInputChange}
         onSearchKeyDown={handleSearchKeyDown}
+        onSearch={handleSearch}
+        onClearSearch={handleClearSearch}
         onRefresh={refresh}
         customRightToolbar={customRightToolbar}
         filterableColumns={filterableColumns}
