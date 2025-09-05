@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { TableProps, Row } from './Table.types';
-import { debounce } from '@utils/debounce';
 import TableToolbar from './TableToolbar';
 import TableContent from './TableContent';
 import TablePagination from './TablePagination';
@@ -52,7 +51,7 @@ const Table: React.FC<TableProps> = ({
   const [total, setTotal] = useState<number>(0);
 
   const [searchInput, setSearchInput] = useState<string>('');
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const searchTermRef = useRef<string>('');
   const [filterKey, setFilterKey] = useState<string>('');
   const [filterValue, setFilterValue] = useState<string>('');
   const [appliedFilterKey, setAppliedFilterKey] = useState<string>('');
@@ -77,7 +76,7 @@ const Table: React.FC<TableProps> = ({
         const result = await loadData({
           page,
           size,
-          search: searchTerm || undefined,
+          search: searchTermRef.current || undefined,
           filterKey: appliedFilterKey || undefined,
           filterValue: appliedFilterValue || undefined,
           searchableKeys: searchableColumns.map((c) => c.key),
@@ -87,12 +86,12 @@ const Table: React.FC<TableProps> = ({
       } else {
         const likeify = (v: string) => (v.includes('%') ? v : `%${v}%`);
         const filters: Array<{ field: string; op: string; value: string }> = [];
-        if (searchTerm) {
+        if (searchTermRef.current) {
           filters.push(
             ...searchableColumns.map((c) => ({
               field: c.key,
               op: 'LIKE',
-              value: likeify(searchTerm),
+              value: likeify(searchTermRef.current),
             }))
           );
         }
@@ -136,7 +135,6 @@ const Table: React.FC<TableProps> = ({
     appliedFilterKey,
     appliedFilterValue,
     page,
-    searchTerm,
     size,
     source.api,
     source.schema,
@@ -151,18 +149,27 @@ const Table: React.FC<TableProps> = ({
     fetchData();
   }, [fetchData]);
 
-  const debouncedSetSearchTerm = useMemo(
-    () =>
-      debounce((value: string) => {
-        setSearchTerm(value);
-        setPage(1);
-      }, 300),
-    []
-  );
-
   const handleSearchInputChange = (value: string) => {
     setSearchInput(value);
-    debouncedSetSearchTerm(value);
+  };
+
+  const handleSearch = () => {
+    searchTermRef.current = searchInput;
+    if (page === 1) {
+      fetchData();
+    } else {
+      setPage(1);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput('');
+    searchTermRef.current = '';
+    if (page === 1) {
+      fetchData();
+    } else {
+      setPage(1);
+    }
   };
 
   const handleApplyFilter = () => {
@@ -183,8 +190,7 @@ const Table: React.FC<TableProps> = ({
     e
   ) => {
     if (e.key === 'Enter') {
-      setSearchTerm(searchInput);
-      setPage(1);
+      handleSearch();
     }
   };
 
@@ -199,6 +205,8 @@ const Table: React.FC<TableProps> = ({
         searchInput={searchInput}
         onSearchInputChange={handleSearchInputChange}
         onSearchKeyDown={handleSearchKeyDown}
+        onSearch={handleSearch}
+        onClearSearch={handleClearSearch}
         onRefresh={refresh}
         customRightToolbar={customRightToolbar}
         filterableColumns={filterableColumns}
