@@ -6,6 +6,8 @@ const TableToolbar: React.FC<TableToolbarProps> = ({
   title,
   searchInput,
   onSearchInputChange,
+  onSearch,
+  onClearSearch,
   onSearchKeyDown,
   onRefresh,
   customRightToolbar,
@@ -36,12 +38,20 @@ const TableToolbar: React.FC<TableToolbarProps> = ({
               <button
                 type="button"
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                onClick={() => onSearchInputChange('')}
+                onClick={onClearSearch}
               >
                 <i className="fa-solid fa-xmark" />
               </button>
             )}
           </div>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="ml-2 flex items-center justify-center"
+            onClick={onSearch}
+          >
+            <i className="fa-solid fa-magnifying-glass" />
+          </Button>
         </div>
         <Button
           variant="secondary"

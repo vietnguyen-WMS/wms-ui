@@ -68,6 +68,8 @@ export interface TableToolbarProps {
   title?: string;
   searchInput: string;
   onSearchInputChange: (v: string) => void;
+  onSearch: () => void;
+  onClearSearch: () => void;
   onSearchKeyDown: KeyboardEventHandler<HTMLInputElement>;
   onRefresh: () => void;
   customRightToolbar?: () => ReactNode;
