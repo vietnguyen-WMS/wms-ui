@@ -36,29 +36,24 @@ const TableContent: React.FC<TableContentProps> = ({
                 {columns.map((col) => {
                   const isSorted = sortKey === col.key;
                   let icon = 'fa-sort';
-                  let color = 'text-gray-400';
                   if (isSorted && sortDirection === 'asc') {
                     icon = 'fa-sort-up';
-                    color = 'text-green-500';
                   } else if (isSorted && sortDirection === 'desc') {
                     icon = 'fa-sort-down';
-                    color = 'text-red-500';
                   }
                   return (
                     <th
                       key={col.key}
-                      className="p-2 border font-semibold text-gray-700 text-center"
+                      className="p-2 pl-6 border font-semibold text-gray-700 text-center relative"
                     >
-                      <div className="flex items-center justify-center gap-1">
-                        <button
-                          type="button"
-                          onClick={() => onSort(col.key)}
-                          className="flex items-center justify-center cursor-pointer"
-                        >
-                          <i className={`fa-solid ${icon} ${color}`} />
-                        </button>
-                        <span>{col.label}</span>
-                      </div>
+                      <button
+                        type="button"
+                        onClick={() => onSort(col.key)}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 cursor-pointer"
+                      >
+                        <i className={`fa-solid ${icon} text-gray-400`} />
+                      </button>
+                      <span>{col.label}</span>
                     </th>
                   );
                 })}

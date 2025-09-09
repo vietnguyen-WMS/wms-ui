@@ -23,35 +23,37 @@ const TableToolbar: React.FC<TableToolbarProps> = ({
     <div className="flex items-center justify-between gap-3 p-3 bg-gray-50">
       <div className="flex items-center gap-2 flex-1">
         {title && <h2 className="text-lg font-semibold mr-3">{title}</h2>}
-        <div className="max-w-sm w-full flex items-center">
-          <div className="relative flex-1">
-            <i className="fa-solid fa-magnifying-glass absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
-            <Input
-              placeholder="Search..."
-              value={searchInput}
-              onChange={(e) => onSearchInputChange(e.target.value)}
-              onKeyDown={onSearchKeyDown}
-              className="pl-8 pr-7"
-              wrapperClassName="flex-1"
-            />
-            {searchInput && (
-              <button
-                type="button"
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                onClick={onClearSearch}
-              >
-                <i className="fa-solid fa-xmark" />
-              </button>
-            )}
+        <div className="max-w-sm w-full">
+          <div className="flex border border-gray-300 rounded-md overflow-hidden">
+            <div className="relative flex-1">
+              <i className="fa-solid fa-magnifying-glass absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Input
+                placeholder="Search..."
+                value={searchInput}
+                onChange={(e) => onSearchInputChange(e.target.value)}
+                onKeyDown={onSearchKeyDown}
+                className="pl-8 pr-7 border-0 rounded-none focus:ring-0 focus:border-0"
+                wrapperClassName="flex-1"
+              />
+              {searchInput && (
+                <button
+                  type="button"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  onClick={onClearSearch}
+                >
+                  <i className="fa-solid fa-xmark" />
+                </button>
+              )}
+            </div>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="rounded-none border-l border-gray-300 flex items-center justify-center"
+              onClick={onSearch}
+            >
+              <i className="fa-solid fa-magnifying-glass" />
+            </Button>
           </div>
-          <Button
-            variant="secondary"
-            size="sm"
-            className="ml-2 flex items-center justify-center"
-            onClick={onSearch}
-          >
-            <i className="fa-solid fa-magnifying-glass" />
-          </Button>
         </div>
         <Button
           variant="secondary"
