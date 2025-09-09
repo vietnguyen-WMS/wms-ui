@@ -16,7 +16,7 @@ export interface TableColumn {
 export interface TableSourceConfig {
   api: string; // e.g. 'localhost://8080/users' or full URL
   schema?: string;
-  table?: string;
+  table: string;
   defaultSorts?: { field: string; asc: boolean }[];
 }
 
