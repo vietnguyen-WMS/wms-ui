@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { TableProps, Row } from './Table.types';
-import { debounce } from '@utils/debounce';
 import TableToolbar from './TableToolbar';
 import TableContent from './TableContent';
 import TablePagination from './TablePagination';
@@ -57,6 +56,10 @@ const Table: React.FC<TableProps> = ({
   const [filterValue, setFilterValue] = useState<string>('');
   const [appliedFilterKey, setAppliedFilterKey] = useState<string>('');
   const [appliedFilterValue, setAppliedFilterValue] = useState<string>('');
+  const [sortKey, setSortKey] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | null>(
+    null
+  );
 
   const filterableColumns = useMemo(
     () => columns.filter((c) => c.filterable),
@@ -80,6 +83,13 @@ const Table: React.FC<TableProps> = ({
           search: searchTerm || undefined,
           filterKey: appliedFilterKey || undefined,
           filterValue: appliedFilterValue || undefined,
+          sortField: sortKey || undefined,
+          sortAsc:
+            sortDirection === 'asc'
+              ? true
+              : sortDirection === 'desc'
+                ? false
+                : undefined,
           searchableKeys: searchableColumns.map((c) => c.key),
         });
         setData(result.items);
@@ -109,7 +119,10 @@ const Table: React.FC<TableProps> = ({
           schema: source.schema,
           page,
           page_size: size,
-          default_sorts: source.defaultSorts,
+          default_sorts:
+            sortKey && sortDirection
+              ? [{ field: sortKey, asc: sortDirection === 'asc' }]
+              : source.defaultSorts,
           filters: filters.length ? filters : undefined,
         };
 
@@ -145,24 +158,27 @@ const Table: React.FC<TableProps> = ({
     searchableColumns,
     mapResponse,
     loadData,
+    sortKey,
+    sortDirection,
   ]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  const debouncedSetSearchTerm = useMemo(
-    () =>
-      debounce((value: string) => {
-        setSearchTerm(value);
-        setPage(1);
-      }, 300),
-    []
-  );
-
   const handleSearchInputChange = (value: string) => {
     setSearchInput(value);
-    debouncedSetSearchTerm(value);
+  };
+
+  const handleSearch = () => {
+    setSearchTerm(searchInput);
+    setPage(1);
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput('');
+    setSearchTerm('');
+    setPage(1);
   };
 
   const handleApplyFilter = () => {
@@ -179,12 +195,26 @@ const Table: React.FC<TableProps> = ({
     setPage(1);
   };
 
+  const handleSort = (key: string) => {
+    if (sortKey !== key) {
+      setSortKey(key);
+      setSortDirection('asc');
+    } else if (sortDirection === 'asc') {
+      setSortDirection('desc');
+    } else if (sortDirection === 'desc') {
+      setSortKey(null);
+      setSortDirection(null);
+    } else {
+      setSortDirection('asc');
+    }
+    setPage(1);
+  };
+
   const handleSearchKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
     e
   ) => {
     if (e.key === 'Enter') {
-      setSearchTerm(searchInput);
-      setPage(1);
+      handleSearch();
     }
   };
 
@@ -198,6 +228,8 @@ const Table: React.FC<TableProps> = ({
         title={title}
         searchInput={searchInput}
         onSearchInputChange={handleSearchInputChange}
+        onSearch={handleSearch}
+        onClearSearch={handleClearSearch}
         onSearchKeyDown={handleSearchKeyDown}
         onRefresh={refresh}
         customRightToolbar={customRightToolbar}
@@ -214,6 +246,9 @@ const Table: React.FC<TableProps> = ({
         error={error}
         data={data}
         columns={columns}
+        sortKey={sortKey}
+        sortDirection={sortDirection}
+        onSort={handleSort}
       />
       <TablePagination
         page={page}

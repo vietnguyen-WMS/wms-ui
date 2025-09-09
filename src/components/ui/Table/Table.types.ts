@@ -16,7 +16,7 @@ export interface TableColumn {
 export interface TableSourceConfig {
   api: string; // e.g. 'localhost://8080/users' or full URL
   schema?: string;
-  table?: string;
+  table: string;
   defaultSorts?: { field: string; asc: boolean }[];
 }
 
@@ -45,6 +45,8 @@ export interface TableFetchParams {
   search?: string;
   filterKey?: string;
   filterValue?: string;
+  sortField?: string;
+  sortAsc?: boolean;
 }
 
 export interface TableProps {
@@ -66,6 +68,8 @@ export interface TableToolbarProps {
   title?: string;
   searchInput: string;
   onSearchInputChange: (v: string) => void;
+  onSearch: () => void;
+  onClearSearch: () => void;
   onSearchKeyDown: KeyboardEventHandler<HTMLInputElement>;
   onRefresh: () => void;
   customRightToolbar?: () => ReactNode;
@@ -83,6 +87,9 @@ export interface TableContentProps {
   error: Error | null;
   data: Row[];
   columns: TableColumn[];
+  sortKey: string | null;
+  sortDirection: 'asc' | 'desc' | null;
+  onSort: (field: string) => void;
 }
 
 export interface TablePaginationProps {

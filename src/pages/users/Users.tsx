@@ -51,9 +51,7 @@ const Users = () => {
     headerToolbar: {
       customRightToolbar: () => (
         <div className="right-toolbar">
-          <Button size="sm" onClick={() => setDrawerOpen(true)}>
-            Add User
-          </Button>
+          <Button onClick={() => setDrawerOpen(true)}>Add User</Button>
         </div>
       ),
     },

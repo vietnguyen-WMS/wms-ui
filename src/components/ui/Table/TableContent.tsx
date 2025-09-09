@@ -7,6 +7,9 @@ const TableContent: React.FC<TableContentProps> = ({
   error,
   data,
   columns,
+  sortKey,
+  sortDirection,
+  onSort,
 }) => {
   return (
     <div
@@ -30,14 +33,30 @@ const TableContent: React.FC<TableContentProps> = ({
           <table className="w-full table-auto border-collapse">
             <thead>
               <tr className="bg-gray-100">
-                {columns.map((col) => (
-                  <th
-                    key={col.key}
-                    className="p-2 border text-left font-semibold text-gray-700"
-                  >
-                    {col.label}
-                  </th>
-                ))}
+                {columns.map((col) => {
+                  const isSorted = sortKey === col.key;
+                  let icon = 'fa-sort';
+                  if (isSorted && sortDirection === 'asc') {
+                    icon = 'fa-sort-up';
+                  } else if (isSorted && sortDirection === 'desc') {
+                    icon = 'fa-sort-down';
+                  }
+                  return (
+                    <th
+                      key={col.key}
+                      className="p-2 pl-6 border font-semibold text-gray-700 text-center relative"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => onSort(col.key)}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 cursor-pointer"
+                      >
+                        <i className={`fa-solid ${icon} text-gray-400`} />
+                      </button>
+                      <span>{col.label}</span>
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody>
