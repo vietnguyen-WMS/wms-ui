@@ -45,6 +45,8 @@ export interface TableFetchParams {
   search?: string;
   filterKey?: string;
   filterValue?: string;
+  sortField?: string;
+  sortAsc?: boolean;
 }
 
 export interface TableProps {
@@ -83,6 +85,9 @@ export interface TableContentProps {
   error: Error | null;
   data: Row[];
   columns: TableColumn[];
+  sortKey: string | null;
+  sortDirection: 'asc' | 'desc' | null;
+  onSort: (field: string) => void;
 }
 
 export interface TablePaginationProps {
