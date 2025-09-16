@@ -223,7 +223,7 @@ const Table: React.FC<TableProps> = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="table-block">
       <TableToolbar
         title={title}
         searchInput={searchInput}

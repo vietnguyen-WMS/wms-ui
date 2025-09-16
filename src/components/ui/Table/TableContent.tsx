@@ -13,10 +13,15 @@ const TableContent: React.FC<TableContentProps> = ({
 }) => {
   return (
     <div
-      className={clsx('overflow-hidden', loading && 'opacity-50')}
+      className={clsx('table-content-block relative', loading && 'opacity-50')}
       aria-busy={loading}
       aria-live="polite"
     >
+      <div className="absolute top-0 left-0 w-px h-full bg-gray-500"></div>
+      <div className="absolute top-0 right-0 w-px h-full bg-gray-500"></div>
+      <div className="absolute left-0 top-0 w-full h-px bg-gray-500"></div>
+      <div className="absolute left-0 bottom-0 w-full h-px bg-gray-500"></div>
+
       {error && (
         <div className="p-3 text-sm text-red-600 border-b bg-red-50">
           {error.message}
@@ -26,8 +31,8 @@ const TableContent: React.FC<TableContentProps> = ({
       {data.length === 0 ? (
         <div className="py-16 text-center text-gray-500">No data available</div>
       ) : (
-        <div className="w-full overflow-auto">
-          <table className="w-full table-auto border-collapse">
+        <div className="max-w-full overflow-x-auto">
+          <table className="w-full">
             <thead>
               <tr className="bg-gray-100">
                 {columns.map((col) => {
@@ -39,8 +44,8 @@ const TableContent: React.FC<TableContentProps> = ({
                     icon = 'fa-arrow-down';
                   }
                   return (
-                    <th key={col.key} className="border">
-                      <div className="flex justify-between p-2 font-semibold text-gray-700 text-center">
+                    <th key={col.key} className="border border-gray-500">
+                      <div className="flex justify-between p-2 space-x-2 font-semibold text-gray-700 text-center">
                         <button
                           type="button"
                           onClick={() => onSort(col.key)}
@@ -79,7 +84,10 @@ const TableContent: React.FC<TableContentProps> = ({
                       return String(v);
                     };
                     return (
-                      <td key={col.key} className="p-2 border align-top">
+                      <td
+                        key={col.key}
+                        className="p-2 border border-gray-500 align-top"
+                      >
                         {col.render
                           ? col.render(value, row)
                           : toStringSafe(value)}
