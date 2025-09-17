@@ -1,7 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import type { DrawerProps, DrawerSize, DrawerPlacement } from './Drawer.types';
+import DrawerHeader from './DrawerHeader';
+import DrawerBody from './DrawerBody';
+import DrawerFooter from './DrawerFooter';
+import { DrawerProvider } from './Drawer.context';
+import Portal from '../Portal';
 import { useAnimatedUnmount } from '@/hooks';
 
 const widthClasses: Record<DrawerSize, string> = {
@@ -20,7 +24,11 @@ const heightClasses: Record<DrawerSize, string> = {
   full: 'h-full',
 };
 
-const Drawer: React.FC<DrawerProps> = ({
+const Drawer: React.FC<DrawerProps> & {
+  Header: typeof DrawerHeader;
+  Body: typeof DrawerBody;
+  Footer: typeof DrawerFooter;
+} = ({
   isOpen,
   onClose,
   size = 'md',
@@ -28,38 +36,18 @@ const Drawer: React.FC<DrawerProps> = ({
   disableClickBackdrop = false,
   children,
   className,
-  title,
   ...rest
 }) => {
   const { isMounted, isVisible, handleAnimationEnd } =
     useAnimatedUnmount(isOpen);
-  const portalRef = useRef<HTMLDivElement | null>(null);
-
-  if (!portalRef.current && typeof document !== 'undefined') {
-    portalRef.current = document.createElement('div');
-  }
-
-  useEffect(() => {
-    const root =
-      document.getElementById('drawer-root') ||
-      (() => {
-        const el = document.createElement('div');
-        el.setAttribute('id', 'drawer-root');
-        document.body.appendChild(el);
-        return el;
-      })();
-    const el = portalRef.current!;
-    root.appendChild(el);
-    return () => {
-      root.removeChild(el);
-    };
-  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
+
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
+
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
   }, [isOpen, onClose]);
@@ -104,42 +92,34 @@ const Drawer: React.FC<DrawerProps> = ({
     }
   };
 
-  const drawer = (
-    <div className="fixed inset-0 z-50" {...rest}>
-      <div className={overlayClasses} data-testid="drawer-overlay" />
-      <div
-        className={containerClasses}
-        data-testid="drawer-container"
-        onMouseDown={handleBackdropClick}
-      >
+  return (
+    <Portal containerId="drawer-root">
+      <div className="fixed inset-0 z-50" {...rest}>
+        <div className={overlayClasses} data-testid="drawer-overlay" />
         <div
-          className={contentClasses}
-          role="dialog"
-          aria-modal="true"
-          data-testid="drawer-content"
-          onAnimationEnd={handleAnimationEnd}
+          className={containerClasses}
+          data-testid="drawer-container"
+          onMouseDown={handleBackdropClick}
         >
-          <div className="drawer-close">
-            <button
-              type="button"
-              aria-label="Close"
-              onClick={onClose}
-              className="absolute top-2 right-2 w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md cursor-pointer"
-              data-testid="modal-close"
+          <DrawerProvider value={{ onClose }}>
+            <div
+              className={contentClasses}
+              role="dialog"
+              aria-modal="true"
+              data-testid="drawer-content"
+              onAnimationEnd={handleAnimationEnd}
             >
-              <i className="fa-solid fa-xmark" />
-            </button>
-          </div>
-          <div className="drawer-header pl-5 pr-12 py-4">
-            <h2 className="text-2xl">{title}</h2>
-          </div>
-          <div className="h-full">{children}</div>
+              {children}
+            </div>
+          </DrawerProvider>
         </div>
       </div>
-    </div>
+    </Portal>
   );
-
-  return portalRef.current ? createPortal(drawer, portalRef.current) : null;
 };
+
+Drawer.Header = DrawerHeader;
+Drawer.Body = DrawerBody;
+Drawer.Footer = DrawerFooter;
 
 export default Drawer;
