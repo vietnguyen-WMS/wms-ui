@@ -4,6 +4,8 @@ import type { DrawerProps, DrawerSize, DrawerPlacement } from './Drawer.types';
 import DrawerHeader from './DrawerHeader';
 import DrawerBody from './DrawerBody';
 import DrawerFooter from './DrawerFooter';
+import DrawerTitle from './DrawerTitle';
+import DrawerCloseTrigger from './DrawerCloseTrigger';
 import { DrawerProvider } from './Drawer.context';
 import Portal from '../Portal';
 import { useAnimatedUnmount } from '@/hooks';
@@ -28,6 +30,8 @@ const Drawer: React.FC<DrawerProps> & {
   Header: typeof DrawerHeader;
   Body: typeof DrawerBody;
   Footer: typeof DrawerFooter;
+  Title: typeof DrawerTitle;
+  CloseTrigger: typeof DrawerCloseTrigger;
 } = ({
   isOpen,
   onClose,
@@ -121,5 +125,7 @@ const Drawer: React.FC<DrawerProps> & {
 Drawer.Header = DrawerHeader;
 Drawer.Body = DrawerBody;
 Drawer.Footer = DrawerFooter;
+Drawer.Title = DrawerTitle;
+Drawer.CloseTrigger = DrawerCloseTrigger;
 
 export default Drawer;

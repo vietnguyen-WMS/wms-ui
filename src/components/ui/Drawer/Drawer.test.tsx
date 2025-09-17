@@ -6,7 +6,10 @@ describe('Drawer', () => {
   it('renders when open', () => {
     render(
       <Drawer isOpen onClose={() => {}}>
-        <Drawer.Header title="Drawer title" />
+        <Drawer.Header>
+          <Drawer.Title>Drawer title</Drawer.Title>
+          <Drawer.CloseTrigger />
+        </Drawer.Header>
         <Drawer.Body>
           <div>Content</div>
         </Drawer.Body>
@@ -19,7 +22,10 @@ describe('Drawer', () => {
     const onClose = vi.fn();
     render(
       <Drawer isOpen onClose={onClose}>
-        <Drawer.Header title="Drawer title" />
+        <Drawer.Header>
+          <Drawer.Title>Drawer title</Drawer.Title>
+          <Drawer.CloseTrigger />
+        </Drawer.Header>
         <Drawer.Body>
           <div>Content</div>
         </Drawer.Body>
@@ -32,7 +38,10 @@ describe('Drawer', () => {
   it('defaults to end placement', () => {
     render(
       <Drawer isOpen onClose={() => {}}>
-        <Drawer.Header title="Drawer title" />
+        <Drawer.Header>
+          <Drawer.Title>Drawer title</Drawer.Title>
+          <Drawer.CloseTrigger />
+        </Drawer.Header>
         <Drawer.Body>
           <div>Content</div>
         </Drawer.Body>
@@ -46,7 +55,10 @@ describe('Drawer', () => {
     const onClose = vi.fn();
     render(
       <Drawer isOpen onClose={onClose}>
-        <Drawer.Header title="Drawer title" />
+        <Drawer.Header>
+          <Drawer.Title>Drawer title</Drawer.Title>
+          <Drawer.CloseTrigger />
+        </Drawer.Header>
         <Drawer.Body>
           <div>Content</div>
         </Drawer.Body>

@@ -18,7 +18,10 @@ const Guest = () => {
       <Button onClick={handleOpen}>Open Drawer</Button>
 
       <Drawer isOpen={open} onClose={handleClose}>
-        <Drawer.Header title="Guest Drawer" />
+        <Drawer.Header>
+          <Drawer.Title>Guest Drawer</Drawer.Title>
+          <Drawer.CloseTrigger />
+        </Drawer.Header>
         <Drawer.Body>
           <p>Drawer Content</p>
         </Drawer.Body>

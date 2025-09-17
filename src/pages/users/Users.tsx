@@ -64,7 +64,10 @@ const Users = () => {
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       >
-        <Drawer.Header title="Add User" />
+        <Drawer.Header>
+          <Drawer.Title>Add User</Drawer.Title>
+          <Drawer.CloseTrigger />
+        </Drawer.Header>
         <Drawer.Body>
           <AddUserForm onSuccess={handleAddUserSuccess} />
         </Drawer.Body>
