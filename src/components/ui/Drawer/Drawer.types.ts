@@ -9,4 +9,5 @@ export interface DrawerProps extends React.HTMLAttributes<HTMLDivElement> {
   disableClickBackdrop?: boolean;
   children: React.ReactNode;
   className?: string;
+  title?: string;
 }

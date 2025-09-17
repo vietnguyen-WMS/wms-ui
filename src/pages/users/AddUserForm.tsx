@@ -64,8 +64,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-6 space-y-4">
-      <h2 className="text-2xl mb-5">Add user</h2>
+    <form onSubmit={handleSubmit} className="px-5 pt-10 space-y-4">
       <div>
         <Input
           name="username"

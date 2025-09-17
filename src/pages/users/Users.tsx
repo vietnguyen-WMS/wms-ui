@@ -5,7 +5,7 @@ import type { TableConfig } from '@components/ui/Table/Table.types';
 import { API } from '@/constants';
 
 const Users = () => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(true);
   const [tableKey, setTableKey] = useState(0);
 
   const handleAddUserSuccess = () => {
@@ -60,7 +60,11 @@ const Users = () => {
   return (
     <>
       <Table key={tableKey} tableConfig={usersTableConfig} />
-      <Drawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)}>
+      <Drawer
+        title="Add User"
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
         <AddUserForm onSuccess={handleAddUserSuccess} />
       </Drawer>
     </>

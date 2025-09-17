@@ -28,6 +28,7 @@ const Drawer: React.FC<DrawerProps> = ({
   disableClickBackdrop = false,
   children,
   className,
+  title,
   ...rest
 }) => {
   const { isMounted, isVisible, handleAnimationEnd } =
@@ -118,7 +119,21 @@ const Drawer: React.FC<DrawerProps> = ({
           data-testid="drawer-content"
           onAnimationEnd={handleAnimationEnd}
         >
-          {children}
+          <div className="drawer-close">
+            <button
+              type="button"
+              aria-label="Close"
+              onClick={onClose}
+              className="absolute top-2 right-2 w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md cursor-pointer"
+              data-testid="modal-close"
+            >
+              <i className="fa-solid fa-xmark" />
+            </button>
+          </div>
+          <div className="drawer-header pl-5 pr-12 py-4">
+            <h2 className="text-2xl">{title}</h2>
+          </div>
+          <div className="h-full">{children}</div>
         </div>
       </div>
     </div>
