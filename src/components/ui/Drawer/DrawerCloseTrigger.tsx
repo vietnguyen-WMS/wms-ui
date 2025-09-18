@@ -34,7 +34,7 @@ const DrawerCloseTrigger: React.FC<DrawerCloseTriggerProps> = ({
       onClick={handleClick}
       {...rest}
     >
-      <span aria-hidden>×</span>
+      <i className="fa-solid fa-xmark" aria-hidden />
     </button>
   );
 };
