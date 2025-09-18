@@ -2,12 +2,14 @@ import React from 'react';
 import clsx from 'clsx';
 import { useDrawerContext } from './Drawer.context';
 
-export type DrawerCloseTriggerProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+export type DrawerCloseTriggerProps = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'children'
+>;
 
 const DrawerCloseTrigger: React.FC<DrawerCloseTriggerProps> = ({
   className,
   onClick,
-  children,
   ...rest
 }) => {
   const { onClose } = useDrawerContext();
@@ -32,7 +34,7 @@ const DrawerCloseTrigger: React.FC<DrawerCloseTriggerProps> = ({
       onClick={handleClick}
       {...rest}
     >
-      {children ?? <i className="fa-solid fa-xmark" />}
+      <span aria-hidden>×</span>
     </button>
   );
 };
