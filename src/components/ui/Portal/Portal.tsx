@@ -17,21 +17,21 @@ const Portal = ({ children, containerId }: PortalProps) => {
       portalRef.current = document.createElement('div');
     }
 
-    let root = document.getElementById(containerId);
-    if (!root) {
-      root = document.createElement('div');
-      root.setAttribute('id', containerId);
-      document.body.appendChild(root);
+    let portalRoot = document.getElementById(containerId);
+    if (!portalRoot) {
+      portalRoot = document.createElement('div');
+      portalRoot.setAttribute('id', containerId);
+      document.body.appendChild(portalRoot);
     }
 
     const element = portalRef.current;
-    root.appendChild(element);
+    portalRoot.appendChild(element);
     setMounted(true);
 
     return () => {
-      root?.removeChild(element);
-      if (root && root.childNodes.length === 0) {
-        root.parentNode?.removeChild(root);
+      portalRoot?.removeChild(element);
+      if (portalRoot && portalRoot.childNodes.length === 0) {
+        portalRoot.parentNode?.removeChild(portalRoot);
       }
       setMounted(false);
     };
