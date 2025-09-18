@@ -28,7 +28,7 @@ const DrawerCloseTrigger: React.FC<DrawerCloseTriggerProps> = ({
       aria-label="Close"
       data-testid="drawer-close"
       className={clsx(
-        'ml-3 w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md cursor-pointer',
+        'absolute top-4 right-4 w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md cursor-pointer',
         className
       )}
       onClick={handleClick}
