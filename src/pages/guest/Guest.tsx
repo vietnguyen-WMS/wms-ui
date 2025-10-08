@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Accordion, Drawer, Button } from '@components/ui';
+import { Accordion, Drawer, Button, CircleProgress } from '@components/ui';
 
 const Guest = () => {
   const [open, setOpen] = useState(false);
@@ -29,6 +29,8 @@ const Guest = () => {
           <Button onClick={handleClose}>Close Drawer</Button>
         </Drawer.Footer>
       </Drawer>
+
+      <CircleProgress percent={85} date="06/24" size={200} thickness={10} />
     </div>
   );
 };
