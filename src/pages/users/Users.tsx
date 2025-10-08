@@ -61,11 +61,16 @@ const Users = () => {
     <>
       <Table key={tableKey} tableConfig={usersTableConfig} />
       <Drawer
-        title="Add User"
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       >
-        <AddUserForm onSuccess={handleAddUserSuccess} />
+        <Drawer.Header>
+          <Drawer.Title>Add User</Drawer.Title>
+          <Drawer.CloseTrigger />
+        </Drawer.Header>
+        <Drawer.Body>
+          <AddUserForm onSuccess={handleAddUserSuccess} />
+        </Drawer.Body>
       </Drawer>
     </>
   );

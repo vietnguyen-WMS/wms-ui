@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import type { ModalProps, ModalSize, ModalPlacement } from './Modal.types';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalBody from './ModalBody';
 import ModalFooter from './ModalFooter';
+import Portal from '../Portal';
 import { useAnimatedUnmount } from '@/hooks';
 
 const sizeClasses: Record<ModalSize, string> = {
@@ -42,27 +42,6 @@ const Modal: React.FC<ModalProps> & {
 }) => {
   const { isMounted, isVisible, handleAnimationEnd } =
     useAnimatedUnmount(isOpen);
-  const portalRef = useRef<HTMLDivElement | null>(null);
-
-  if (!portalRef.current && typeof document !== 'undefined') {
-    portalRef.current = document.createElement('div');
-  }
-
-  useEffect(() => {
-    const root =
-      document.getElementById('modal-root') ||
-      (() => {
-        const el = document.createElement('div');
-        el.setAttribute('id', 'modal-root');
-        document.body.appendChild(el);
-        return el;
-      })();
-    const el = portalRef.current!;
-    root.appendChild(el);
-    return () => {
-      root.removeChild(el);
-    };
-  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -108,39 +87,37 @@ const Modal: React.FC<ModalProps> & {
     }
   };
 
-  if (!isMounted || !portalRef.current) return null;
-
-  const modal = (
-    <div className="fixed inset-0 z-50" {...rest}>
-      <div className={overlayClasses} data-testid="modal-overlay" />
-      <div
-        className={containerClasses}
-        data-testid="modal-container"
-        onMouseDown={handleBackdropClick}
-      >
+  return (
+    <Portal containerId="modal-root">
+      <div className="fixed inset-0 z-50" {...rest}>
+        <div className={overlayClasses} data-testid="modal-overlay" />
         <div
-          className={contentClasses}
-          role="dialog"
-          aria-modal="true"
-          data-testid="modal-content"
-          onAnimationEnd={handleAnimationEnd}
+          className={containerClasses}
+          data-testid="modal-container"
+          onMouseDown={handleBackdropClick}
         >
-          <button
-            type="button"
-            aria-label="Close"
-            onClick={onClose}
-            className="absolute top-2 right-2 w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md cursor-pointer"
-            data-testid="modal-close"
+          <div
+            className={contentClasses}
+            role="dialog"
+            aria-modal="true"
+            data-testid="modal-content"
+            onAnimationEnd={handleAnimationEnd}
           >
-            <i className="fa-solid fa-xmark" />
-          </button>
-          {children}
+            <button
+              type="button"
+              aria-label="Close"
+              onClick={onClose}
+              className="absolute top-2 right-2 w-9 h-9 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md cursor-pointer"
+              data-testid="modal-close"
+            >
+              <i className="fa-solid fa-xmark" />
+            </button>
+            {children}
+          </div>
         </div>
       </div>
-    </div>
+    </Portal>
   );
-
-  return createPortal(modal, portalRef.current);
 };
 
 Modal.Header = ModalHeader;
