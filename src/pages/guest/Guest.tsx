@@ -1,36 +1,32 @@
-import { useState } from 'react';
-import { Accordion, Drawer, Button, CircleProgress } from '@components/ui';
+import { useMemo, useState } from 'react';
+import { debounce } from '@/utils/debounce';
 
 const Guest = () => {
-  const [open, setOpen] = useState(false);
+  const [text, setText] = useState('');
+  const [textDebounced, setTextDebounced] = useState('');
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const debouncedSetText = useMemo(
+    () =>
+      debounce((value: string) => {
+        setTextDebounced(value);
+      }, 2500),
+    []
+  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+    debouncedSetText(e.target.value);
+  };
 
   return (
-    <div className="p-4 space-y-4">
-      <h1>Guest</h1>
-
-      <Accordion title="Accordion Title">
-        <p>Accordion Content</p>
-      </Accordion>
-
-      <Button onClick={handleOpen}>Open Drawer</Button>
-
-      <Drawer isOpen={open} onClose={handleClose}>
-        <Drawer.Header>
-          <Drawer.Title>Guest Drawer</Drawer.Title>
-          <Drawer.CloseTrigger />
-        </Drawer.Header>
-        <Drawer.Body>
-          <p>Drawer Content</p>
-        </Drawer.Body>
-        <Drawer.Footer>
-          <Button onClick={handleClose}>Close Drawer</Button>
-        </Drawer.Footer>
-      </Drawer>
-
-      <CircleProgress percent={85} date="06/24" size={200} thickness={10} />
+    <div className="p-10">
+      <input
+        className="border"
+        type="text"
+        value={text}
+        onChange={handleChange}
+      />
+      <div>Text: {textDebounced}</div>
     </div>
   );
 };

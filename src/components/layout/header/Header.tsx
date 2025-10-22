@@ -13,7 +13,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="px-3 h-12 flex items-center justify-end bg-gray-500">
+      <header className="px-3 h-12 flex items-center justify-end bg-gray-500">
         <div className="flex items-center space-x-3">
           <Dropdown>
             <Dropdown.Trigger>
@@ -65,7 +65,7 @@ const Header = () => {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-      </div>
+      </header>
     </>
   );
 };
