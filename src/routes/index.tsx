@@ -16,7 +16,11 @@ import RedirectIfAuthenticated from './RedirectIfAuthenticated';
 
 export const router = createBrowserRouter(
   [
-    { path: '/guest', element: <Guest /> },
+    {
+      path: '/guest',
+      element: <AppLayout />,
+      children: [{ index: true, element: <Guest /> }],
+    },
     {
       path: '/login',
       element: (

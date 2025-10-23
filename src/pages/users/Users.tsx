@@ -5,7 +5,7 @@ import type { TableConfig } from '@components/ui/Table/Table.types';
 import { API } from '@/constants';
 
 const Users = () => {
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [tableKey, setTableKey] = useState(0);
 
   const handleAddUserSuccess = () => {

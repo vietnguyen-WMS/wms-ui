@@ -7,16 +7,15 @@ export const API = {
   VIEWS: `${API_URL}/views`,
 
   // auth
-  AUTH_LOGIN: `${API_URL}/auth/login`,
-  AUTH_LOGOUT: `${API_URL}/auth/logout`,
-  AUTH_ME: `${API_URL}/auth/me`,
+  AUTH_LOGIN: '/auth/login',
+  AUTH_LOGOUT: '/auth/logout',
+  AUTH_ME: '/auth/me',
 
   // users
-  GET_USERS: `${API_URL}/users`,
-  GET_USERS_BY_ID: (id: number) => `${API_URL}/users/${id}`,
-  ADD_USER: `${API_URL}/users`,
-  DELETE_USER: (id: number) => `${API_URL}/users/${id}`,
-  CHANGE_PASSWORD: (id: number) => `${API_URL}/users/${id}/password`,
-  UNLOCK_ACCOUNT: (id: number) =>
-    `${API_URL}/users/${id}/reset-failed-attempts`,
+  GET_USERS: '/users',
+  GET_USERS_BY_ID: (id: number) => `/users/${id}`,
+  ADD_USER: '/users',
+  DELETE_USER: (id: number) => `/users/${id}`,
+  CHANGE_PASSWORD: (id: number) => `/users/${id}/password`,
+  UNLOCK_ACCOUNT: (id: number) => `/users/${id}/reset-failed-attempts`,
 };

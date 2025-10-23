@@ -2,6 +2,12 @@ import { Link } from 'react-router-dom';
 import viteLogo from '/vite.svg';
 
 const Sidebar = () => {
+  const sidebarMenu = [
+    { name: 'Home', path: '/' },
+    { name: 'Users', path: '/users' },
+    { name: 'Guest', path: '/guest' },
+  ];
+
   return (
     <>
       <div className="shrink-0 w-50 bg-slate-600 text-white">
@@ -12,19 +18,16 @@ const Sidebar = () => {
           </div>
           <nav className="mt-6">
             <ul className="space-y-1">
-              <li>
-                <Link to="/" className="block p-2 rounded hover:bg-slate-500">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/users"
-                  className="block p-2 rounded hover:bg-slate-500"
-                >
-                  Users
-                </Link>
-              </li>
+              {sidebarMenu.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    to={item.path}
+                    className="block p-2 rounded hover:bg-slate-500"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
