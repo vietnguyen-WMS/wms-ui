@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-const useAsync = <T,>(asyncFunction: (...args: unknown[]) => Promise<T>) => {
+const useAsync = <T>(asyncFunction: (...args: unknown[]) => Promise<T>) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [data, setData] = useState<T | null>(null);
